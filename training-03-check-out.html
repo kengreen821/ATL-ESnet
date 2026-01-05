@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Check-Out Procedures</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
+        .header-info { text-align: right; font-size: 13px; }
+        .header-info .property { font-weight: 600; margin-bottom: 3px; }
+        
+        .breadcrumb {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 30px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .page-header .topic-number {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content h3 {
+            color: var(--embassy-navy);
+            font-size: 22px;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--embassy-gold);
+        }
+        .content h3:first-child {
+            margin-top: 0;
+        }
+        .content h4 {
+            color: var(--embassy-blue);
+            font-size: 18px;
+            margin: 20px 0 12px 0;
+        }
+        .content p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .content ul, .content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        .content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .content table th {
+            background: var(--embassy-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .content table td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .content table tr:nth-child(even) {
+            background: var(--embassy-light-blue);
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Embassy Suites Centennial Park</div>
+                <div>Internal Use Only</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="training-binder.html">Training Binder</a>
+        <span>›</span>
+        <span style="color: var(--embassy-navy); font-weight: 600;">Check-Out Procedures</span>
+    </div>
+
+    <div class="container">
+        <div class="content-card">
+            <div class="page-header">
+                <div class="topic-number">Training Topic #3</div>
+                <h2>Check-Out Procedures</h2>
+            </div>
+
+            <div class="content">
+                
+<h3>Objective</h3>
+<p>To ensure that all Front Office personnel are aware of the procedures involved when checking out a guest.</p>
+
+<h3>Summary</h3>
+<ol>
+    <li>Greet the guest with a smile</li>
+    <li>Ask the guest how you can assist them, and locate their reservation by room number or last name</li>
+    <li>Verify the guest information and length of stay
+        <ul>
+            <li>Verify how their stay was with us and thank the guest for their loyalty.</li>
+        </ul>
+    </li>
+    <li>Ask the guest how it was
+        <ul>
+            <li>If it was not good, ask them why and follow up on the make it right procedures.</li>
+        </ul>
+    </li>
+    <li>Verify guest charges with the guest.
+        <ul>
+            <li>Most guests will have only one folio, but some may have additional folios if so, open those and verify charges with the guest's reservation, remember that the if the second folio is from a third party or point's reservation, remember that the if the second folio is confidential, and it will be displayed on the top left.</li>
+        </ul>
+    </li>
+</ol>
+
+<p><strong>Folio 2 🔒</strong></p>
+
+<p style="background: var(--embassy-light-blue); padding: 15px; border-radius: 8px; margin: 15px 0;">
+    <strong>Charge Type Categories</strong><br>
+    <strong>ROOM</strong><br>
+    tax & Fee Breakdown<br>
+    <strong>tax & Fee breakdown</strong>
+</p>
+
+<ol start="6">
+    <li>Verify with the guest if they want to use the method of payment on file that they used at check in. If not, swipe the new card or take a cash payment or have it emailed to them. Verify with the guest if they would like a printed copy of the receipt or have it emailed to them.</li>
+    <li>Check in. If they would like a printed copy of the guest's email address</li>
+    <li>Ask the guest if they would like a printed copy for staying with us and invite them back.</li>
+</ol>
+
+<h3>Extra:</h3>
+<ol>
+    <li>Mention the guest's name at least 3 times during check-out.</li>
+    <li>Acknowledge any guests waiting in line- "Thank you for your patience. We will be right with you.</li>
+</ol>
+
+                
+                <a href="training-binder.html" class="back-button">← Back to Training Binder</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+        <p>For Front Office Team Use Only</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standards of Conduct - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--embassy-light-blue);
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .bullet-list {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .bullet-list li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Standards of Conduct</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link active">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; <a href="employee-handbook.html">Employee Handbook</a> &gt; Standards of Conduct
+            </div>
+
+            <h1 class="page-title">Standards of Conduct</h1>
+            <p class="page-subtitle">Workplace behavior expectations and professional conduct policies</p>
+
+            <div class="content-section">
+                <h2 class="section-title">Overview</h2>
+                <p class="content-text">
+                    To assure safety and security and provide the best possible work environment, we expect team members to follow 
+                    basic, common-sense rules of conduct that will protect everyone's interests and safety.
+                </p>
+                <p class="content-text">
+                    The Company strives to address performance issues in a manner that will encourage team members to correct 
+                    behavior immediately and prevent future issues from occurring. For this reason, the Company uses progressive 
+                    discipline whenever possible.
+                </p>
+                <div class="highlight-box">
+                    <strong>Progressive Discipline:</strong> Generally, the first offense will result in a documented verbal 
+                    counseling; the second offense will warrant written disciplinary action; and the third offense may result in 
+                    termination of employment. Depending on the severity of the violation, the team member may enter the 
+                    disciplinary process at any level as determined by management.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Attendance and Punctuality</h2>
+                <p class="content-text">
+                    Team members are expected to be regular in attendance and to be punctual. Any tardiness or absence causes 
+                    problems for fellow team members and supervisors.
+                </p>
+                <p class="content-text">
+                    Team Members are expected to report to work in the assigned work area, in uniform as required, logged in, 
+                    and at the time they are scheduled. There is no "grace period" from clock-in time to reporting to the work 
+                    area.
+                </p>
+                
+                <h3 class="section-subtitle">Calling In Absent:</h3>
+                <p class="content-text">
+                    If team members are unable to report for work on any particular day, they must call their supervisor as soon 
+                    as practical or at least 2 hours before the time the team member is scheduled to begin working for that day.
+                </p>
+                <div class="highlight-box">
+                    <strong>Important:</strong> Leaving a voicemail message with the hotel front desk is not an acceptable method 
+                    of communicating an absence. Team members must call in on every day they are scheduled to work but will not 
+                    report to work.
+                </div>
+                
+                <h3 class="section-subtitle">No Call No Show:</h3>
+                <p class="content-text">
+                    If a team member fails to report for work without any notification to their supervisor, and their absence 
+                    continues for a period of one day, the Company can consider that the team member has abandoned and voluntarily 
+                    terminated their employment.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Personal Appearance</h2>
+                <p class="content-text">
+                    The image the Company projects to the public is reflected in the appearance of our team members. Team members 
+                    shall be well-groomed and dressed appropriately for their specific duties.
+                </p>
+                
+                <h3 class="section-subtitle">Professional Appearance Guidelines:</h3>
+                <ul class="bullet-list">
+                    <li>Clothing should not constitute a safety hazard</li>
+                    <li>Jewelry may be restricted for safety reasons, based on the position</li>
+                    <li>All team members should practice common sense rules of cleanliness and comfort</li>
+                    <li>When jeans are appropriate for the position, the jeans must be in good condition</li>
+                    <li>Tank tops, t-shirts, jogging suits, tennis shoes, flip-flops, slippers, sandals, garments that are 
+                    unnecessarily revealing, sweatpants and other similar apparel are not permitted</li>
+                    <li>Personal appearance should include cleanliness. Facial hair should be clean-shaven or trimmed</li>
+                </ul>
+
+                <h3 class="section-subtitle">Tattoos and Body Piercings:</h3>
+                <p class="content-text">
+                    Tattoos and body piercings are prohibited if they jeopardize personal safety, compromise productivity or 
+                    performance, are offensive to co-workers or customers, or go against corporate or societal norms.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Prohibited Conduct</h2>
+                <p class="content-text">
+                    The following activities are examples of violations that may warrant progressive discipline. This list is not 
+                    inclusive of all possible situations:
+                </p>
+                
+                <ul class="bullet-list">
+                    <li>Excessive absenteeism, leaving early, and/or tardiness</li>
+                    <li>Violation of established policy, procedure, or safety standard</li>
+                    <li>Reporting to work under the influence of drugs or alcohol</li>
+                    <li>Possessing, distributing, selling, or using alcohol or illegal drugs in the workplace</li>
+                    <li>Fighting or encouraging physical fighting during working hours</li>
+                    <li>Harassment or discrimination against team members, guests, or vendors</li>
+                    <li>Unauthorized attendance at guest functions or in guestrooms</li>
+                    <li>Falsification of any hotel record or document</li>
+                    <li>Sharing passwords or not following proper key control procedures</li>
+                    <li>Insubordination - refusing to obey instructions from a supervisor</li>
+                    <li>Theft or damage of company property or property of team members/guests</li>
+                    <li>Job abandonment - walking off the job or leaving assigned work area without permission</li>
+                    <li>Vulgarity or arguments with guests, co-workers, or vendors</li>
+                    <li>Mishandling confidential information</li>
+                    <li>Working overtime without authorization</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Note:</strong> Depending on the severity of the violation, the team member may enter the disciplinary 
+                    process at any level (verbal, written, suspension or termination) as determined by management. A severe 
+                    violation may result in immediate termination.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Social Media Policy</h2>
+                <p class="content-text">
+                    Team members are prohibited from:
+                </p>
+                <ul class="bullet-list">
+                    <li>Using social media while on working time unless it is being used for Company business and with authorization</li>
+                    <li>Posting photographs of vendors, suppliers, or customers on social media without their express permission</li>
+                    <li>Disclosing or publishing promotional content about the Company without authorization</li>
+                    <li>Using employer-owned equipment for personal blogging or social networking activities</li>
+                </ul>
+                <p class="content-text">
+                    The Company has the right to monitor the use of its information technology and any publicly accessible social 
+                    media. Team members should expect that any information created or discussed on publicly accessible online 
+                    social media may be accessed by the Company at any time without prior notice.
+                </p>
+            </div>
+
+            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

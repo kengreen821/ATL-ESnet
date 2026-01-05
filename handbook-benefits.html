@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benefits - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--embassy-light-blue);
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .bullet-list {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .bullet-list li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Team Member Benefits</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link active">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; <a href="employee-handbook.html">Employee Handbook</a> &gt; Benefits
+            </div>
+
+            <h1 class="page-title">Team Member Benefits</h1>
+            <p class="page-subtitle">Health insurance, 401(k), referral program, and team member perks</p>
+
+            <div class="content-section">
+                <h2 class="section-title">Benefits Overview</h2>
+                <p class="content-text">
+                    We are committed to providing competitive benefit offerings that focus on health and wellness. We offer a wide 
+                    range of health and welfare benefits with many options designed to meet your and your family's emotional, 
+                    physical, and financial needs.
+                </p>
+                <div class="highlight-box">
+                    <strong>Important:</strong> Benefit plans offered by the Company are defined in legal documents such as insurance 
+                    contracts and summary plan descriptions. If a question arises about the nature and extent of plan benefits or if 
+                    there is a conflict in language, the formal language of the plan documents govern, not the informal wording of 
+                    this Handbook.
+                </div>
+                
+                <h3 class="section-subtitle">Eligibility:</h3>
+                <ul class="bullet-list">
+                    <li>Full-time team members are eligible to receive all employment benefits offered by the Company</li>
+                    <li>Part-time team members are eligible to participate in the 401k plan offered by the Company</li>
+                    <li>Temporary team members are not entitled to any company benefits</li>
+                </ul>
+                
+                <p class="content-text">
+                    Team members should refer to the benefits documents or contact the benefits advocate or Human Resources for 
+                    detailed benefits information.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Same-Sex Marriages, Civil Unions and Domestic Partnerships</h2>
+                <p class="content-text">
+                    The Company complies with all applicable federal and state laws regarding the provision of benefits to same-sex 
+                    spouses, domestic partners, and couples in a civil union.
+                </p>
+                <p class="content-text">
+                    Team members should contact Human Resources if they have any questions regarding benefits eligibility for 
+                    themselves or their spouses, domestic partners or partners in a civil union.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Team Member Referral Program</h2>
+                <p class="content-text">
+                    The Company regularly seeks exceptional professionals to join our team. We believe that our team members are 
+                    among the best sources of new talent and we encourage team members to refer qualified applicants for open 
+                    positions. When these referrals are successful, the Company will reward the team member who made the 
+                    recommendation for the new hire.
+                </p>
+                
+                <h3 class="section-subtitle">How It Works:</h3>
+                <p class="content-text">
+                    Vacant positions for which the Company is conducting a search will be communicated to all team members. Each job 
+                    posting will include a position description and a list of key qualifications.
+                </p>
+                <p class="content-text">
+                    Team members who wish to refer a qualified applicant for a posted position are asked to forward the candidate's 
+                    resume to Human Resources. Referred resumes should clearly indicate the name of the referring team member.
+                </p>
+
+                <h3 class="section-subtitle">Referral Bonus Payments:</h3>
+                <p class="content-text">
+                    Bonuses paid for the referral of successful job candidates are subject to the following:
+                </p>
+                <ul class="bullet-list">
+                    <li>The bonus amount for each vacant position varies by position and are included in the Referral Bonus SOP and 
+                    will be paid according to the SOP</li>
+                    <li>A referring team member who resigns or is terminated from the Company prior to the bonus payment date is not 
+                    eligible to receive a referral bonus</li>
+                    <li>Team member referral bonuses are paid through payroll and are taxable</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Workers' Compensation</h2>
+                <p class="content-text">
+                    When work-related accidents, injuries or illnesses occur, team members may be eligible for workers' compensation 
+                    insurance benefits. The Company provides a comprehensive workers' compensation insurance program at no cost to 
+                    team members and in accordance with applicable state law.
+                </p>
+                <p class="content-text">
+                    This program covers most injuries or illnesses, sustained in the course of employment, that require medical, 
+                    surgical or hospital treatment. Subject to applicable legal requirements, workers' compensation insurance 
+                    provides benefits or, if the team member is hospitalized, treatment immediately.
+                </p>
+
+                <h3 class="section-subtitle">Reporting Work-Related Injury or Illness:</h3>
+                <div class="highlight-box">
+                    Team members who sustain a work-related injury or illness should inform their supervisor immediately. No matter 
+                    how minor an on-the-job injury may appear, it is important that it be reported immediately. This will enable an 
+                    eligible team member to qualify for coverage and ensure they get timely and proper medical care.
+                </div>
+
+                <h3 class="section-subtitle">Leaves of Absence/Accommodation:</h3>
+                <p class="content-text">
+                    Team members who need to take time off from work due to a worker's compensation illness or injury may also be 
+                    eligible for a leave of absence under the Company's leaves of absence or reasonable accommodation policies. Team 
+                    members should consult Human Resources for additional information.
+                </p>
+
+                <h3 class="section-subtitle">Return to Work:</h3>
+                <p class="content-text">
+                    Team members who are ready to return to work following a workers' compensation-related leave of absence must 
+                    supply a certification from a health care provider confirming the team member's ability to return to work.
+                </p>
+
+                <h3 class="section-subtitle">Fraud:</h3>
+                <p class="content-text">
+                    The Company will notify the workers' compensation insurance company if we have reason to believe a team member 
+                    has supplied false or misleading information in connection with a claim and/or has filed a fraudulent claim. 
+                    Workers' compensation fraud is a crime and may also be grounds for disciplinary action, up to and including 
+                    termination of employment.
+                </p>
+            </div>
+
+            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

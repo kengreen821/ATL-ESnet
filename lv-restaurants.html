@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LV Restaurants - ATL ESnet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --embassy-navy: #003057; --embassy-blue: #0057A0; --embassy-gold: #C7A961; --embassy-light-blue: #E8F1F8; --text-primary: #1a1a1a; --text-secondary: #666; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%); color: var(--text-primary); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%); color: white; padding: 25px 40px; box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15); position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%); border-radius: 50%; }
+        .header-content { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; font-weight: 300; }
+        .header-info { text-align: right; font-size: 14px; }
+        .header-info .property { margin-bottom: 5px; font-weight: 300; }
+        .header-info .time { font-size: 18px; font-weight: 600; color: var(--embassy-gold); }
+        .container { display: flex; max-width: 1600px; margin: 0 auto; min-height: calc(100vh - 120px); }
+        .sidebar { width: 280px; background: white; padding: 30px 0; box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08); }
+        .nav-section { margin-bottom: 30px; }
+        .nav-section-title { padding: 0 25px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; margin-bottom: 12px; }
+        .nav-link { display: block; padding: 14px 25px; color: var(--text-primary); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; font-size: 15px; }
+        .nav-link:hover { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); }
+        .nav-link.active { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); font-weight: 600; }
+        .main-content { flex: 1; padding: 40px; max-width: 1200px; }
+        .breadcrumb { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .breadcrumb a { color: var(--embassy-blue); text-decoration: none; }
+        .page-title { font-size: 32px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 10px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 35px; line-height: 1.6; }
+        .intro-box { background: var(--embassy-light-blue); border-left: 4px solid var(--embassy-blue); padding: 20px; margin: 25px 0; border-radius: 5px; }
+        .restaurant-card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; border-left: 5px solid var(--embassy-gold); }
+        .restaurant-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px; border-bottom: 2px solid var(--embassy-light-blue); padding-bottom: 15px; }
+        .restaurant-name { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 5px; }
+        .restaurant-type { color: var(--embassy-blue); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .restaurant-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .info-item { display: flex; align-items: start; }
+        .info-label { font-weight: 600; color: var(--embassy-navy); min-width: 80px; margin-right: 10px; }
+        .info-value { color: var(--text-primary); line-height: 1.6; }
+        .hours-table { width: 100%; margin-top: 10px; }
+        .hours-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+        .day { font-weight: 500; color: var(--text-primary); }
+        .hours { color: var(--text-secondary); }
+        .restaurant-description { color: var(--text-primary); line-height: 1.7; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--embassy-light-blue); }
+        .special-note { background: #FFF9E6; border-left: 4px solid var(--embassy-gold); padding: 12px 15px; margin-top: 15px; border-radius: 4px; font-size: 14px; color: var(--text-primary); }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+        @media (max-width: 968px) { 
+            .container { flex-direction: column; } 
+            .sidebar { width: 100%; }
+            .restaurant-info { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Legacy Ventures Restaurants</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link active">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; Legacy Ventures Restaurants
+            </div>
+            <h1 class="page-title">Legacy Ventures Restaurants</h1>
+            <p class="page-subtitle">Nearby dining options owned and operated by Legacy Ventures Hotels - all within walking distance of Embassy Suites Centennial Park</p>
+            
+            <div class="intro-box">
+                <strong>Guest Recommendations:</strong> All five Legacy Ventures restaurants are located within a 5-minute walk from Embassy Suites Centennial Park. These are great options to recommend to guests looking for quality dining near the hotel.
+            </div>
+
+            <!-- Dos Bocas -->
+            <div class="restaurant-card">
+                <div class="restaurant-header">
+                    <div>
+                        <div class="restaurant-name">Dos Bocas</div>
+                        <div class="restaurant-type">Cajun & Tex-Mex</div>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">275 Baker St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 704-8078</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hours:</span>
+                    <div class="info-value">
+                        <div class="hours-table">
+                            <div class="hours-row">
+                                <span class="day">Monday - Thursday</span>
+                                <span class="hours">4:00 PM - 10:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Friday</span>
+                                <span class="hours">12:00 PM - 11:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Saturday</span>
+                                <span class="hours">12:00 PM - 11:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Sunday</span>
+                                <span class="hours">12:00 PM - 10:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-description">
+                    Two-story restaurant with outdoor patio overlooking Centennial Olympic Park. Features authentic Louisiana Cajun and Texas Tex-Mex cuisine combining the best flavors from the 300-mile stretch between San Antonio and New Orleans. Menu includes enchiladas, tacos, po' boys, crawfish, shrimp étouffée, and more. Known for generous portions and affordable pricing.
+                </div>
+            </div>
+
+            <!-- STATS Brewpub -->
+            <div class="restaurant-card">
+                <div class="restaurant-header">
+                    <div>
+                        <div class="restaurant-name">STATS Brewpub</div>
+                        <div class="restaurant-type">Sports Bar & Brewery</div>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">300 Marietta St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 885-1472</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hours:</span>
+                    <div class="info-value">
+                        <div class="hours-table">
+                            <div class="hours-row">
+                                <span class="day">Monday - Friday</span>
+                                <span class="hours">4:00 PM - 10:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Saturday</span>
+                                <span class="hours">11:00 AM - 11:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Sunday</span>
+                                <span class="hours">11:00 AM - 10:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-description">
+                    Atlanta's premier sports bar featuring 16,000 square feet with over 70 HD televisions and seven separate audio zones. Houses a 10-barrel brewery with award-winning craft beers including IPAs, sours, lagers, and seasonals. Unique feature: functioning beer taps built into tables. Offers gourmet American cuisine including burgers, wings, nachos, and the signature Dirty Bird chicken sandwich. Perfect for watching games - walking distance to Mercedes Benz Stadium and State Farm Arena.
+                </div>
+            </div>
+
+            <!-- Der Biergarten -->
+            <div class="restaurant-card">
+                <div class="restaurant-header">
+                    <div>
+                        <div class="restaurant-name">Der Biergarten</div>
+                        <div class="restaurant-type">German Beer Garden</div>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">300 Marietta St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 521-2728</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hours:</span>
+                    <div class="info-value">
+                        <div class="hours-table">
+                            <div class="hours-row">
+                                <span class="day">Monday - Tuesday</span>
+                                <span class="hours">CLOSED</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Wednesday - Friday</span>
+                                <span class="hours">4:00 PM - 9:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Saturday - Sunday</span>
+                                <span class="hours">12:00 PM - 9:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-description">
+                    Atlanta's authentic German beer garden featuring 7,000 square feet of indoor and outdoor seating. Partnered with German native Wolfgang Hartert to ensure authenticity. Features over a dozen German draft beers served in traditional half-liter or one-liter steins. Menu includes Wiener Schnitzel, Jäger Schnitzel, bratwurst, wursts, sauerbraten, strudels, pretzels, and traditional German sides. Bavarian-themed décor includes a German-made model railroad that circles the restaurant. Spacious outdoor elevated patio with string lights.
+                </div>
+            </div>
+
+            <!-- Max's Coal Oven Pizzeria -->
+            <div class="restaurant-card">
+                <div class="restaurant-header">
+                    <div>
+                        <div class="restaurant-name">Max's Coal Oven Pizzeria</div>
+                        <div class="restaurant-type">New York-Style Pizza</div>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">300 Marietta St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 974-2941</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hours:</span>
+                    <div class="info-value">
+                        <div class="hours-table">
+                            <div class="hours-row">
+                                <span class="day">Daily</span>
+                                <span class="hours">11:00 AM - 9:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-description">
+                    Authentic New York-style pizza from Georgia's only genuine coal-burning oven. The coal oven creates the unique taste and texture that has been a hallmark of NYC pizzerias for over a century - crispy on the outside, chewy on the inside. Features house-made mozzarella and secret recipe red sauce. Full menu includes classic salads, pastas, Italian sandwiches, signature coal oven wings, and freshly made desserts. Indoor and outdoor seating available. Perfect for takeout to enjoy at Centennial Olympic Park.
+                </div>
+            </div>
+
+            <!-- Twin Smokers BBQ -->
+            <div class="restaurant-card">
+                <div class="restaurant-header">
+                    <div>
+                        <div class="restaurant-name">Twin Smokers BBQ</div>
+                        <div class="restaurant-type">Regional BBQ</div>
+                    </div>
+                </div>
+                <div class="restaurant-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">300 Marietta St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 698-4707</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Hours:</span>
+                    <div class="info-value">
+                        <div class="hours-table">
+                            <div class="hours-row">
+                                <span class="day">Monday - Saturday</span>
+                                <span class="hours">11:00 AM - 8:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="day">Sunday</span>
+                                <span class="hours">11:00 AM - 6:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="restaurant-description">
+                    Regionally inspired BBQ featuring two signature smokers and a "wood library" with four different types of wood. Beef is smoked Texas-style over Mesquite and Post Oak; poultry and pork are smoked Southern-style over Hickory and White Oak. Menu combines favorite BBQ flavors from Texas, North Carolina, South Carolina, Kansas City, and Memphis with Georgia flair. Features high-quality slow-cooked barbecue, fresh sides, craft beer, and an award-winning bourbon selection.
+                </div>
+                <div class="special-note">
+                    <strong>Note:</strong> Early dining recommended; hours may vary if food runs out.
+                </div>
+            </div>
+
+            <a href="index.html" class="back-button">← Back to Home</a>
+        </main>
+    </div>
+    <div class="footer">© 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only</div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

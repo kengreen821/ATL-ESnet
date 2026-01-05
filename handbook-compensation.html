@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compensation - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--embassy-light-blue);
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .bullet-list {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .bullet-list li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Compensation</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link active">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; <a href="employee-handbook.html">Employee Handbook</a> &gt; Compensation
+            </div>
+
+            <h1 class="page-title">Compensation & Pay Practices</h1>
+            <p class="page-subtitle">Pay periods, wages, timekeeping, and paycheck information</p>
+
+            <div class="content-section">
+                <h2 class="section-title">Team Member Classifications</h2>
+                
+                <h3 class="section-subtitle">Exempt (Salary) Team Members</h3>
+                <p class="content-text">
+                    Exempt Team Members are team members whose job assignments meet specific tests established by the federal Fair 
+                    Labor Standards Act (FLSA) and state law and who are exempt from minimum wage and overtime pay requirements. 
+                    Exempt Team Members are compensated on a salary basis.
+                </p>
+
+                <h3 class="section-subtitle">Non-Exempt Overtime Eligible Manager (OEM/Salary) Team Members</h3>
+                <p class="content-text">
+                    Non-Exempt Overtime Eligible Team Members are salaried team members who typically work a fluctuating work week 
+                    up to an agreed 50 hours per week. All hours worked over 50 in one week are considered overtime and are paid at 
+                    a specified overtime rate.
+                </p>
+
+                <h3 class="section-subtitle">Non-exempt (Hourly) Team Members</h3>
+                <p class="content-text">
+                    Nonexempt Team Members are team members whose job positions do not meet FLSA exemption tests and who are not 
+                    exempt from minimum wage and overtime pay requirements. Nonexempt Team Members are eligible to receive overtime 
+                    pay for hours worked more than 40 hours in a given week.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Payment of Wages</h2>
+                <p class="content-text">
+                    Team members will be paid biweekly on Friday after 12:00 Noon by check or direct deposit. Each work week runs 
+                    Sunday to Saturday.
+                </p>
+                <div class="highlight-box">
+                    If the regular payday falls on a banking holiday, then team members will be paid on the workday before the 
+                    regular payday.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Paycheck Deductions</h2>
+                <p class="content-text">
+                    The Company is required by state and federal laws to make certain deductions from your paycheck each pay period. 
+                    Such deductions typically include:
+                </p>
+                <ul class="bullet-list">
+                    <li>Federal and state taxes</li>
+                    <li>Social Security</li>
+                    <li>Depending on the state in which you are employed and the benefits you choose, additional deductions may occur</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Reporting Errors</h2>
+                <p class="content-text">
+                    All team members have access to and should approve their timecards/hours each pay period. Team members can also 
+                    preview and approve their paychecks prior to payroll being submitted, reducing the opportunity for errors to occur.
+                </p>
+                <p class="content-text">
+                    If any team member has questions about deductions from their pay, believes they have been subjected to improper 
+                    deductions, or believes that the amount paid does not accurately reflect their total hours worked or salary, 
+                    please contact Human Resources.
+                </p>
+                <div class="highlight-box">
+                    Every report will be fully investigated, and the Company will provide the team member with any compensation to 
+                    which the team member is entitled in a timely fashion. The Company will not allow any form of retaliation against 
+                    individuals who make good faith reports.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Work Schedules</h2>
+                <p class="content-text">
+                    The Company operates 24 hours per day, 365 days per year. Your supervisor will assign your work schedule.
+                </p>
+                <p class="content-text">
+                    All team members are expected to be at their desk or designated work area at the start of their scheduled shift, 
+                    ready to perform their work. Supervisors will schedule meal and rest periods as appropriate.
+                </p>
+                <p class="content-text">
+                    Staffing needs and operational demands may necessitate variations in starting and ending times, as well as 
+                    variations in total hours that may be scheduled each day and week.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Timekeeping</h2>
+                
+                <h3 class="section-subtitle">Nonexempt Team Members:</h3>
+                <p class="content-text">
+                    Team members who are classified as nonexempt must accurately record the time they work each day, including 
+                    arrival, departure and meal break times utilizing the hotel timekeeping system.
+                </p>
+                <ul class="bullet-list">
+                    <li>Team members should review and approve their timecards each pay period</li>
+                    <li>Any errors or discrepancies should be reported to the supervisor or Human Resources</li>
+                    <li>Nonexempt team members must report all time worked and not work any time that is not authorized by their supervisors</li>
+                    <li>Team members must not start work early, finish work late, work during a meal break, or perform any other 
+                    extra or overtime work unless directed to do so</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Important:</strong> It is a violation of Company policy for anyone to instruct or encourage another team 
+                    member to work "off the clock," to incorrectly report hours worked, or to alter another team member's time records.
+                </div>
+
+                <h3 class="section-subtitle">Meal Breaks:</h3>
+                <ul class="bullet-list">
+                    <li>Meal breaks are not considered "hours worked" and will not be paid for nonexempt hourly team members unless 
+                    required by state law</li>
+                    <li>Team members must be completely relieved from work duties during meal breaks</li>
+                    <li>Nonexempt hourly team members must record the beginning and ending time of their meal breaks each day</li>
+                    <li>Forfeiture of a break cannot be used to leave early or arrive late</li>
+                </ul>
+
+                <h3 class="section-subtitle">Exempt Team Members:</h3>
+                <p class="content-text">
+                    Exempt team members are paid on a salary basis. This means the team member regularly receives a predetermined 
+                    amount of compensation each pay period, which cannot be reduced because of variations in the quality or quantity 
+                    of the team member's work.
+                </p>
+                <p class="content-text">
+                    In general, an exempt team member will receive their salary for any week in which the team member performs any 
+                    work, regardless of the number of days or hours worked.
+                </p>
+            </div>
+
+            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

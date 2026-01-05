@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Radio Code List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
+        .header-info { text-align: right; font-size: 13px; }
+        .header-info .property { font-weight: 600; margin-bottom: 3px; }
+        
+        .breadcrumb {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 30px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .page-header .topic-number {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content h3 {
+            color: var(--embassy-navy);
+            font-size: 22px;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--embassy-gold);
+        }
+        .content h3:first-child {
+            margin-top: 0;
+        }
+        .content h4 {
+            color: var(--embassy-blue);
+            font-size: 18px;
+            margin: 20px 0 12px 0;
+        }
+        .content p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .content ul, .content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        .content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .content table th {
+            background: var(--embassy-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .content table td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .content table tr:nth-child(even) {
+            background: var(--embassy-light-blue);
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Embassy Suites Centennial Park</div>
+                <div>Internal Use Only</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="training-binder.html">Training Binder</a>
+        <span>›</span>
+        <span style="color: var(--embassy-navy); font-weight: 600;">Radio Code List</span>
+    </div>
+
+    <div class="container">
+        <div class="content-card">
+            <div class="page-header">
+                <div class="topic-number">Training Topic #9</div>
+                <h2>Radio Code List</h2>
+            </div>
+
+            <div class="content">
+                
+<h3>Radio Code List</h3>
+
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <thead>
+        <tr style="background: var(--embassy-navy); color: white;">
+            <th style="border: 1px solid var(--border-color); padding: 12px; text-align: left;">Code</th>
+            <th style="border: 1px solid var(--border-color); padding: 12px; text-align: left;">Meaning</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">26</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Drunk</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">27</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Fight</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">55</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Lost Person</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">59</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Meet with</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-2</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Receiving Well</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-3</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Change Channel</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-4</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Message Received</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-7</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Out of Service</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-9</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Repeat</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-12</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Stand By</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-13</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Toilet needs repair</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-18</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">ASAP (As Soon As Possible)</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-20</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">What's your location</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-21</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Call by Phone</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-22</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Disregard/Cancel</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-33</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Emergency</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-52</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">First Aid Needed</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-60</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Meal Break</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-70</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Suspicious Bag Found</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-71</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Bomb Threat</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-72</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Bomb Search</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-73</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Bomb Search Complete</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-76</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">En-Route</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-85</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Weapons Violation</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-98</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Assignment Complete</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;">10-99</td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Hostile person (s), Guest (s), Situation</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid var(--border-color); padding: 10px;"><strong>Code RED</strong></td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Fire Alarm Emergency</td>
+        </tr>
+        <tr style="background: var(--embassy-light-blue);">
+            <td style="border: 1px solid var(--border-color); padding: 10px;"><strong>Code BLUE</strong></td>
+            <td style="border: 1px solid var(--border-color); padding: 10px;">Medical Emergency</td>
+        </tr>
+    </tbody>
+</table>
+
+                
+                <a href="training-binder.html" class="back-button">← Back to Training Binder</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+        <p>For Front Office Team Use Only</p>
+    </footer>
+</body>
+</html>

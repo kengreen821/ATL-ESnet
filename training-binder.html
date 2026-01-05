@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Training Binder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; font-weight: 300; }
+        .header-info { text-align: right; font-size: 14px; }
+        .header-info .property { margin-bottom: 5px; font-weight: 300; }
+        .header-info .time { font-size: 18px; font-weight: 600; color: var(--embassy-gold); }
+        
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+        .sidebar { width: 280px; background: white; padding: 30px 0; box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08); }
+        .nav-section { margin-bottom: 30px; }
+        .nav-section-title { padding: 0 25px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; margin-bottom: 12px; }
+        .nav-link { display: block; padding: 14px 25px; color: var(--text-primary); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; font-size: 15px; }
+        .nav-link:hover { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); }
+        .nav-link.active { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); font-weight: 600; }
+        .main-content { flex: 1; padding: 40px; max-width: 1200px; }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 30px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .page-header .description { font-size: 14px; opacity: 0.9; }
+        
+        .content { padding: 40px; }
+        .search-box {
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background: var(--embassy-light-blue);
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            font-size: 15px;
+            width: 100%;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: var(--embassy-blue);
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .topic-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border: 2px solid var(--embassy-light-blue);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        .topic-link:hover {
+            border-color: var(--embassy-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 87, 160, 0.15);
+        }
+        .topic-number {
+            background: var(--embassy-blue);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .topic-title {
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .topic-link.hidden { display: none; }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+        @media (max-width: 1024px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .topics-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Training Binder</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link active">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="content-card">
+                <div class="page-header">
+                    <h2>
+                        <span>📚</span>
+                        Training Binder
+                    </h2>
+                    <p class="description">Complete training materials for front desk operations</p>
+                </div>
+
+                <div class="content">
+                    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search training topics...">
+                    
+                    <div class="topics-grid" id="topicsGrid">
+                        <a href="training-01-policies-and-procedures.html" class="topic-link" data-topic="policies and procedures">
+                            <div class="topic-number">1</div>
+                            <div class="topic-title">Policies and Procedures</div>
+                        </a>
+                        <a href="training-02-check-in.html" class="topic-link" data-topic="check in">
+                            <div class="topic-number">2</div>
+                            <div class="topic-title">Check in</div>
+                        </a>
+                        <a href="training-03-check-out.html" class="topic-link" data-topic="check out">
+                            <div class="topic-number">3</div>
+                            <div class="topic-title">Check out</div>
+                        </a>
+                        <a href="training-04-view-totals.html" class="topic-link" data-topic="view totals">
+                            <div class="topic-number">4</div>
+                            <div class="topic-title">View Totals</div>
+                        </a>
+                        <a href="training-05-am-checklist.html" class="topic-link" data-topic="am checklist">
+                            <div class="topic-number">5</div>
+                            <div class="topic-title">AM Checklist</div>
+                        </a>
+                        <a href="training-06-pm-checklist.html" class="topic-link" data-topic="pm checklist">
+                            <div class="topic-number">6</div>
+                            <div class="topic-title">PM Checklist</div>
+                        </a>
+                        <a href="training-07-logging-into-the-guest-wifi.html" class="topic-link" data-topic="logging into the guest wifi">
+                            <div class="topic-number">7</div>
+                            <div class="topic-title">Logging into the guest WIFI</div>
+                        </a>
+                        <a href="training-08-floor-plans-with-room-types.html" class="topic-link" data-topic="floor plans with room types">
+                            <div class="topic-number">8</div>
+                            <div class="topic-title">Floor plans with room types</div>
+                        </a>
+                        <a href="training-09-radio-code-list.html" class="topic-link" data-topic="radio code list">
+                            <div class="topic-number">9</div>
+                            <div class="topic-title">Radio Code List</div>
+                        </a>
+                        <a href="training-10-money-handling.html" class="topic-link" data-topic="money handling">
+                            <div class="topic-number">10</div>
+                            <div class="topic-title">Money handling</div>
+                        </a>
+                        <a href="training-11-payment-vs-authorization.html" class="topic-link" data-topic="payment vs authorization">
+                            <div class="topic-number">11</div>
+                            <div class="topic-title">Payment vs authorization</div>
+                        </a>
+                        <a href="training-12-emergency-notification.html" class="topic-link" data-topic="emergency notification">
+                            <div class="topic-number">12</div>
+                            <div class="topic-title">Emergency notification</div>
+                        </a>
+                        <a href="training-13-issuing-breakfast-coupons.html" class="topic-link" data-topic="issuing breakfast coupons">
+                            <div class="topic-number">13</div>
+                            <div class="topic-title">Issuing Breakfast coupons</div>
+                        </a>
+                        <a href="training-14-saflock-training.html" class="topic-link" data-topic="saflock training">
+                            <div class="topic-number">14</div>
+                            <div class="topic-title">Saflock Training</div>
+                        </a>
+                        <a href="training-15-valet-parking-incidents.html" class="topic-link" data-topic="valet parking incidents">
+                            <div class="topic-number">15</div>
+                            <div class="topic-title">Valet Parking incidents</div>
+                        </a>
+                        <a href="training-16-updating-group-reservations.html" class="topic-link" data-topic="updating group reservations">
+                            <div class="topic-number">16</div>
+                            <div class="topic-title">Updating group reservations</div>
+                        </a>
+                        <a href="training-17-service-recovery.html" class="topic-link" data-topic="service recovery">
+                            <div class="topic-number">17</div>
+                            <div class="topic-title">Service Recovery</div>
+                        </a>
+                        <a href="training-18-enrollments.html" class="topic-link" data-topic="enrollments">
+                            <div class="topic-number">18</div>
+                            <div class="topic-title">Enrollments</div>
+                        </a>
+                        <a href="training-19-bedbugs.html" class="topic-link" data-topic="bedbugs">
+                            <div class="topic-number">19</div>
+                            <div class="topic-title">Bedbugs</div>
+                        </a>
+                        <a href="training-20-kipsu.html" class="topic-link" data-topic="kipsu">
+                            <div class="topic-number">20</div>
+                            <div class="topic-title">Kipsu</div>
+                        </a>
+                        <a href="training-21-quore.html" class="topic-link" data-topic="quore">
+                            <div class="topic-number">21</div>
+                            <div class="topic-title">Quore</div>
+                        </a>
+                        <a href="training-22-sertifi.html" class="topic-link" data-topic="sertifi">
+                            <div class="topic-number">22</div>
+                            <div class="topic-title">Sertifi</div>
+                        </a>
+                        <a href="training-23-lost-and-found.html" class="topic-link" data-topic="lost and found">
+                            <div class="topic-number">23</div>
+                            <div class="topic-title">Lost and found</div>
+                        </a>
+                        <a href="training-24-cash-drops.html" class="topic-link" data-topic="cash drops">
+                            <div class="topic-number">24</div>
+                            <div class="topic-title">Cash drops</div>
+                        </a>
+                        <a href="training-25-mail-handling.html" class="topic-link" data-topic="mail handling">
+                            <div class="topic-number">25</div>
+                            <div class="topic-title">Mail Handling</div>
+                        </a>
+                        <a href="training-26-add-ons.html" class="topic-link" data-topic="add-ons">
+                            <div class="topic-number">26</div>
+                            <div class="topic-title">Add-ons</div>
+                        </a>
+                        <a href="training-27-guest-packages.html" class="topic-link" data-topic="guest packages">
+                            <div class="topic-number">27</div>
+                            <div class="topic-title">Guest packages</div>
+                        </a>
+                        <a href="training-28-early-arrival-list.html" class="topic-link" data-topic="early arrival list">
+                            <div class="topic-number">28</div>
+                            <div class="topic-title">Early arrival list</div>
+                        </a>
+                        <a href="training-29-incidental-credit-reservations.html" class="topic-link" data-topic="incidental credit reservations">
+                            <div class="topic-number">29</div>
+                            <div class="topic-title">Incidental credit reservations</div>
+                        </a>
+                        <a href="training-30-pet-policy.html" class="topic-link" data-topic="pet policy">
+                            <div class="topic-number">30</div>
+                            <div class="topic-title">Pet Policy</div>
+                        </a>
+                        <a href="training-31-city-orientation.html" class="topic-link" data-topic="city orientation">
+                            <div class="topic-number">31</div>
+                            <div class="topic-title">City orientation</div>
+                        </a>
+                        <a href="training-32-third-party.html" class="topic-link" data-topic="third party">
+                            <div class="topic-number">32</div>
+                            <div class="topic-title">Third Party</div>
+                        </a>
+                        <a href="training-33-aquarium-package.html" class="topic-link" data-topic="aquarium package">
+                            <div class="topic-number">33</div>
+                            <div class="topic-title">Aquarium package</div>
+                        </a>
+                        <a href="training-34-tax-exempt.html" class="topic-link" data-topic="tax exempt">
+                            <div class="topic-number">34</div>
+                            <div class="topic-title">Tax Exempt</div>
+                        </a>
+                        <a href="training-35-go-hilton.html" class="topic-link" data-topic="go hilton">
+                            <div class="topic-number">35</div>
+                            <div class="topic-title">Go Hilton</div>
+                        </a>
+                        <a href="training-36-premium-rooms.html" class="topic-link" data-topic="premium rooms">
+                            <div class="topic-number">36</div>
+                            <div class="topic-title">Premium Rooms</div>
+                        </a>
+                        <a href="training-37-airpods-policy.html" class="topic-link" data-topic="airpods policy">
+                            <div class="topic-number">37</div>
+                            <div class="topic-title">AirPods policy</div>
+                        </a>
+                        <a href="training-38-high-balance.html" class="topic-link" data-topic="high balance">
+                            <div class="topic-number">38</div>
+                            <div class="topic-title">High Balance</div>
+                        </a>
+                        <a href="training-39-umbrellas.html" class="topic-link" data-topic="umbrellas">
+                            <div class="topic-number">39</div>
+                            <div class="topic-title">Umbrellas</div>
+                        </a>
+                        <a href="training-40-crm-report.html" class="topic-link" data-topic="crm report">
+                            <div class="topic-number">40</div>
+                            <div class="topic-title">CRM Report</div>
+                        </a>
+                        <a href="training-41-fire-alarm-procedure.html" class="topic-link" data-topic="fire alarm procedure">
+                            <div class="topic-number">41</div>
+                            <div class="topic-title">Fire alarm procedure</div>
+                        </a>
+                        <a href="training-42-front-desk-etiquette.html" class="topic-link" data-topic="front desk etiquette">
+                            <div class="topic-number">42</div>
+                            <div class="topic-title">Front desk etiquette</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">© 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only</div>
+
+    <script>
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        const topicsGrid = document.getElementById('topicsGrid');
+        const topicLinks = topicsGrid.querySelectorAll('.topic-link');
+
+        searchBox.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            topicLinks.forEach(link => {
+                const topicText = link.getAttribute('data-topic');
+                if (topicText.includes(searchTerm)) {
+                    link.classList.remove('hidden');
+                } else {
+                    link.classList.add('hidden');
+                }
+            });
+        });
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

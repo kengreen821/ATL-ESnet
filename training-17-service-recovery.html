@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Service Recovery</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
+        .header-info { text-align: right; font-size: 13px; }
+        .header-info .property { font-weight: 600; margin-bottom: 3px; }
+        
+        .breadcrumb {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 30px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .page-header .topic-number {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content h3 {
+            color: var(--embassy-navy);
+            font-size: 22px;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--embassy-gold);
+        }
+        .content h3:first-child {
+            margin-top: 0;
+        }
+        .content h4 {
+            color: var(--embassy-blue);
+            font-size: 18px;
+            margin: 20px 0 12px 0;
+        }
+        .content p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .content ul, .content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        .content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .content table th {
+            background: var(--embassy-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .content table td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .content table tr:nth-child(even) {
+            background: var(--embassy-light-blue);
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Embassy Suites Centennial Park</div>
+                <div>Internal Use Only</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="training-binder.html">Training Binder</a>
+        <span>›</span>
+        <span style="color: var(--embassy-navy); font-weight: 600;">Service Recovery</span>
+    </div>
+
+    <div class="container">
+        <div class="content-card">
+            <div class="page-header">
+                <div class="topic-number">Training Topic #17</div>
+                <h2>Service Recovery</h2>
+            </div>
+
+            <div class="content">
+                
+<h3>Service Recovery Guidelines</h3>
+
+<h4>1. Understanding Revenue vs. Non-Revenue Recovery</h4>
+
+<p><strong>Revenue Service Recovery:</strong></p>
+<ul>
+    <li>This occurs when we adjust a dollar amount from the guest's bill due to an inconvenience.</li>
+    <li>Example: Comping parking, removing a partial or full night charge.</li>
+</ul>
+
+<p><strong>Non-Revenue Service Recovery:</strong></p>
+<ul>
+    <li>This involves offering the guest a solution to rectify the issue without removing funds from their bill.</li>
+    <li>Example: Room move, awarding points, BMG certificate, providing a snack bag, etc.</li>
+</ul>
+
+<h4>2. Steps for Performing Revenue Service Recovery</h4>
+<ol>
+    <li>Open the guest's folio.</li>
+    <li>Highlight the charge requiring you wish to refund.</li>
+    <li>Select the service recovery button (denoted by the $ symbol).</li>
+    <li>Fill in the required information:
+        <ul>
+            <li>Amount</li>
+            <li>Category</li>
+            <li>Reason</li>
+            <li>Problem description</li>
+        </ul>
+    </li>
+    <li>Press "OK" to submit the request and adjust the amount on the bill.</li>
+</ol>
+
+<h4>3. Steps for Performing Non-Revenue Service Recovery</h4>
+<ol>
+    <li>Open the guest's reservation.</li>
+    <li>Select the non-revenue service recovery button (denoted by the Pineapple symbol).</li>
+    <li>Fill in the required information:
+        <ul>
+            <li>Category</li>
+            <li>Reason</li>
+            <li>Description (please specify the service recovery provided).</li>
+        </ul>
+    </li>
+</ol>
+
+<h3>Service Recovery Compensation Levels</h3>
+
+<p>Always notify the MOD of any service recoveries, because they are required to track them on the MOD reports and on the tracker.</p>
+
+<p>Use discretion and have compensation match the level of severity for the issue. Consult with MOD, if in doubt.</p>
+
+<p><strong>Management Approved compensation- No Exceptions</strong></p>
+
+<p><strong>Small/Low-level compensation:</strong> (up to $55) a beverage voucher, 1 level suite move/popcorn, 1 level suite upgrade, Hilton Honors points 1000-5000, and an amenity bag from C&M.</p>
+
+<p><strong>Medium:</strong> (up to $110) RC voucher, Hilton Honors points 5000-10000, 2-level suite upgrades, suite movie/popcorn, 1 level suite upgrade, Hilton Honors points 5000-10000, 2-level suite upgrades, comp parking 2 nights, discount on suite 20-40%, 1 plus nights of parking, 3 level bag from C&M, suite upgrades (presidential, gov, centennial), 1 or more comp nights, Gift certificates to our location, BMG certificate, bottle of wine or RC amenity fruit tray</p>
+
+<p><strong>High level:</strong> ($110+) RC voucher, Hilton Honors points 10K-20K, 3-level bag from C&M, suite upgrades (presidential, gov, centennial), 1 or more comp nights, Gift certificates to our location, BMG certificate, bottle of wine or RC amenity fruit tray</p>
+
+                
+                <a href="training-binder.html" class="back-button">← Back to Training Binder</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+        <p>For Front Office Team Use Only</p>
+    </footer>
+</body>
+</html>

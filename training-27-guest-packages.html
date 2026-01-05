@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Guest Packages</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
+        .header-info { text-align: right; font-size: 13px; }
+        .header-info .property { font-weight: 600; margin-bottom: 3px; }
+        
+        .breadcrumb {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 30px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .page-header .topic-number {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content h3 {
+            color: var(--embassy-navy);
+            font-size: 22px;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--embassy-gold);
+        }
+        .content h3:first-child {
+            margin-top: 0;
+        }
+        .content h4 {
+            color: var(--embassy-blue);
+            font-size: 18px;
+            margin: 20px 0 12px 0;
+        }
+        .content p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .content ul, .content ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        .content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .content table th {
+            background: var(--embassy-navy);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .content table td {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .content table tr:nth-child(even) {
+            background: var(--embassy-light-blue);
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Embassy Suites Centennial Park</div>
+                <div>Internal Use Only</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="training-binder.html">Training Binder</a>
+        <span>›</span>
+        <span style="color: var(--embassy-navy); font-weight: 600;">Guest Packages</span>
+    </div>
+
+    <div class="container">
+        <div class="content-card">
+            <div class="page-header">
+                <div class="topic-number">Training Topic #27</div>
+                <h2>Guest Packages</h2>
+            </div>
+
+            <div class="content">
+                
+<h3>Summary</h3>
+<ol>
+    <li>If a guest states they have had a package delivered, check the guest's package log to see if security has logged it in a package for them
+        <ul>
+            <li>Go into G drive → Security → Package log → look for the correct month and year</li>
+            <li>Make sure you close it; otherwise, they will not be able to modify it until it is closed and restarted on all computers</li>
+            <li>It is closed. Call the guest's name, call them that their package has been delivered. Let the guest know if they have not logged to the guest</li>
+        </ul>
+    </li>
+    <li>If you see the guest name at this time. Check with security if we have the package or not been delivered at this time. Check with security before confirming if we have the package yet.</li>
+    <li>Always check with security before confirming if we have the package or not.</li>
+</ol>
+
+                
+                <a href="training-binder.html" class="back-button">← Back to Training Binder</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+        <p>For Front Office Team Use Only</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Attractions - ATL ESnet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --embassy-navy: #003057; --embassy-blue: #0057A0; --embassy-gold: #C7A961; --embassy-light-blue: #E8F1F8; --text-primary: #1a1a1a; --text-secondary: #666; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%); color: var(--text-primary); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%); color: white; padding: 25px 40px; box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15); position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%); border-radius: 50%; }
+        .header-content { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; font-weight: 300; }
+        .header-info { text-align: right; font-size: 14px; }
+        .header-info .property { margin-bottom: 5px; font-weight: 300; }
+        .header-info .time { font-size: 18px; font-weight: 600; color: var(--embassy-gold); }
+        .container { display: flex; max-width: 1600px; margin: 0 auto; min-height: calc(100vh - 120px); }
+        .sidebar { width: 280px; background: white; padding: 30px 0; box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08); }
+        .nav-section { margin-bottom: 30px; }
+        .nav-section-title { padding: 0 25px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; margin-bottom: 12px; }
+        .nav-link { display: block; padding: 14px 25px; color: var(--text-primary); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; font-size: 15px; }
+        .nav-link:hover { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); }
+        .nav-link.active { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); font-weight: 600; }
+        .main-content { flex: 1; padding: 40px; max-width: 1200px; }
+        .breadcrumb { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .breadcrumb a { color: var(--embassy-blue); text-decoration: none; }
+        .page-title { font-size: 32px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 10px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 35px; line-height: 1.6; }
+        .intro-box { background: var(--embassy-light-blue); border-left: 4px solid var(--embassy-blue); padding: 20px; margin: 25px 0; border-radius: 5px; }
+        .distance-badge { display: inline-block; background: var(--embassy-gold); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-left: 10px; }
+        .attraction-card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; border-left: 5px solid var(--embassy-gold); }
+        .attraction-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px solid var(--embassy-light-blue); }
+        .attraction-name { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 5px; }
+        .attraction-type { color: var(--embassy-blue); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .attraction-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .info-item { display: flex; align-items: start; }
+        .info-label { font-weight: 600; color: var(--embassy-navy); min-width: 80px; margin-right: 10px; }
+        .info-value { color: var(--text-primary); line-height: 1.6; }
+        .attraction-description { color: var(--text-primary); line-height: 1.7; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--embassy-light-blue); }
+        .highlight-badge { background: #FFF9E6; border-left: 4px solid var(--embassy-gold); padding: 10px 15px; margin-top: 12px; border-radius: 4px; font-size: 14px; }
+        .section-divider { margin: 40px 0; border-top: 3px solid var(--embassy-light-blue); padding-top: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 20px; }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+        @media (max-width: 968px) { 
+            .container { flex-direction: column; } 
+            .sidebar { width: 100%; }
+            .attraction-info { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Nearby Attractions Guide</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link active">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; Nearby Attractions
+            </div>
+            <h1 class="page-title">Nearby Attractions</h1>
+            <p class="page-subtitle">Premier attractions within walking distance of Embassy Suites Centennial Park - perfect recommendations for our guests</p>
+            
+            <div class="intro-box">
+                <strong>Guest Service Tip:</strong> Embassy Suites Centennial Park is located in the heart of Atlanta's entertainment district. All attractions listed below are within a 5-10 minute walk, making us the perfect home base for exploring downtown Atlanta. Many attractions offer package deals with our hotel.
+            </div>
+
+            <!-- Adjacent Attractions (Less than 2-minute walk) -->
+            <div class="section-title">Adjacent to Hotel</div>
+
+            <!-- Georgia Aquarium -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">Georgia Aquarium <span class="distance-badge">Adjacent</span></div>
+                        <div class="attraction-type">World's Largest Aquarium</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">225 Baker St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 581-4000</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Open 365 days/year, typically 10:00 AM - 8:00 PM (hours vary by season)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">Adjacent - Less than 2-minute walk</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Guest Rate:</span>
+                        <span class="info-value">Anytime Tickets: $57/person | Under 2 years: FREE</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    Home to over 100,000 sea creatures including whale sharks, beluga whales, manta rays, and bottlenose dolphins. Features immersive galleries including Ocean Voyager, Cold Water Quest, Tropical Diver, and the new SHARKS! Predators of the Deep exhibit. Includes dolphin and sea lion presentations (first-come, first-served seating). Average visit time: 3-4 hours. Embassy Suites is a preferred hotel partner with exclusive package options.
+                </div>
+                <div class="highlight-badge">
+                    <strong>Exclusive Embassy Suites Guest Rate:</strong> Our guests can purchase Anytime Tickets for only $57 per person (children under 2 are free) - a special discounted rate available only through Embassy Suites. General admission prices are typically higher. Ask our concierge or front desk for tickets!
+                </div>
+            </div>
+
+            <!-- Centennial Olympic Park -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">Centennial Olympic Park <span class="distance-badge">Adjacent</span></div>
+                        <div class="attraction-type">Historic 22-Acre Urban Park</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">265 Park Ave W NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Daily 7:00 AM - 11:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">Adjacent - Directly across from hotel</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Admission:</span>
+                        <span class="info-value">FREE</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    Legacy of the 1996 Summer Olympic Games and the crown jewel of Atlanta's downtown entertainment district. Features the iconic Fountain of Rings (world's largest interactive fountain incorporating Olympic Rings), playgrounds, gardens, and expansive lawns. Hosts large annual festivals including Independence Day celebrations and Juneteenth Atlanta Parade. Free audio tour available via mobile app highlighting Olympic history and monuments. Perfect for picnics, family photos, and relaxation.
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+            <div class="section-title">5-Minute Walk</div>
+
+            <!-- World of Coca-Cola -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">World of Coca-Cola <span class="distance-badge">5-min walk</span></div>
+                        <div class="attraction-type">Interactive Coca-Cola Museum</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">121 Baker St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 676-5151</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Generally 10:00 AM - 7:00 PM (weekdays), varies weekends - check website</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">0.3 miles - 5-minute walk</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    Multimedia attraction showcasing the history of The Coca-Cola Company. Features the Vault of the Secret Formula, art galleries with memorabilia, 4D theater experience, and the famous "Taste It!" room where visitors can sample over 100 beverages from around the world. Meet the Coca-Cola Polar Bear for photos. Average visit time: 2-3 hours. Often combined with Georgia Aquarium visits via package deals.
+                </div>
+                <div class="highlight-badge">
+                    <strong>Money Saver:</strong> Atlanta CityPASS includes both World of Coca-Cola and Georgia Aquarium with significant savings.
+                </div>
+            </div>
+
+            <!-- College Football Hall of Fame -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">Chick-fil-A College Football Hall of Fame <span class="distance-badge">5-min walk</span></div>
+                        <div class="attraction-type">Interactive Sports Museum</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">250 Marietta St NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-label">(404) 880-4800</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Daily 10:00 AM - 5:00 PM (last entry 30 min before closing)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">5-minute walk from hotel</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    95,000 square feet with over 50 interactive exhibits celebrating college football. Features 3-story helmet wall with helmets from 765+ schools, indoor 47-yard playing field, AI-powered GameON! experience, VIP guided tours available (11 AM, 1 PM, 3 PM daily). Kick field goals, throw passes, record yourself calling legendary plays. Chick-fil-A restaurant on-site. Named one of top 10 things to do in Atlanta. Average visit: 2-3 hours.
+                </div>
+            </div>
+
+            <!-- State Farm Arena -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">State Farm Arena <span class="distance-badge">5-min walk</span></div>
+                        <div class="attraction-type">Sports & Entertainment Venue</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">1 State Farm Dr, Atlanta, GA 30303</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">5-minute walk from hotel</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    Home of the NBA's Atlanta Hawks. Hosts major concerts, sporting events, and entertainment shows year-round. Modern facilities with prime downtown location. Check event calendar for current schedule of games and performances.
+                </div>
+            </div>
+
+            <!-- National Center for Civil and Human Rights -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">National Center for Civil and Human Rights <span class="distance-badge">5-min walk</span></div>
+                        <div class="attraction-type">Cultural & Historical Museum</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">100 Ivan Allen Jr Blvd, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(678) 999-8990</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Tue-Fri/Sun 12:00 PM - 5:00 PM, Sat 10:00 AM - 5:00 PM, Closed Monday</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">5-minute walk from hotel</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    Powerful museum connecting the American Civil Rights Movement to today's global human rights movements. Features immersive exhibits including the emotionally resonant lunch counter sit-in experience, Freedom Riders bus, and the Morehouse College Martin Luther King Jr. Collection (rotating display of Dr. King's personal papers and artifacts). Recently expanded with new galleries. Average visit: 90-120 minutes. Included in Atlanta CityPASS.
+                </div>
+                <div class="highlight-badge">
+                    <strong>Important Note:</strong> Deeply moving exhibits - tissue boxes available. Allow ample time to absorb the experience.
+                </div>
+            </div>
+
+            <!-- SkyView Atlanta -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">SkyView Atlanta <span class="distance-badge">5-min walk</span></div>
+                        <div class="attraction-type">Giant Ferris Wheel</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">168 Luckie St NW, Atlanta, GA 30303</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(678) 949-9023</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Mon-Thu 10:00 AM - 10:00 PM, Fri-Sat 10:00 AM - 11:00 PM, Sun 10:00 AM - 10:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">At Centennial Olympic Park - 5-minute walk</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    200-foot-tall observation wheel with 42 climate-controlled, private gondolas offering breathtaking panoramic views of downtown Atlanta. Each ride lasts 7-12 minutes (3-4 full rotations). VIP gondola option available with Ferrari-style leather seats, glass floor, and extended 20-minute ride time. Perfect for date nights, proposals, or family photos. Don't miss the nighttime light show! On-site refreshment stand (Energy Eatz) serves snacks and beverages.
+                </div>
+            </div>
+
+            <!-- Children's Museum of Atlanta -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">Children's Museum of Atlanta <span class="distance-badge">5-min walk</span></div>
+                        <div class="attraction-type">Interactive Children's Museum</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">275 Centennial Olympic Park Dr NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">(404) 659-5437</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Hours:</span>
+                        <span class="info-value">Mon/Tue/Thu/Fri 9:30 AM - 4:30 PM, Sat/Sun 9:30 AM - 4:30 PM, Closed Wednesday</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">At Centennial Olympic Park - 5-minute walk</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    Atlanta's only children's museum for hands-on learning through play, ideal for children ages 0-8. Features interactive exhibits including farm area, grocery store play, construction zone, climbing structure, art room, and STEM science bar. Daily programs and activities with the Imaginators (museum's dedicated educators/actors). Advance online ticket purchase highly recommended. Average visit: 1-2 hours. Perfect for families with young children.
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+            <div class="section-title">10-Minute Walk or Less</div>
+
+            <!-- Mercedes-Benz Stadium -->
+            <div class="attraction-card">
+                <div class="attraction-header">
+                    <div>
+                        <div class="attraction-name">Mercedes-Benz Stadium <span class="distance-badge">10-min walk</span></div>
+                        <div class="attraction-type">World-Class Sports & Entertainment Venue</div>
+                    </div>
+                </div>
+                <div class="attraction-info">
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">1 AMB Dr NW, Atlanta, GA 30313</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance:</span>
+                        <span class="info-value">Short walk from hotel</span>
+                    </div>
+                </div>
+                <div class="attraction-description">
+                    State-of-the-art venue with retractable roof, home to NFL's Atlanta Falcons and MLS's Atlanta United FC. Hosts major concerts, college football championships (SEC Championship, Chick-fil-A Peach Bowl), Monster Jam, and other premier events. Features innovative design and exceptional guest amenities. Check event calendar for current schedule.
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+            <div class="intro-box">
+                <strong>Planning Tip:</strong> Atlanta CityPASS offers significant savings (up to 49%) on admission to 5 of 6 top attractions including Georgia Aquarium, World of Coca-Cola, Zoo Atlanta, Fernbank Museum, College Football Hall of Fame, and National Center for Civil and Human Rights. Valid for 9 days. Recommend to guests planning multiple attraction visits!
+            </div>
+
+            <a href="index.html" class="back-button">← Back to Home</a>
+        </main>
+    </div>
+    <div class="footer">© 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only</div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

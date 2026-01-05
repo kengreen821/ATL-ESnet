@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employment Practices - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--embassy-light-blue);
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Employment Practices</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link active">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; <a href="employee-handbook.html">Employee Handbook</a> &gt; Employment Practices
+            </div>
+
+            <h1 class="page-title">General Employment Practices</h1>
+            <p class="page-subtitle">Policies governing your employment with Legacy Ventures Hotels</p>
+
+            <div class="content-section">
+                <h2 class="section-title">Purpose of Team Member Handbook</h2>
+                <p class="content-text">
+                    This Team Member Handbook contains information about the employment policies and practices of the Company. 
+                    These policies reflect the Company's values, and we expect each team member to read this Team Member Handbook 
+                    carefully as it is a valuable reference for understanding your job and the Company.
+                </p>
+                <p class="content-text">
+                    This Team Member Handbook supersedes all previously issued Team Member Handbooks. Except for the policy of 
+                    at-will employment, the Company reserves the right to revise, delete and add to the provisions of this Team 
+                    Member Handbook. All such revisions, deletions or additions must be in writing. No oral statements or 
+                    representations can change the provisions of this Team Member Handbook.
+                </p>
+                <div class="highlight-box">
+                    <strong>Important:</strong> This Team Member Handbook does not constitute an expressed or implied contract 
+                    guaranteeing continued employment for any team member. No manager or supervisor has any authority to enter 
+                    into a contract of employment that changes or alters the fact that employment with the Company is at-will.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Employment At-Will</h2>
+                <p class="content-text">
+                    Employment with the Company is at-will unless state law requires otherwise. This means that employment may 
+                    be terminated for any or no reason, with or without cause or notice at any time by the team member or by 
+                    the Company. Nothing in this Handbook or any oral statement will limit the right to terminate the at-will 
+                    employment relationship.
+                </p>
+                <p class="content-text">
+                    This at-will employment policy is the sole and entire agreement between the team member and the Company 
+                    regarding the fact that employment with the Company is at-will. No manager or supervisor has any authority 
+                    to enter into a contract of employment, expressed or implied, that alters the fact that employment with the 
+                    Company is at-will.
+                </p>
+                <div class="highlight-box">
+                    Only the President or their authorized representative has the authority to enter into an employment agreement 
+                    that alters the at-will employment relationship, and any such agreement must be in writing and signed by the 
+                    President or their authorized representative.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Equal Employment Opportunity</h2>
+                <p class="content-text">
+                    The Company is an equal opportunity employer. In accordance with applicable law, we prohibit discrimination 
+                    against any applicant or team member based on any legally-recognized basis, including, but not limited to: 
+                    veteran status, uniformed servicemember status, race, color, religion, sex, sexual orientation, gender identity, 
+                    transgender status, age, pregnancy (including childbirth, lactation and related medical conditions), national 
+                    origin or ancestry, citizenship status, physical or mental disability, genetic information (including testing 
+                    and characteristics) or any other consideration protected by federal, state or local law.
+                </p>
+                <p class="content-text">
+                    Our commitment to equal opportunity employment applies to all persons involved in our operations and prohibits 
+                    unlawful discrimination by any team member, including supervisors and co-workers.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Background Checks</h2>
+                <p class="content-text">
+                    The Company recognizes the importance of maintaining a safe, secure workplace with team members who are 
+                    qualified, reliable, and nonviolent, and who do not present a risk of serious harm to their coworkers or 
+                    others. To promote these concerns and interests, the Company reserves the right to investigate an individual's 
+                    prior employment history, personal references, and educational background, as well as other relevant information.
+                </p>
+                <p class="content-text">
+                    Consistent with legal or contractual requirements, the Company also reserves the right to obtain and to review 
+                    an applicant's or a team member's criminal conviction record, and related information, and to use such 
+                    information when making employment decisions, but only to the extent permissible under applicable law.
+                </p>
+                <p class="content-text">
+                    All background checks will be conducted in strict conformity with the federal Fair Credit Reporting Act (FCRA), 
+                    applicable state fair credit reporting laws, and state and federal antidiscrimination and privacy laws. The 
+                    Company is an equal opportunity employer and will comply with applicable federal, state and local laws relating 
+                    to the use of background checks for employment purposes.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Employment Eligibility and Work Authorization</h2>
+                <p class="content-text">
+                    The Company is committed to employing only individuals who are authorized to work in the United States and who 
+                    comply with applicable immigration and employment law. As a condition of employment, every individual must 
+                    provide satisfactory evidence of their identity and legal authority to work in the United States within three 
+                    business days of commencing employment.
+                </p>
+                <div class="highlight-box">
+                    If the team member cannot verify their right to work in the United States within three business days of 
+                    employment, the Company will be required to terminate their employment immediately.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Performance Reviews</h2>
+                <p class="content-text">
+                    Performance reviews are scheduled during the introductory/orientation period (First 90 Days of employment), 
+                    once a year or upon a change in assignments, however, supervisors and team members are strongly encouraged to 
+                    discuss job performance and goals on an informal, day-to-day basis.
+                </p>
+                <p class="content-text">
+                    A positive performance review does not guarantee a salary increase or a promotion. These decisions are made at 
+                    the discretion of the Company and depend on a number of factors in addition to a Team Member's individual 
+                    performance.
+                </p>
+                <p class="content-text">
+                    We reserve the right to make any personnel changes (including termination) before or after performance 
+                    evaluations.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Access to Personnel Files</h2>
+                <p class="content-text">
+                    Active team members have access to their own electronic personnel file and data through the Employee Self-Service 
+                    Portal. Team members may not be allowed to view investigation records or any letters of reference that have been 
+                    prepared or collected by management.
+                </p>
+                <p class="content-text">
+                    Only authorized members of management and Human Resources have access to a team member's personnel file. However, 
+                    the Company will cooperate with - and provide access to a team member's personnel file to - law enforcement 
+                    officials or local, state or federal agencies in accordance with applicable law.
+                </p>
+            </div>
+
+            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

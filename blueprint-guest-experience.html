@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Experience - ATL ESnet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --embassy-navy: #003057; --embassy-blue: #0057A0; --embassy-gold: #C7A961; --embassy-light-blue: #E8F1F8; --text-primary: #1a1a1a; --text-secondary: #666; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%); color: var(--text-primary); min-height: 100vh; }
+        .header { background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%); color: white; padding: 25px 40px; box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15); position: relative; overflow: hidden; }
+        .header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%); border-radius: 50%; }
+        .header-content { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; font-weight: 300; }
+        .header-info { text-align: right; font-size: 14px; }
+        .header-info .property { margin-bottom: 5px; font-weight: 300; }
+        .header-info .time { font-size: 18px; font-weight: 600; color: var(--embassy-gold); }
+        .container { display: flex; max-width: 1600px; margin: 0 auto; min-height: calc(100vh - 120px); }
+        .sidebar { width: 280px; background: white; padding: 30px 0; box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08); }
+        .nav-section { margin-bottom: 30px; }
+        .nav-section-title { padding: 0 25px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; margin-bottom: 12px; }
+        .nav-link { display: block; padding: 14px 25px; color: var(--text-primary); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; font-size: 15px; }
+        .nav-link:hover { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); }
+        .nav-link.active { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); font-weight: 600; }
+        .main-content { flex: 1; padding: 40px; max-width: 1000px; }
+        .breadcrumb { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .breadcrumb a { color: var(--embassy-blue); text-decoration: none; }
+        .page-title { font-size: 32px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 10px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 35px; }
+        .content-section { background: white; border-radius: 10px; padding: 35px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--embassy-light-blue); }
+        .section-subtitle { font-size: 20px; font-weight: 600; color: var(--embassy-blue); margin-top: 25px; margin-bottom: 15px; }
+        .content-text { line-height: 1.8; color: var(--text-primary); margin-bottom: 15px; }
+        .highlight-box { background: var(--embassy-light-blue); border-left: 4px solid var(--embassy-blue); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .gold-highlight { background: #FFF9E6; border-left: 4px solid var(--embassy-gold); }
+        .bullet-list { margin: 15px 0; padding-left: 25px; }
+        .bullet-list li { margin-bottom: 12px; line-height: 1.6; }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+        @media (max-width: 968px) { .container { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Guest Experience</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link active">Legacy Blueprint</a>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; <a href="legacy-blueprint.html">Legacy Blueprint</a> &gt; Guest Experience
+            </div>
+            <h1 class="page-title">Blueprint for Guest Experience</h1>
+            <p class="page-subtitle">Delivering exceptional service at every touchpoint</p>
+            <div class="content-section">
+                <h2 class="section-title">First Impressions - Looking Good</h2>
+                <p class="content-text">
+                    You never get a second chance to make a first impression. Your appearance reflects on yourself, your professionalism, and the property.
+                </p>
+                <h3 class="section-subtitle">Personally:</h3>
+                <ul class="bullet-list">
+                    <li>Bathing, brushing your teeth, combing your hair should be routine</li>
+                    <li>Avoid heavy fragrances</li>
+                    <li>Apply deodorant and keep nails trimmed and chip-free</li>
+                </ul>
+                <h3 class="section-subtitle">Professionally:</h3>
+                <ul class="bullet-list">
+                    <li>Attire and uniforms are to be clean, timeless, freshly laundered and properly fitted</li>
+                    <li>Clothes should be free from holes or tears</li>
+                    <li>Turn personal phones off while on duty</li>
+                    <li>Polish your shoes, and choose safe shoes</li>
+                    <li>Limit your jewelry</li>
+                    <li>Be conservative with your hairstyle (trimmed and neat)</li>
+                    <li>Be tasteful with make-up and nail color</li>
+                    <li>If part of your uniform, wear your nametag</li>
+                    <li>Be proud of your professional appearance, language and behavior</li>
+                </ul>
+                <h3 class="section-subtitle">Property:</h3>
+                <div class="gold-highlight">
+                    <strong>Take pride in your property!</strong> Pick up litter and straighten clutter. Everyone is in Housekeeping! We don't walk past debris without picking it up.
+                </div>
+                <ul class="bullet-list">
+                    <li>Take personal responsibility for cleanliness and safety</li>
+                    <li>It's clean or it's dirty / it's fixed or it's broken – there is no in between</li>
+                    <li>See something, say something: report stains, broken items and unsafe conditions</li>
+                    <li>Use equipment properly</li>
+                </ul>
+            </div>
+            <div class="content-section">
+                <h2 class="section-title">Our Focus on the Guest</h2>
+                <p class="content-text">
+                    Our focus is on the guest experience. We use a strategic and systematic approach for continuous improvement in quality, service, profit and innovation.
+                </p>
+                <div class="highlight-box">
+                    Don't underestimate the positive guest impact that results from good scheduling, good processes and good people!
+                </div>
+            </div>
+            <a href="legacy-blueprint.html" class="back-button">← Back to Legacy Blueprint</a>
+        </main>
+    </div>
+    <div class="footer">© 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only</div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

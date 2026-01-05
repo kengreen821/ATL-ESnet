@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Quore</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
+        .header-info { text-align: right; font-size: 13px; }
+        .header-info .property { font-weight: 600; margin-bottom: 3px; }
+        
+        .breadcrumb {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 30px;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .page-header .topic-number {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content-placeholder {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-gold);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .content-placeholder h3 {
+            color: var(--embassy-navy);
+            margin-bottom: 15px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Embassy Suites Centennial Park</div>
+                <div>Internal Use Only</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="training-binder.html">Training Binder</a>
+        <span>›</span>
+        <span style="color: var(--embassy-navy); font-weight: 600;">Quore</span>
+    </div>
+
+    <div class="container">
+        <div class="content-card">
+            <div class="page-header">
+                <div class="topic-number">Training Topic #21</div>
+                <h2>Quore</h2>
+            </div>
+
+            <div class="content">
+                <!-- CONTENT PLACEHOLDER - ADD YOUR TRAINING CONTENT HERE -->
+                <div class="content-placeholder">
+                    <h3>📝 Content Coming Soon</h3>
+                    <p>This training topic is ready for content.</p>
+                    <p style="margin-top: 10px;">Open this file in a text editor and replace this section with your training materials.</p>
+                </div>
+                
+                <!-- Example of how to add content:
+                <h3>Overview</h3>
+                <p>Your content here...</p>
+                
+                <h3>Procedures</h3>
+                <ol>
+                    <li>Step 1</li>
+                    <li>Step 2</li>
+                </ol>
+                -->
+
+                <a href="training-binder.html" class="back-button">← Back to Training Binder</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+        <p>For Front Office Team Use Only</p>
+    </footer>
+</body>
+</html>

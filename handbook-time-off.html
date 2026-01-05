@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Off & Leave - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            max-width: 1000px;
+        }
+
+        .breadcrumb {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--embassy-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 35px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--embassy-light-blue);
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .gold-highlight {
+            background: #FFF9E6;
+            border-left: 4px solid var(--embassy-gold);
+        }
+
+        .bullet-list {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .bullet-list li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--embassy-navy);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--embassy-light-blue);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Time Off & Leave</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link active">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &gt; <a href="employee-handbook.html">Employee Handbook</a> &gt; Time Off & Leave
+            </div>
+
+            <h1 class="page-title">Time Off & Leave of Absence</h1>
+            <p class="page-subtitle">PTO, holiday pay, FMLA, and leave policies</p>
+
+            <div class="content-section">
+                <h2 class="section-title">Paid Time Off (PTO)</h2>
+                <p class="content-text">
+                    The Company's PTO program is offered to all eligible full-time team members. PTO may be used for a variety of 
+                    reasons including vacation, sick, personal, holidays, or birthdays. The amount of PTO time earned is based on 
+                    length of service.
+                </p>
+                
+                <h3 class="section-subtitle">Full-Time Hourly Team Members</h3>
+                <p class="content-text">
+                    PTO days are based upon the number of hours worked excluding overtime. PTO begins to accrue on the date of hire 
+                    and may be taken after 90 days of continuous employment.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Years of Service</th>
+                            <th>Days Accrued Per Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0 days to 1 year</td>
+                            <td>10 days (3.07 hours per pay period)</td>
+                        </tr>
+                        <tr>
+                            <td>2 to 5 years</td>
+                            <td>15 days (4.61 hours per pay period)</td>
+                        </tr>
+                        <tr>
+                            <td>6 to 10 years</td>
+                            <td>20 days (6.15 hours per pay period)</td>
+                        </tr>
+                        <tr>
+                            <td>10+ years</td>
+                            <td>25 days (7.69 hours per pay period)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="section-subtitle">Full-Time Exempt (Salaried) Team Members</h3>
+                <p class="content-text">
+                    Salaried team members accrue PTO based upon length of service. PTO begins to accrue on the date of hire and may 
+                    be taken after 90 days of continuous employment.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Years of Service</th>
+                            <th>Maximum Hours Per Year</th>
+                            <th>Maximum Days Per Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0 days to 1 year</td>
+                            <td>80 hours (0.03846 per hour worked)</td>
+                            <td>10 days</td>
+                        </tr>
+                        <tr>
+                            <td>2 to 5 years</td>
+                            <td>120 hours (0.05769 per hour worked)</td>
+                            <td>15 days</td>
+                        </tr>
+                        <tr>
+                            <td>6 to 10 years</td>
+                            <td>160 hours (0.07692 per hour worked)</td>
+                            <td>20 days</td>
+                        </tr>
+                        <tr>
+                            <td>10+ years</td>
+                            <td>200 hours (0.09615 per hour worked)</td>
+                            <td>25 days</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="section-subtitle">PTO Request Requirements:</h3>
+                <ul class="bullet-list">
+                    <li>PTO must be requested a minimum of 14 days in advance and must be approved by your supervisor/manager</li>
+                    <li>An exception may be granted at the discretion of your supervisor for a shorter duration based on business demands</li>
+                    <li>PTO does not accrue during unpaid leave of absence or days off without pay</li>
+                </ul>
+
+                <div class="highlight-box gold-highlight">
+                    <strong>"Use It or Lose It" Policy:</strong> Any accrued and unused PTO may be carried over up to 90 days past 
+                    your anniversary date. After that time, any unused days are forfeited.
+                </div>
+
+                <h3 class="section-subtitle">PTO Payout Upon Separation:</h3>
+                <p class="content-text">
+                    When leaving the company, accrued and unused PTO will be paid out to those team members who provide and work at 
+                    least a two-weeks' notice. The requirement to "work" a two-weeks' notice means that you cannot take PTO during 
+                    this period, and you must work all scheduled shifts.
+                </p>
+                <p class="content-text">
+                    Team members who quit with no notice, do not work at least a two-weeks' notice, or who are terminated for any 
+                    other reason will forfeit any accrued and unused PTO benefits when leaving the Company.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Blackout Periods</h2>
+                <p class="content-text">
+                    The Company, or your specific hotel property, may designate certain periods as a "blackout period", meaning that 
+                    no team member can take PTO during this period.
+                </p>
+                <div class="highlight-box">
+                    Because blackout periods may be announced without lengthy notice, it is important that you not financially commit 
+                    to travel or other activities during your PTO until your PTO request has been approved in writing by your supervisor.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Holiday Pay</h2>
+                <p class="content-text">
+                    The Company designated seven (7) days each year as holidays:
+                </p>
+                <ul class="bullet-list">
+                    <li>New Year's Day - January 1st</li>
+                    <li>Martin Luther King, Jr. Day - Third Monday in January</li>
+                    <li>Memorial Day - Last Monday in May</li>
+                    <li>Independence Day - July 4th</li>
+                    <li>Labor Day - First Monday in September</li>
+                    <li>Thanksgiving Day - Fourth Thursday in November</li>
+                    <li>Christmas Day - December 25th</li>
+                </ul>
+
+                <h3 class="section-subtitle">Eligibility:</h3>
+                <ul class="bullet-list">
+                    <li>Full-time team members are eligible for paid holiday time after 90 days of employment</li>
+                    <li>Part-time and on-call/temporary team members are not eligible for holiday pay</li>
+                    <li>Team members on a leave of absence during a company designated holiday are not eligible for holiday pay</li>
+                    <li>Team members must work their scheduled shifts prior to and after the holiday to be eligible for holiday pay</li>
+                </ul>
+
+                <h3 class="section-subtitle">Pay Procedures:</h3>
+                <ul class="bullet-list">
+                    <li>Full-time team members will have 8 hours of holiday pay automatically assigned to their timecard on the day of the holiday</li>
+                    <li>Salary team members who work on a Company holiday will be allowed to take another day off during the same pay period with written approval</li>
+                    <li>For Monday-Friday schedules: if the holiday falls on Saturday, the previous Friday is the holiday; if it falls on Sunday, the following Monday is the holiday</li>
+                    <li>Holiday pay will be paid at the team member's home department/current rate of pay</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">Time Off to Vote</h2>
+                <p class="content-text">
+                    The Company believes that every team member should have the opportunity to vote in any federal, state, or local 
+                    election. Team members may be excused for up to three hours to vote in any election for which you are registered 
+                    to vote.
+                </p>
+                <p class="content-text">
+                    Team members who need to arrive for work late or leave work early to have a three-hour window in which to vote 
+                    must notify their supervisor no later than noon on the day before the election.
+                </p>
+                <div class="highlight-box">
+                    Time off to vote is unpaid for hourly team members. Salary team members will not have their wages reduced as a 
+                    result of leaving work to vote.
+                </div>
+            </div>
+
+            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

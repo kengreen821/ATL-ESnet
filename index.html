@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Front Office Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+
+        .messages-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            border-left: 4px solid;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .message-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.12);
+        }
+
+        .message-card.priority-high {
+            border-left-color: #dc3545;
+            background: linear-gradient(to right, #fff5f5 0%, white 10%);
+        }
+
+        .message-card.priority-normal {
+            border-left-color: var(--embassy-blue);
+            background: linear-gradient(to right, var(--embassy-light-blue) 0%, white 10%);
+        }
+
+        .message-card.priority-low {
+            border-left-color: #28a745;
+            background: linear-gradient(to right, #f0f9f4 0%, white 10%);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .message-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .message-author {
+            font-weight: 600;
+            color: var(--embassy-navy);
+            font-size: 16px;
+        }
+
+        .message-date {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-badge.high {
+            background: #dc3545;
+            color: white;
+        }
+
+        .priority-badge.normal {
+            background: var(--embassy-blue);
+            color: white;
+        }
+
+        .priority-badge.low {
+            background: #28a745;
+            color: white;
+        }
+
+        .message-subject {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 12px;
+        }
+
+        .message-body {
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Front Office Communications</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link active">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <h1 class="page-title">Front Office Communications</h1>
+            <p class="page-subtitle">Manager on Duty messages and updates for the front desk team</p>
+
+            <div class="messages-container">
+                <!-- Sample HIGH Priority Message -->
+                <div class="message-card priority-high">
+                    <div class="message-header">
+                        <div class="message-meta">
+                            <span class="message-author">Christian - Front Office Manager</span>
+                            <span class="message-date">January 3, 2026 - 2:45 PM</span>
+                        </div>
+                        <span class="priority-badge high">High Priority</span>
+                    </div>
+                    <div class="message-subject">System Maintenance Tonight - 11 PM</div>
+                    <div class="message-body">
+                        Opera PMS will be offline from 11:00 PM to 11:30 PM for scheduled maintenance. Please ensure all check-ins are completed before 10:45 PM if possible. Have manual registration cards ready as backup. Contact the MOD if you encounter any issues.
+                    </div>
+                </div>
+
+                <!-- Sample NORMAL Priority Message -->
+                <div class="message-card priority-normal">
+                    <div class="message-header">
+                        <div class="message-meta">
+                            <span class="message-author">Joseph - Assistant Front Office Manager</span>
+                            <span class="message-date">January 3, 2026 - 10:15 AM</span>
+                        </div>
+                        <span class="priority-badge normal">Normal</span>
+                    </div>
+                    <div class="message-subject">VIP Arrival - Suite 1205</div>
+                    <div class="message-body">
+                        We have a VIP checking in today at approximately 4:00 PM - Mr. Anderson in Suite 1205. Ensure the suite is ready by 3:00 PM. Amenities have been ordered. Please greet by name and escort to room if available.
+                    </div>
+                </div>
+
+                <!-- Sample LOW Priority Message -->
+                <div class="message-card priority-low">
+                    <div class="message-header">
+                        <div class="message-meta">
+                            <span class="message-author">Christian - Front Office Manager</span>
+                            <span class="message-date">January 2, 2026 - 3:30 PM</span>
+                        </div>
+                        <span class="priority-badge low">Low Priority</span>
+                    </div>
+                    <div class="message-subject">Team Appreciation</div>
+                    <div class="message-body">
+                        Great job everyone on maintaining excellent guest satisfaction scores last month! We're at 94% - keep up the outstanding work. Your dedication to providing exceptional service doesn't go unnoticed.
+                    </div>
+                </div>
+
+                <!-- Add more messages here using the same format -->
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        // Live clock
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
