@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruth's Chris Steak House - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--embassy-gold);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--embassy-blue);
+        }
+
+        .info-box h3 {
+            color: var(--embassy-navy);
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .info-box p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .hours-table th,
+        .hours-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hours-table th {
+            background: var(--embassy-navy);
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hours-table tr:hover {
+            background: var(--embassy-light-blue);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--embassy-gold);
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .highlight-box p {
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .highlight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlight-box li:before {
+            content: "🥩";
+            position: absolute;
+            left: 0;
+        }
+
+        .dress-code-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 2px solid var(--embassy-gold);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .dress-code-box h3 {
+            color: var(--embassy-navy);
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .dress-code-box p {
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .dress-code-box ul {
+            margin-top: 15px;
+            color: var(--text-primary);
+            padding-left: 20px;
+        }
+
+        .dress-code-box li {
+            margin-bottom: 8px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .feature-box {
+            background: white;
+            border: 2px solid var(--embassy-gold);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.12);
+        }
+
+        .feature-box h4 {
+            color: var(--embassy-navy);
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .feature-box p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .promo-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .promo-section h3 {
+            color: #1b5e20;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .promo-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #4caf50;
+        }
+
+        .promo-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .promo-item h4 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .promo-item p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Hotel Dining</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Hotel Dining</div>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="ruths-chris.html" class="nav-link active">Ruth's Chris Steak House</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <h1 class="page-title">🥩 Ruth's Chris Steak House</h1>
+            <p class="page-subtitle">Atlanta's premier steakhouse dining experience, located in the Embassy Suites lobby</p>
+
+            <div class="content-card">
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h3>📍 Location</h3>
+                        <p><strong>267 Marietta Street</strong><br>
+                        at the Embassy Suites<br>
+                        Atlanta, GA 30313</p>
+                        <p style="margin-top: 15px; color: var(--embassy-blue); font-weight: 600;">
+                            ✓ Located in hotel lobby<br>
+                            ✓ Overlooking Centennial Olympic Park<br>
+                            ✓ Expansive patio for al fresco dining
+                        </p>
+                    </div>
+
+                    <div class="info-box">
+                        <h3>📞 Contact & Reservations</h3>
+                        <p><strong>Phone:</strong> (404) 223-6500</p>
+                        <p style="margin-top: 15px;">
+                            <strong>Reservations:</strong><br>
+                            • Recommended for dinner service<br>
+                            • OpenTable available online<br>
+                            • Walk-ins welcome based on availability
+                        </p>
+                        <p style="margin-top: 15px;">
+                            <a href="https://ruthschris.net/es-atlanta/" target="_blank" style="color: var(--embassy-blue); font-weight: 600; text-decoration: none;">Visit Official Website →</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2 class="section-title">🕐 Hours of Operation</h2>
+                <table class="hours-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Dinner Hours</th>
+                            <th>Happy Hour</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sunday</strong></td>
+                            <td>4:00 PM - 10:00 PM</td>
+                            <td>4:00 PM - 6:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monday - Thursday</strong></td>
+                            <td>4:00 PM - 10:00 PM</td>
+                            <td>4:00 PM - 6:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Friday - Saturday</strong></td>
+                            <td>4:00 PM - 11:00 PM</td>
+                            <td>4:00 PM - 6:30 PM</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 15px; color: var(--text-secondary); font-style: italic; font-size: 14px;">Happy Hour available daily from 4:00 PM - 6:30 PM (Ruth's Hour)</p>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🌟 About Ruth's Chris</h3>
+                <p>Welcome to Ruth's Chris in Downtown Atlanta, where our dedicated team is committed to crafting an extraordinary dining experience. Since Ruth Fertel opened our first restaurant in 1965, Ruth's Chris has been one of the most revered names in steak.</p>
+                <p style="margin-top: 15px;">Whether you're celebrating a special milestone, entertaining clients, or simply enjoying a night out with friends and family, count on us to deliver the finest steaks, the best service, and a level of hospitality that is unmatched.</p>
+                <ul>
+                    <li>USDA Prime beef, aged to perfection</li>
+                    <li>Broiled at 1800° and served on a 500° sizzling plate</li>
+                    <li>Extensive wine list with sommelier selections</li>
+                    <li>Fresh seafood and signature side dishes</li>
+                    <li>Decadent desserts and premium cocktails</li>
+                </ul>
+            </div>
+
+            <div class="dress-code-box">
+                <h3>👔 Dress Code - Important for Guests</h3>
+                <p><strong>At Ruth's Chris we promote a comfortable, family-friendly, and welcoming atmosphere for everyone.</strong></p>
+                <p style="margin-top: 15px;"><strong>We ask guests to support this atmosphere by NOT wearing:</strong></p>
+                <ul>
+                    <li>❌ Workout gear or athletic clothing</li>
+                    <li>❌ Pool attire or swimwear</li>
+                    <li>❌ Cut-off shorts</li>
+                    <li>❌ Tank tops</li>
+                    <li>❌ Clothing with offensive graphics or language</li>
+                    <li>❌ Revealing clothing or exposed undergarments</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Hat Policy:</strong> We kindly ask all guests to remove hats when entering the dining room. Hats and team support jerseys are welcome in our bar and lounge areas.</p>
+                <p style="margin-top: 15px; font-style: italic;">Business casual or dressy casual attire is recommended for the dining room.</p>
+            </div>
+
+            <div class="content-card">
+                <h2 class="section-title">What We Offer</h2>
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <div class="icon">🚗</div>
+                        <h4>Valet Parking</h4>
+                        <p>Valet parking available. Parking may be limited during major events - rideshare is encouraged during peak times.</p>
+                    </div>
+
+                    <div class="feature-box">
+                        <div class="icon">🚚</div>
+                        <h4>Delivery Available</h4>
+                        <p>Enjoy Ruth's Chris at home or in your suite. Delivery and pickup options available for your convenience.</p>
+                    </div>
+
+                    <div class="feature-box">
+                        <div class="icon">🎉</div>
+                        <h4>Private Dining</h4>
+                        <p>Large party seating available. Perfect for business meetings, celebrations, and special events. Contact restaurant for details.</p>
+                    </div>
+
+                    <div class="feature-box">
+                        <div class="icon">🍽️</div>
+                        <h4>In-Room Dining</h4>
+                        <p>Ruth's Chris menu available for in-room dining for Embassy Suites guests. Call the front desk or restaurant directly.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="promo-section">
+                    <h3>🎊 Current Promotions & Features</h3>
+                    
+                    <div class="promo-item">
+                        <h4>Ruth's Hour (Happy Hour)</h4>
+                        <p><strong>Daily 4:00 PM - 6:30 PM</strong><br>
+                        Savor the savings with special pricing on select appetizers, cocktails, and wines. The perfect way to start your evening!</p>
+                    </div>
+
+                    <div class="promo-item">
+                        <h4>Ruth's Classics - Prix Fixe Menu</h4>
+                        <p>Enjoy a multi-course meal for one set price. Perfect for those who want to experience multiple courses with exceptional value.</p>
+                    </div>
+
+                    <div class="promo-item">
+                        <h4>Private Events & Catering</h4>
+                        <p>Host your next meeting or celebration with us. Customizable private event menus available for groups. Contact the restaurant for pricing and availability.</p>
+                    </div>
+
+                    <div class="promo-item">
+                        <h4>Tastemaker Dinners</h4>
+                        <p>Perfectly paired wine and spirit dinners featuring exclusive selections and expert pairings. Check with restaurant for upcoming dates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="info-box" style="border-left-color: var(--embassy-gold);">
+                    <h3>💡 Guest Information</h3>
+                    <p><strong>For Embassy Suites Guests:</strong></p>
+                    <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+                        <li style="padding: 5px 0;">✓ Convenient dining without leaving the hotel</li>
+                        <li style="padding: 5px 0;">✓ Perfect for business dinners or special celebrations</li>
+                        <li style="padding: 5px 0;">✓ Beautiful park views from dining room and patio</li>
+                        <li style="padding: 5px 0;">✓ In-room dining available - full menu to your suite</li>
+                        <li style="padding: 5px 0;">✓ Bar and lounge area for casual drinks</li>
+                        <li style="padding: 5px 0;">✓ Gift cards available for purchase</li>
+                    </ul>
+                    <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);"><strong>Staff Tip:</strong> For guests celebrating special occasions, call ahead to inform the restaurant. Ruth's Chris often provides special touches for birthdays, anniversaries, and other celebrations.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

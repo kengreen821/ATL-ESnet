@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Amenities - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--embassy-gold);
+        }
+
+        .amenity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .amenity-box {
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--embassy-blue);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .amenity-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.12);
+        }
+
+        .amenity-box h3 {
+            color: var(--embassy-navy);
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .amenity-box .icon {
+            font-size: 2rem;
+        }
+
+        .amenity-detail {
+            margin: 12px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .amenity-detail strong {
+            color: var(--embassy-navy);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .amenity-detail p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .location-badge {
+            display: inline-block;
+            background: var(--embassy-gold);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .hours-badge {
+            display: inline-block;
+            background: var(--embassy-blue);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-right: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--embassy-gold);
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .highlight-box p {
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .highlight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlight-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--embassy-gold);
+            font-weight: bold;
+        }
+
+        .info-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .info-note p {
+            color: #663c00;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .vending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .vending-item {
+            background: white;
+            border: 2px solid var(--embassy-gold);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .vending-item h4 {
+            color: var(--embassy-navy);
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .vending-item p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+
+            .amenity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Guest Services</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="hotel-amenities.html" class="nav-link active">Hotel Amenities</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Hotel Dining</div>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <h1 class="page-title">🏊 Hotel Amenities</h1>
+            <p class="page-subtitle">Pool, Fitness Center, Laundry Services & Vending Machines</p>
+
+            <div class="amenity-grid">
+                <div class="amenity-box">
+                    <h3><span class="icon">🏊‍♂️</span> Swimming Pool</h3>
+                    
+                    <div class="amenity-detail">
+                        <strong>Hours of Operation</strong>
+                        <p>Daily: 6:00 AM - 10:00 PM</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Location</strong>
+                        <p>Second Floor - Next to Suite 218</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Pool Features</strong>
+                        <p>• Outdoor heated pool<br>
+                        • Comfortable temperature (not high-heat)<br>
+                        • Poolside seating area<br>
+                        • Towels provided</p>
+                    </div>
+
+                    <span class="hours-badge">6 AM - 10 PM</span>
+                    <span class="location-badge">2nd Floor - Near 218</span>
+
+                    <div class="info-note">
+                        <p><strong>Note:</strong> Pool is heated for comfort but not to a high temperature. Perfect for refreshing swims year-round.</p>
+                    </div>
+                </div>
+
+                <div class="amenity-box">
+                    <h3><span class="icon">💪</span> Fitness Center</h3>
+                    
+                    <div class="amenity-detail">
+                        <strong>Hours of Operation</strong>
+                        <p>24 Hours / 7 Days a Week</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Location</strong>
+                        <p>Second Floor - Next to Suite 218<br>
+                        (Adjacent to Swimming Pool)</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Gym Access</strong>
+                        <p>• Available 24/7 for hotel guests<br>
+                        • Room key required for entry<br>
+                        • Cardio and strength equipment<br>
+                        • Complimentary towels</p>
+                    </div>
+
+                    <span class="hours-badge">24/7 Access</span>
+                    <span class="location-badge">2nd Floor - Near 218</span>
+
+                    <div class="info-note">
+                        <p><strong>Guest Tip:</strong> The fitness center is conveniently located next to the pool area for a complete wellness experience.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2 class="section-title">🧺 Laundry Services</h2>
+                
+                <div class="amenity-grid">
+                    <div class="amenity-box" style="border-left-color: var(--embassy-gold);">
+                        <h3><span class="icon">🏪</span> Guest Laundry</h3>
+                        
+                        <div class="amenity-detail">
+                            <strong>Location</strong>
+                            <p>Third Floor - Next to Room 308</p>
+                        </div>
+
+                        <div class="amenity-detail">
+                            <strong>Self-Service Details</strong>
+                            <p>• Coin-operated washers and dryers<br>
+                            • Laundry detergent available for purchase<br>
+                            • Folding table and seating area<br>
+                            • Available 24/7</p>
+                        </div>
+
+                        <span class="hours-badge">24/7 Available</span>
+                        <span class="location-badge">3rd Floor - Near 308</span>
+                    </div>
+
+                    <div class="amenity-box" style="border-left-color: var(--embassy-gold);">
+                        <h3><span class="icon">👔</span> Valet Laundry</h3>
+                        
+                        <div class="amenity-detail">
+                            <strong>Service Details</strong>
+                            <p>Professional laundry service with pickup and delivery to your suite</p>
+                        </div>
+
+                        <div class="amenity-detail">
+                            <strong>How to Use</strong>
+                            <p>• Contact front desk for pickup<br>
+                            • Fill out laundry slip in your room<br>
+                            • Additional charges apply<br>
+                            • Same-day service available</p>
+                        </div>
+
+                        <div class="info-note">
+                            <p><strong>Pricing:</strong> Additional charges apply for valet laundry service. Contact the front desk for current pricing and turnaround times.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2 class="section-title">🥤 Vending Machines & Ice</h2>
+                
+                <div class="vending-grid">
+                    <div class="vending-item">
+                        <div class="icon">🧊</div>
+                        <h4>Ice Machines</h4>
+                        <p><strong>Location:</strong> On every floor<br>
+                        <strong>Find it:</strong> Across from rooms ending in "05"<br>
+                        (e.g., 205, 305, 405, 505, etc.)</p>
+                    </div>
+
+                    <div class="vending-item">
+                        <div class="icon">🥤</div>
+                        <h4>Drink Vending</h4>
+                        <p><strong>Location:</strong> On every floor<br>
+                        <strong>Find it:</strong> Across from rooms ending in "05"<br>
+                        (e.g., 205, 305, 405, 505, etc.)</p>
+                    </div>
+
+                    <div class="vending-item">
+                        <div class="icon">🍫</div>
+                        <h4>Snack Vending</h4>
+                        <p><strong>Location:</strong> Second Floor<br>
+                        <strong>Find it:</strong> Across from Suite 205</p>
+                    </div>
+                </div>
+
+                <div class="info-note" style="margin-top: 20px;">
+                    <p><strong>Pro Tip:</strong> Ice and drink vending machines are conveniently located on every floor for easy access. The snack vending machine is centrally located on the second floor near the pool and gym area.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>📍 Quick Reference Guide</h3>
+                <ul>
+                    <li><strong>Pool & Gym:</strong> 2nd Floor near Suite 218</li>
+                    <li><strong>Guest Laundry:</strong> 3rd Floor near Room 308</li>
+                    <li><strong>Ice & Drinks:</strong> Every floor across from rooms ending in "05"</li>
+                    <li><strong>Snacks:</strong> 2nd Floor across from Suite 205</li>
+                    <li><strong>Valet Laundry:</strong> Contact front desk for pickup</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
