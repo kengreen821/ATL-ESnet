@@ -39,10 +39,75 @@
         .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
         .back-button:hover { background: var(--embassy-navy); }
         .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
-        @media (max-width: 968px) { .container { flex-direction: column; } .sidebar { width: 100%; } }
+                .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 999;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                width: 100%;
+            }
     </style>
 </head>
 <body>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="header">
         <div class="header-content">
             <div class="logo-section">
@@ -65,8 +130,14 @@
                 <div class="nav-section-title">Guest Services</div>
                 <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
                 <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
                 <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
                 <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Hotel Dining</div>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title">Resources</div>
@@ -135,6 +206,35 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+    
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            
+            // Change icon based on state
+            if (sidebar.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu when a link is clicked (on mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 968) {
+                    toggleMenu();
+                }
+            });
+        });
     </script>
 </body>
 </html>

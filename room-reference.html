@@ -35,8 +35,17 @@
         .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
         .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
         .header-info { text-align: right; font-size: 13px; }
-        .header-info .property { margin-bottom: 5px; font-weight: 600; }
+        .header-info .property { margin-bottom: 5px; font-weight: 300; }
         .header-info .time { font-size: 18px; font-weight: 600; color: var(--embassy-gold); }
+        .container { display: flex; max-width: 1600px; margin: 0 auto; min-height: calc(100vh - 120px); }
+        .sidebar { width: 280px; background: white; padding: 30px 0; box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08); }
+        .nav-section { margin-bottom: 30px; }
+        .nav-section-title { padding: 0 25px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; margin-bottom: 12px; }
+        .nav-link { display: block; padding: 14px 25px; color: var(--text-primary); text-decoration: none; transition: all 0.3s ease; border-left: 3px solid transparent; font-size: 15px; }
+        .nav-link:hover { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); }
+        .nav-link.active { background: var(--embassy-light-blue); border-left-color: var(--embassy-blue); color: var(--embassy-blue); font-weight: 600; }
+        .main-content { flex: 1; padding: 40px; max-width: 1200px; }
+        
         .breadcrumb {
             background: white;
             padding: 15px 40px;
@@ -50,11 +59,14 @@
         }
         .breadcrumb a:hover { text-decoration: underline; }
         .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
         .content-wrapper {
             max-width: 1400px;
             margin: 30px auto;
             padding: 0 40px 40px 40px;
         }
+        
+        /* Search Section */
         .search-section {
             background: white;
             border-radius: 12px;
@@ -93,6 +105,7 @@
             color: var(--text-secondary);
             font-style: italic;
         }
+        
         .section {
             background: white;
             border-radius: 12px;
@@ -107,6 +120,7 @@
             padding-bottom: 15px;
             border-bottom: 3px solid var(--embassy-gold);
         }
+        
         .room-types-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -118,83 +132,18 @@
             padding: 20px;
             border-radius: 8px;
             border-left: 4px solid var(--embassy-blue);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        .room-type-card:hover {
-            background: var(--embassy-blue);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.2);
-        }
-        .room-type-card:hover h3,
-        .room-type-card:hover p {
-            color: white;
-        }
-        .room-type-card.active {
-            background: var(--embassy-navy);
-            color: white;
-            border-left-color: var(--embassy-gold);
-        }
-        .room-type-card.active h3,
-        .room-type-card.active p {
-            color: white;
-        }
-        .room-type-card.active::after {
-            content: "✓ Active Filter";
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: var(--embassy-gold);
-            color: var(--embassy-navy);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
         }
         .room-type-card h3 {
             color: var(--embassy-navy);
             margin-bottom: 10px;
             font-size: 18px;
-            transition: color 0.3s ease;
         }
         .room-type-card p {
             color: var(--text-secondary);
             font-size: 14px;
             font-style: italic;
-            transition: color 0.3s ease;
         }
-        .filter-info {
-            background: var(--embassy-gold);
-            color: var(--embassy-navy);
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .filter-info.show {
-            display: flex;
-        }
-        .filter-info strong {
-            font-size: 16px;
-        }
-        .clear-filter {
-            background: var(--embassy-navy);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .clear-filter:hover {
-            background: var(--embassy-blue);
-            transform: scale(1.05);
-        }
+        
         .property-info {
             background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
             color: white;
@@ -208,607 +157,648 @@
         }
         .property-info ul {
             list-style: none;
-            padding: 0;
         }
         .property-info li {
             padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
-        .property-info li strong {
-            color: var(--embassy-gold);
+        .property-info li:last-child {
+            border-bottom: none;
         }
+        
         .floor-section {
             margin-bottom: 40px;
-        }
-        .floor-section.hidden {
-            display: none;
         }
         .floor-header {
             background: var(--embassy-navy);
             color: white;
             padding: 15px 25px;
-            font-size: 18px;
-            font-weight: 600;
             border-radius: 8px 8px 0 0;
-            margin-bottom: 0;
+            font-size: 20px;
+            font-weight: 600;
         }
         .rooms-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             gap: 10px;
-            padding: 25px;
             background: white;
+            padding: 20px;
             border-radius: 0 0 8px 8px;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--embassy-navy);
             border-top: none;
         }
         .room-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 8px;
+            display: block;
+            padding: 12px;
+            text-align: center;
             background: var(--embassy-light-blue);
             color: var(--embassy-navy);
             text-decoration: none;
             border-radius: 6px;
-            font-weight: 600;
+            font-weight: 500;
             transition: all 0.3s ease;
             border: 2px solid transparent;
         }
         .room-link:hover {
             background: var(--embassy-blue);
             color: white;
+            border-color: var(--embassy-navy);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 48, 87, 0.2);
         }
         .room-link.hidden {
             display: none;
         }
-        .room-number {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
+        .floor-section.hidden {
+            display: none;
         }
-        .room-code {
-            font-size: 10px;
-            font-weight: 500;
-            opacity: 0.8;
-            text-transform: uppercase;
-        }
+        
         .no-results {
+            display: none;
             text-align: center;
             padding: 40px;
             color: var(--text-secondary);
-            display: none;
+            font-size: 18px;
         }
         .no-results.show {
             display: block;
         }
-        .no-results svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
-            opacity: 0.3;
-        }
-        .footer {
-            background: var(--embassy-navy);
+        
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+        
+                .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
             color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-            font-size: 13px;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
         }
-        @media (max-width: 768px) {
-            .header-content { flex-direction: column; gap: 15px; text-align: center; }
-            .header-info { text-align: center; }
-            .rooms-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
-            .content-wrapper { padding: 0 20px 20px 20px; }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 999;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="header">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="header">
         <div class="header-content">
             <div class="logo-section">
                 <h1>ATL ESnet</h1>
-                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
             </div>
             <div class="header-info">
-                <div class="property">Embassy Suites Centennial Park</div>
+                <div class="property">Room Reference Guide</div>
                 <div class="time" id="currentTime"></div>
             </div>
         </div>
-    </header>
-
-    <div class="breadcrumb">
-        <a href="index.html">Home</a>
-        <span>›</span>
-        <span style="color: var(--embassy-navy); font-weight: 600;">Room Reference Guide</span>
     </div>
-
-    <div class="content-wrapper">
-        <div class="search-section">
-            <h2 style="color: var(--embassy-navy); margin-bottom: 15px;">🔍 Search Rooms</h2>
-            <div class="search-container">
-                <input type="text" id="roomSearch" class="search-input" placeholder="Search by room number, code, or type...">
-                <span class="search-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </span>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
             </div>
-            <p class="search-hint">Examples: "447" (room number), "KSVN" (room code), "king" or "accessible" (room type)</p>
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link active">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Hotel Dining</div>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+        <main class="main-content">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>›</span>
+            <span style="color: var(--embassy-navy); font-weight: 600;">Room Reference Guide</span>
         </div>
 
-        <div class="property-info">
-            <h3>📊 Property Overview</h3>
-            <ul>
-                <li><strong>Total Rooms:</strong> 321</li>
-                <li><strong>Floors:</strong> 2-8 (7 floors)</li>
-                <li><strong>Room Types:</strong> 16 different types</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>🛏️ Room Types</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 15px; font-style: italic;">Click any room type to filter and show only those rooms</p>
-            <div class="room-types-grid">
-                    <div class="room-type-card" data-filter="KEXN">
-                        <h3>KEXN <span style="color: var(--embassy-gold);">(3 rooms)</span></h3>
-                        <p>King Executive Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="KNGN">
-                        <h3>KNGN <span style="color: var(--embassy-gold);">(94 rooms)</span></h3>
-                        <p>Standard King Bed Suite with pull-out sofa</p>
-                    </div>
-                    <div class="room-type-card" data-filter="KOTN">
-                        <h3>KOTN <span style="color: var(--embassy-gold);">(1 rooms)</span></h3>
-                        <p>Governor's Suite (Room 847)</p>
-                    </div>
-                    <div class="room-type-card" data-filter="KSLN">
-                        <h3>KSLN <span style="color: var(--embassy-gold);">(1 rooms)</span></h3>
-                        <p>Centennial Suite (Room 229)</p>
-                    </div>
-                    <div class="room-type-card" data-filter="KSPN">
-                        <h3>KSPN <span style="color: var(--embassy-gold);">(1 rooms)</span></h3>
-                        <p>Presidential Suite (Room 747)</p>
-                    </div>
-                    <div class="room-type-card" data-filter="KSVN">
-                        <h3>KSVN <span style="color: var(--embassy-gold);">(44 rooms)</span></h3>
-                        <p>Park View King Bed Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NDSPXC">
-                        <h3>NDSPXC <span style="color: var(--embassy-gold);">(5 rooms)</span></h3>
-                        <p>Premium Corner Double Bed Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NKSCJ">
-                        <h3>NKSCJ <span style="color: var(--embassy-gold);">(2 rooms)</span></h3>
-                        <p>Park View King Corner Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NKSP">
-                        <h3>NKSP <span style="color: var(--embassy-gold);">(1 rooms)</span></h3>
-                        <p>Premium King Bed Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NKSPD">
-                        <h3>NKSPD <span style="color: var(--embassy-gold);">(1 rooms)</span></h3>
-                        <p>Premium King Bed Handicap Accessible Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NKSPK">
-                        <h3>NKSPK <span style="color: var(--embassy-gold);">(2 rooms)</span></h3>
-                        <p>Premium Park View King Bed Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NKSQA">
-                        <h3>NKSQA <span style="color: var(--embassy-gold);">(13 rooms)</span></h3>
-                        <p>King Bed Handicap Accessible Suite with Lower Tub</p>
-                    </div>
-                    <div class="room-type-card" data-filter="NKSQB">
-                        <h3>NKSQB <span style="color: var(--embassy-gold);">(2 rooms)</span></h3>
-                        <p>King Bed Handicap Accessible Suite with Roll-in Shower</p>
-                    </div>
-                    <div class="room-type-card" data-filter="TCSN">
-                        <h3>TCSN <span style="color: var(--embassy-gold);">(5 rooms)</span></h3>
-                        <p>2 Double Bed Conference Suite</p>
-                    </div>
-                    <div class="room-type-card" data-filter="TDBN">
-                        <h3>TDBN <span style="color: var(--embassy-gold);">(126 rooms)</span></h3>
-                        <p>Standard 2 Double Bed Suite with pull-out sofa</p>
-                    </div>
-                    <div class="room-type-card" data-filter="TSVN">
-                        <h3>TSVN <span style="color: var(--embassy-gold);">(20 rooms)</span></h3>
-                        <p>Park View 2 Double Bed Suite</p>
-                    </div>
+        <div class="content-wrapper">
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="roomSearch" 
+                        class="search-input" 
+                        placeholder="Search by room number, room type, or room code..."
+                        autocomplete="off"
+                    >
+                    <span class="search-icon">🔍</span>
+                </div>
+                <p class="search-hint">Try searching: "305", "King", "Premium", "NK", "Accessible", etc.</p>
             </div>
-        </div>
 
-        <div class="section">
-            <h2>🏢 All Rooms by Floor</h2>
-            
-            <!-- Filter Info Banner -->
-            <div id="filterInfo" class="filter-info">
-                <strong>Showing: <span id="filterName"></span></strong>
-                <button class="clear-filter" onclick="clearFilter()">Show All Rooms</button>
+            <!-- Property Information -->
+            <div class="property-info">
+                <h3>🏨 Property Overview</h3>
+                <ul>
+                    <li><strong>Floors:</strong> 2-8 (7 floors total)</li>
+                    <li><strong>Rooms Per Floor:</strong> 47 suites (01-47)</li>
+                    <li><strong>Total Suites:</strong> 329 suites</li>
+                </ul>
             </div>
-            
-            <div id="roomsList">
+
+            <!-- Room Types Section -->
+            <div class="section">
+                <h2>Suite Categories</h2>
+                <div class="room-types-grid">
+                    <div class="room-type-card" data-room-type="standard king suite">
+                        <h3>Standard King Suite</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                    <div class="room-type-card" data-room-type="standard double suite">
+                        <h3>Standard Double Suite</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                    <div class="room-type-card" data-room-type="premium king suite">
+                        <h3>Premium King Suite</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                    <div class="room-type-card" data-room-type="premium double suite">
+                        <h3>Premium Double Suite</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                    <div class="room-type-card" data-room-type="handicap accessible king suite">
+                        <h3>Handicap Accessible King Suite</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                    <div class="room-type-card" data-room-type="corner suites">
+                        <h3>Corner Suites</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                    <div class="room-type-card" data-room-type="park view suites">
+                        <h3>Park View Suites</h3>
+                        <p>Room Code: To be updated</p>
+                        <p>Details to be added</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Directory by Floor -->
+            <div class="section" id="roomDirectory">
+                <h2>Room Directory - Click Any Room for Details</h2>
+                
+                <div class="no-results" id="noResults">
+                    No rooms found matching your search.
+                </div>
+                
                 <!-- Floor 2 -->
                 <div class="floor-section" data-floor="2">
-                    <div class="floor-header">Floor 2 - Rooms 201-247 (47 rooms)</div>
+                    <div class="floor-header">Floor 2 - Rooms 201-247</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-201.html" class="room-link" data-room="201" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">201</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-202.html" class="room-link" data-room="202" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">202</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-203.html" class="room-link" data-room="203" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">203</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-204.html" class="room-link" data-room="204" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">204</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-205.html" class="room-link" data-room="205" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">205</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-206.html" class="room-link" data-room="206" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">206</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-207.html" class="room-link" data-room="207" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">207</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-208.html" class="room-link" data-room="208" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">208</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-209.html" class="room-link" data-room="209" data-code="NKSQB" data-type="King Bed Handicap Accessible Suite"><div class="room-number">209</div><div class="room-code">NKSQB</div></a>
-                        <a href="rooms/room-210.html" class="room-link" data-room="210" data-code="NKSQB" data-type="King Bed Handicap Accessible Suite"><div class="room-number">210</div><div class="room-code">NKSQB</div></a>
-                        <a href="rooms/room-211.html" class="room-link" data-room="211" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">211</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-212.html" class="room-link" data-room="212" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">212</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-213.html" class="room-link" data-room="213" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">213</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-214.html" class="room-link" data-room="214" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">214</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-215.html" class="room-link" data-room="215" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">215</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-216.html" class="room-link" data-room="216" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">216</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-217.html" class="room-link" data-room="217" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">217</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-218.html" class="room-link" data-room="218" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">218</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-219.html" class="room-link" data-room="219" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">219</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-220.html" class="room-link" data-room="220" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">220</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-221.html" class="room-link" data-room="221" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">221</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-222.html" class="room-link" data-room="222" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">222</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-223.html" class="room-link" data-room="223" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">223</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-224.html" class="room-link" data-room="224" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">224</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-225.html" class="room-link" data-room="225" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">225</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-226.html" class="room-link" data-room="226" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">226</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-227.html" class="room-link" data-room="227" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">227</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-228.html" class="room-link" data-room="228" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">228</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-229.html" class="room-link" data-room="229" data-code="KSLN" data-type="Centennial Suite"><div class="room-number">229</div><div class="room-code">KSLN</div></a>
-                        <a href="rooms/room-230.html" class="room-link" data-room="230" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">230</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-231.html" class="room-link" data-room="231" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">231</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-232.html" class="room-link" data-room="232" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">232</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-233.html" class="room-link" data-room="233" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">233</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-234.html" class="room-link" data-room="234" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">234</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-235.html" class="room-link" data-room="235" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">235</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-236.html" class="room-link" data-room="236" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">236</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-237.html" class="room-link" data-room="237" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">237</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-238.html" class="room-link" data-room="238" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">238</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-239.html" class="room-link" data-room="239" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">239</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-240.html" class="room-link" data-room="240" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">240</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-241.html" class="room-link" data-room="241" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">241</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-242.html" class="room-link" data-room="242" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">242</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-243.html" class="room-link" data-room="243" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">243</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-244.html" class="room-link" data-room="244" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">244</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-245.html" class="room-link" data-room="245" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">245</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-246.html" class="room-link" data-room="246" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">246</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-247.html" class="room-link" data-room="247" data-code="NDSPXC" data-type="Premium Corner Double Bed Suite"><div class="room-number">247</div><div class="room-code">NDSPXC</div></a>
+                        <a href="room-201.html" class="room-link" data-room="201">201</a>
+                        <a href="room-202.html" class="room-link" data-room="202">202</a>
+                        <a href="room-203.html" class="room-link" data-room="203">203</a>
+                        <a href="room-204.html" class="room-link" data-room="204">204</a>
+                        <a href="room-205.html" class="room-link" data-room="205">205</a>
+                        <a href="room-206.html" class="room-link" data-room="206">206</a>
+                        <a href="room-207.html" class="room-link" data-room="207">207</a>
+                        <a href="room-208.html" class="room-link" data-room="208">208</a>
+                        <a href="room-209.html" class="room-link" data-room="209">209</a>
+                        <a href="room-210.html" class="room-link" data-room="210">210</a>
+                        <a href="room-211.html" class="room-link" data-room="211">211</a>
+                        <a href="room-212.html" class="room-link" data-room="212">212</a>
+                        <a href="room-213.html" class="room-link" data-room="213">213</a>
+                        <a href="room-214.html" class="room-link" data-room="214">214</a>
+                        <a href="room-215.html" class="room-link" data-room="215">215</a>
+                        <a href="room-216.html" class="room-link" data-room="216">216</a>
+                        <a href="room-217.html" class="room-link" data-room="217">217</a>
+                        <a href="room-218.html" class="room-link" data-room="218">218</a>
+                        <a href="room-219.html" class="room-link" data-room="219">219</a>
+                        <a href="room-220.html" class="room-link" data-room="220">220</a>
+                        <a href="room-221.html" class="room-link" data-room="221">221</a>
+                        <a href="room-222.html" class="room-link" data-room="222">222</a>
+                        <a href="room-223.html" class="room-link" data-room="223">223</a>
+                        <a href="room-224.html" class="room-link" data-room="224">224</a>
+                        <a href="room-225.html" class="room-link" data-room="225">225</a>
+                        <a href="room-226.html" class="room-link" data-room="226">226</a>
+                        <a href="room-227.html" class="room-link" data-room="227">227</a>
+                        <a href="room-228.html" class="room-link" data-room="228">228</a>
+                        <a href="room-229.html" class="room-link" data-room="229">229</a>
+                        <a href="room-230.html" class="room-link" data-room="230">230</a>
+                        <a href="room-231.html" class="room-link" data-room="231">231</a>
+                        <a href="room-232.html" class="room-link" data-room="232">232</a>
+                        <a href="room-233.html" class="room-link" data-room="233">233</a>
+                        <a href="room-234.html" class="room-link" data-room="234">234</a>
+                        <a href="room-235.html" class="room-link" data-room="235">235</a>
+                        <a href="room-236.html" class="room-link" data-room="236">236</a>
+                        <a href="room-237.html" class="room-link" data-room="237">237</a>
+                        <a href="room-238.html" class="room-link" data-room="238">238</a>
+                        <a href="room-239.html" class="room-link" data-room="239">239</a>
+                        <a href="room-240.html" class="room-link" data-room="240">240</a>
+                        <a href="room-241.html" class="room-link" data-room="241">241</a>
+                        <a href="room-242.html" class="room-link" data-room="242">242</a>
+                        <a href="room-243.html" class="room-link" data-room="243">243</a>
+                        <a href="room-244.html" class="room-link" data-room="244">244</a>
+                        <a href="room-245.html" class="room-link" data-room="245">245</a>
+                        <a href="room-246.html" class="room-link" data-room="246">246</a>
+                        <a href="room-247.html" class="room-link" data-room="247">247</a>
                     </div>
                 </div>
 
+                
                 <!-- Floor 3 -->
                 <div class="floor-section" data-floor="3">
-                    <div class="floor-header">Floor 3 - Rooms 301-347 (46 rooms)</div>
+                    <div class="floor-header">Floor 3 - Rooms 301-347</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-301.html" class="room-link" data-room="301" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">301</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-302.html" class="room-link" data-room="302" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">302</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-303.html" class="room-link" data-room="303" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">303</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-304.html" class="room-link" data-room="304" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">304</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-305.html" class="room-link" data-room="305" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">305</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-306.html" class="room-link" data-room="306" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">306</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-307.html" class="room-link" data-room="307" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">307</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-308.html" class="room-link" data-room="308" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">308</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-309.html" class="room-link" data-room="309" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">309</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-310.html" class="room-link" data-room="310" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">310</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-311.html" class="room-link" data-room="311" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">311</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-312.html" class="room-link" data-room="312" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">312</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-313.html" class="room-link" data-room="313" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">313</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-314.html" class="room-link" data-room="314" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">314</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-315.html" class="room-link" data-room="315" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">315</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-316.html" class="room-link" data-room="316" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">316</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-317.html" class="room-link" data-room="317" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">317</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-318.html" class="room-link" data-room="318" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">318</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-319.html" class="room-link" data-room="319" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">319</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-320.html" class="room-link" data-room="320" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">320</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-321.html" class="room-link" data-room="321" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">321</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-322.html" class="room-link" data-room="322" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">322</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-323.html" class="room-link" data-room="323" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">323</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-324.html" class="room-link" data-room="324" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">324</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-325.html" class="room-link" data-room="325" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">325</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-326.html" class="room-link" data-room="326" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">326</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-327.html" class="room-link" data-room="327" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">327</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-328.html" class="room-link" data-room="328" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">328</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-330.html" class="room-link" data-room="330" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">330</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-331.html" class="room-link" data-room="331" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">331</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-332.html" class="room-link" data-room="332" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">332</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-333.html" class="room-link" data-room="333" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">333</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-334.html" class="room-link" data-room="334" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">334</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-335.html" class="room-link" data-room="335" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">335</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-336.html" class="room-link" data-room="336" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">336</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-337.html" class="room-link" data-room="337" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">337</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-338.html" class="room-link" data-room="338" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">338</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-339.html" class="room-link" data-room="339" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">339</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-340.html" class="room-link" data-room="340" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">340</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-341.html" class="room-link" data-room="341" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">341</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-342.html" class="room-link" data-room="342" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">342</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-343.html" class="room-link" data-room="343" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">343</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-344.html" class="room-link" data-room="344" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">344</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-345.html" class="room-link" data-room="345" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">345</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-346.html" class="room-link" data-room="346" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">346</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-347.html" class="room-link" data-room="347" data-code="NDSPXC" data-type="Premium Corner Double Bed Suite"><div class="room-number">347</div><div class="room-code">NDSPXC</div></a>
+                        <a href="room-301.html" class="room-link" data-room="301">301</a>
+                        <a href="room-302.html" class="room-link" data-room="302">302</a>
+                        <a href="room-303.html" class="room-link" data-room="303">303</a>
+                        <a href="room-304.html" class="room-link" data-room="304">304</a>
+                        <a href="room-305.html" class="room-link" data-room="305">305</a>
+                        <a href="room-306.html" class="room-link" data-room="306">306</a>
+                        <a href="room-307.html" class="room-link" data-room="307">307</a>
+                        <a href="room-308.html" class="room-link" data-room="308">308</a>
+                        <a href="room-309.html" class="room-link" data-room="309">309</a>
+                        <a href="room-310.html" class="room-link" data-room="310">310</a>
+                        <a href="room-311.html" class="room-link" data-room="311">311</a>
+                        <a href="room-312.html" class="room-link" data-room="312">312</a>
+                        <a href="room-313.html" class="room-link" data-room="313">313</a>
+                        <a href="room-314.html" class="room-link" data-room="314">314</a>
+                        <a href="room-315.html" class="room-link" data-room="315">315</a>
+                        <a href="room-316.html" class="room-link" data-room="316">316</a>
+                        <a href="room-317.html" class="room-link" data-room="317">317</a>
+                        <a href="room-318.html" class="room-link" data-room="318">318</a>
+                        <a href="room-319.html" class="room-link" data-room="319">319</a>
+                        <a href="room-320.html" class="room-link" data-room="320">320</a>
+                        <a href="room-321.html" class="room-link" data-room="321">321</a>
+                        <a href="room-322.html" class="room-link" data-room="322">322</a>
+                        <a href="room-323.html" class="room-link" data-room="323">323</a>
+                        <a href="room-324.html" class="room-link" data-room="324">324</a>
+                        <a href="room-325.html" class="room-link" data-room="325">325</a>
+                        <a href="room-326.html" class="room-link" data-room="326">326</a>
+                        <a href="room-327.html" class="room-link" data-room="327">327</a>
+                        <a href="room-328.html" class="room-link" data-room="328">328</a>
+                        <a href="room-329.html" class="room-link" data-room="329">329</a>
+                        <a href="room-330.html" class="room-link" data-room="330">330</a>
+                        <a href="room-331.html" class="room-link" data-room="331">331</a>
+                        <a href="room-332.html" class="room-link" data-room="332">332</a>
+                        <a href="room-333.html" class="room-link" data-room="333">333</a>
+                        <a href="room-334.html" class="room-link" data-room="334">334</a>
+                        <a href="room-335.html" class="room-link" data-room="335">335</a>
+                        <a href="room-336.html" class="room-link" data-room="336">336</a>
+                        <a href="room-337.html" class="room-link" data-room="337">337</a>
+                        <a href="room-338.html" class="room-link" data-room="338">338</a>
+                        <a href="room-339.html" class="room-link" data-room="339">339</a>
+                        <a href="room-340.html" class="room-link" data-room="340">340</a>
+                        <a href="room-341.html" class="room-link" data-room="341">341</a>
+                        <a href="room-342.html" class="room-link" data-room="342">342</a>
+                        <a href="room-343.html" class="room-link" data-room="343">343</a>
+                        <a href="room-344.html" class="room-link" data-room="344">344</a>
+                        <a href="room-345.html" class="room-link" data-room="345">345</a>
+                        <a href="room-346.html" class="room-link" data-room="346">346</a>
+                        <a href="room-347.html" class="room-link" data-room="347">347</a>
                     </div>
                 </div>
 
                 <!-- Floor 4 -->
                 <div class="floor-section" data-floor="4">
-                    <div class="floor-header">Floor 4 - Rooms 401-447 (46 rooms)</div>
+                    <div class="floor-header">Floor 4 - Rooms 401-447</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-401.html" class="room-link" data-room="401" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">401</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-402.html" class="room-link" data-room="402" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">402</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-403.html" class="room-link" data-room="403" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">403</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-404.html" class="room-link" data-room="404" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">404</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-405.html" class="room-link" data-room="405" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">405</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-406.html" class="room-link" data-room="406" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">406</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-407.html" class="room-link" data-room="407" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">407</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-408.html" class="room-link" data-room="408" data-code="TCSN" data-type="2 Double Bed Conference Suite"><div class="room-number">408</div><div class="room-code">TCSN</div></a>
-                        <a href="rooms/room-409.html" class="room-link" data-room="409" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">409</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-410.html" class="room-link" data-room="410" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">410</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-411.html" class="room-link" data-room="411" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">411</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-412.html" class="room-link" data-room="412" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">412</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-413.html" class="room-link" data-room="413" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">413</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-414.html" class="room-link" data-room="414" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">414</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-415.html" class="room-link" data-room="415" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">415</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-416.html" class="room-link" data-room="416" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">416</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-417.html" class="room-link" data-room="417" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">417</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-418.html" class="room-link" data-room="418" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">418</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-419.html" class="room-link" data-room="419" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">419</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-420.html" class="room-link" data-room="420" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">420</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-421.html" class="room-link" data-room="421" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">421</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-422.html" class="room-link" data-room="422" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">422</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-423.html" class="room-link" data-room="423" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">423</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-424.html" class="room-link" data-room="424" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">424</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-425.html" class="room-link" data-room="425" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">425</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-426.html" class="room-link" data-room="426" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">426</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-427.html" class="room-link" data-room="427" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">427</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-429.html" class="room-link" data-room="429" data-code="KEXN" data-type="King Executive Suite"><div class="room-number">429</div><div class="room-code">KEXN</div></a>
-                        <a href="rooms/room-430.html" class="room-link" data-room="430" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">430</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-431.html" class="room-link" data-room="431" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">431</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-432.html" class="room-link" data-room="432" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">432</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-433.html" class="room-link" data-room="433" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">433</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-434.html" class="room-link" data-room="434" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">434</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-435.html" class="room-link" data-room="435" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">435</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-436.html" class="room-link" data-room="436" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">436</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-437.html" class="room-link" data-room="437" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">437</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-438.html" class="room-link" data-room="438" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">438</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-439.html" class="room-link" data-room="439" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">439</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-440.html" class="room-link" data-room="440" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">440</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-441.html" class="room-link" data-room="441" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">441</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-442.html" class="room-link" data-room="442" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">442</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-443.html" class="room-link" data-room="443" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">443</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-444.html" class="room-link" data-room="444" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">444</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-445.html" class="room-link" data-room="445" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">445</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-446.html" class="room-link" data-room="446" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">446</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-447.html" class="room-link" data-room="447" data-code="NDSPXC" data-type="Premium Corner Double Bed Suite"><div class="room-number">447</div><div class="room-code">NDSPXC</div></a>
+                        <a href="room-401.html" class="room-link" data-room="401">401</a>
+                        <a href="room-402.html" class="room-link" data-room="402">402</a>
+                        <a href="room-403.html" class="room-link" data-room="403">403</a>
+                        <a href="room-404.html" class="room-link" data-room="404">404</a>
+                        <a href="room-405.html" class="room-link" data-room="405">405</a>
+                        <a href="room-406.html" class="room-link" data-room="406">406</a>
+                        <a href="room-407.html" class="room-link" data-room="407">407</a>
+                        <a href="room-408.html" class="room-link" data-room="408">408</a>
+                        <a href="room-409.html" class="room-link" data-room="409">409</a>
+                        <a href="room-410.html" class="room-link" data-room="410">410</a>
+                        <a href="room-411.html" class="room-link" data-room="411">411</a>
+                        <a href="room-412.html" class="room-link" data-room="412">412</a>
+                        <a href="room-413.html" class="room-link" data-room="413">413</a>
+                        <a href="room-414.html" class="room-link" data-room="414">414</a>
+                        <a href="room-415.html" class="room-link" data-room="415">415</a>
+                        <a href="room-416.html" class="room-link" data-room="416">416</a>
+                        <a href="room-417.html" class="room-link" data-room="417">417</a>
+                        <a href="room-418.html" class="room-link" data-room="418">418</a>
+                        <a href="room-419.html" class="room-link" data-room="419">419</a>
+                        <a href="room-420.html" class="room-link" data-room="420">420</a>
+                        <a href="room-421.html" class="room-link" data-room="421">421</a>
+                        <a href="room-422.html" class="room-link" data-room="422">422</a>
+                        <a href="room-423.html" class="room-link" data-room="423">423</a>
+                        <a href="room-424.html" class="room-link" data-room="424">424</a>
+                        <a href="room-425.html" class="room-link" data-room="425">425</a>
+                        <a href="room-426.html" class="room-link" data-room="426">426</a>
+                        <a href="room-427.html" class="room-link" data-room="427">427</a>
+                        <a href="room-428.html" class="room-link" data-room="428">428</a>
+                        <a href="room-429.html" class="room-link" data-room="429">429</a>
+                        <a href="room-430.html" class="room-link" data-room="430">430</a>
+                        <a href="room-431.html" class="room-link" data-room="431">431</a>
+                        <a href="room-432.html" class="room-link" data-room="432">432</a>
+                        <a href="room-433.html" class="room-link" data-room="433">433</a>
+                        <a href="room-434.html" class="room-link" data-room="434">434</a>
+                        <a href="room-435.html" class="room-link" data-room="435">435</a>
+                        <a href="room-436.html" class="room-link" data-room="436">436</a>
+                        <a href="room-437.html" class="room-link" data-room="437">437</a>
+                        <a href="room-438.html" class="room-link" data-room="438">438</a>
+                        <a href="room-439.html" class="room-link" data-room="439">439</a>
+                        <a href="room-440.html" class="room-link" data-room="440">440</a>
+                        <a href="room-441.html" class="room-link" data-room="441">441</a>
+                        <a href="room-442.html" class="room-link" data-room="442">442</a>
+                        <a href="room-443.html" class="room-link" data-room="443">443</a>
+                        <a href="room-444.html" class="room-link" data-room="444">444</a>
+                        <a href="room-445.html" class="room-link" data-room="445">445</a>
+                        <a href="room-446.html" class="room-link" data-room="446">446</a>
+                        <a href="room-447.html" class="room-link" data-room="447">447</a>
                     </div>
                 </div>
 
                 <!-- Floor 5 -->
                 <div class="floor-section" data-floor="5">
-                    <div class="floor-header">Floor 5 - Rooms 501-547 (47 rooms)</div>
+                    <div class="floor-header">Floor 5 - Rooms 501-547</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-501.html" class="room-link" data-room="501" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">501</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-502.html" class="room-link" data-room="502" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">502</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-503.html" class="room-link" data-room="503" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">503</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-504.html" class="room-link" data-room="504" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">504</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-505.html" class="room-link" data-room="505" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">505</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-506.html" class="room-link" data-room="506" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">506</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-507.html" class="room-link" data-room="507" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">507</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-508.html" class="room-link" data-room="508" data-code="TCSN" data-type="2 Double Bed Conference Suite"><div class="room-number">508</div><div class="room-code">TCSN</div></a>
-                        <a href="rooms/room-509.html" class="room-link" data-room="509" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">509</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-510.html" class="room-link" data-room="510" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">510</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-511.html" class="room-link" data-room="511" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">511</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-512.html" class="room-link" data-room="512" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">512</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-513.html" class="room-link" data-room="513" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">513</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-514.html" class="room-link" data-room="514" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">514</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-515.html" class="room-link" data-room="515" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">515</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-516.html" class="room-link" data-room="516" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">516</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-517.html" class="room-link" data-room="517" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">517</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-518.html" class="room-link" data-room="518" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">518</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-519.html" class="room-link" data-room="519" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">519</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-520.html" class="room-link" data-room="520" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">520</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-521.html" class="room-link" data-room="521" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">521</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-522.html" class="room-link" data-room="522" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">522</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-523.html" class="room-link" data-room="523" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">523</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-524.html" class="room-link" data-room="524" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">524</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-525.html" class="room-link" data-room="525" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">525</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-526.html" class="room-link" data-room="526" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">526</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-527.html" class="room-link" data-room="527" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">527</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-528.html" class="room-link" data-room="528" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">528</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-529.html" class="room-link" data-room="529" data-code="KEXN" data-type="King Executive Suite"><div class="room-number">529</div><div class="room-code">KEXN</div></a>
-                        <a href="rooms/room-530.html" class="room-link" data-room="530" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">530</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-531.html" class="room-link" data-room="531" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">531</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-532.html" class="room-link" data-room="532" data-code="NKSP" data-type="Premium King Suite"><div class="room-number">532</div><div class="room-code">NKSP</div></a>
-                        <a href="rooms/room-533.html" class="room-link" data-room="533" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">533</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-534.html" class="room-link" data-room="534" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">534</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-535.html" class="room-link" data-room="535" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">535</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-536.html" class="room-link" data-room="536" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">536</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-537.html" class="room-link" data-room="537" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">537</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-538.html" class="room-link" data-room="538" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">538</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-539.html" class="room-link" data-room="539" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">539</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-540.html" class="room-link" data-room="540" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">540</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-541.html" class="room-link" data-room="541" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">541</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-542.html" class="room-link" data-room="542" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">542</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-543.html" class="room-link" data-room="543" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">543</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-544.html" class="room-link" data-room="544" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">544</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-545.html" class="room-link" data-room="545" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">545</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-546.html" class="room-link" data-room="546" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">546</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-547.html" class="room-link" data-room="547" data-code="NDSPXC" data-type="Premium Corner Double Bed Suite"><div class="room-number">547</div><div class="room-code">NDSPXC</div></a>
+                        <a href="room-501.html" class="room-link" data-room="501">501</a>
+                        <a href="room-502.html" class="room-link" data-room="502">502</a>
+                        <a href="room-503.html" class="room-link" data-room="503">503</a>
+                        <a href="room-504.html" class="room-link" data-room="504">504</a>
+                        <a href="room-505.html" class="room-link" data-room="505">505</a>
+                        <a href="room-506.html" class="room-link" data-room="506">506</a>
+                        <a href="room-507.html" class="room-link" data-room="507">507</a>
+                        <a href="room-508.html" class="room-link" data-room="508">508</a>
+                        <a href="room-509.html" class="room-link" data-room="509">509</a>
+                        <a href="room-510.html" class="room-link" data-room="510">510</a>
+                        <a href="room-511.html" class="room-link" data-room="511">511</a>
+                        <a href="room-512.html" class="room-link" data-room="512">512</a>
+                        <a href="room-513.html" class="room-link" data-room="513">513</a>
+                        <a href="room-514.html" class="room-link" data-room="514">514</a>
+                        <a href="room-515.html" class="room-link" data-room="515">515</a>
+                        <a href="room-516.html" class="room-link" data-room="516">516</a>
+                        <a href="room-517.html" class="room-link" data-room="517">517</a>
+                        <a href="room-518.html" class="room-link" data-room="518">518</a>
+                        <a href="room-519.html" class="room-link" data-room="519">519</a>
+                        <a href="room-520.html" class="room-link" data-room="520">520</a>
+                        <a href="room-521.html" class="room-link" data-room="521">521</a>
+                        <a href="room-522.html" class="room-link" data-room="522">522</a>
+                        <a href="room-523.html" class="room-link" data-room="523">523</a>
+                        <a href="room-524.html" class="room-link" data-room="524">524</a>
+                        <a href="room-525.html" class="room-link" data-room="525">525</a>
+                        <a href="room-526.html" class="room-link" data-room="526">526</a>
+                        <a href="room-527.html" class="room-link" data-room="527">527</a>
+                        <a href="room-528.html" class="room-link" data-room="528">528</a>
+                        <a href="room-529.html" class="room-link" data-room="529">529</a>
+                        <a href="room-530.html" class="room-link" data-room="530">530</a>
+                        <a href="room-531.html" class="room-link" data-room="531">531</a>
+                        <a href="room-532.html" class="room-link" data-room="532">532</a>
+                        <a href="room-533.html" class="room-link" data-room="533">533</a>
+                        <a href="room-534.html" class="room-link" data-room="534">534</a>
+                        <a href="room-535.html" class="room-link" data-room="535">535</a>
+                        <a href="room-536.html" class="room-link" data-room="536">536</a>
+                        <a href="room-537.html" class="room-link" data-room="537">537</a>
+                        <a href="room-538.html" class="room-link" data-room="538">538</a>
+                        <a href="room-539.html" class="room-link" data-room="539">539</a>
+                        <a href="room-540.html" class="room-link" data-room="540">540</a>
+                        <a href="room-541.html" class="room-link" data-room="541">541</a>
+                        <a href="room-542.html" class="room-link" data-room="542">542</a>
+                        <a href="room-543.html" class="room-link" data-room="543">543</a>
+                        <a href="room-544.html" class="room-link" data-room="544">544</a>
+                        <a href="room-545.html" class="room-link" data-room="545">545</a>
+                        <a href="room-546.html" class="room-link" data-room="546">546</a>
+                        <a href="room-547.html" class="room-link" data-room="547">547</a>
                     </div>
                 </div>
 
                 <!-- Floor 6 -->
                 <div class="floor-section" data-floor="6">
-                    <div class="floor-header">Floor 6 - Rooms 601-647 (46 rooms)</div>
+                    <div class="floor-header">Floor 6 - Rooms 601-647</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-601.html" class="room-link" data-room="601" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">601</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-602.html" class="room-link" data-room="602" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">602</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-603.html" class="room-link" data-room="603" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">603</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-604.html" class="room-link" data-room="604" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">604</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-605.html" class="room-link" data-room="605" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">605</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-606.html" class="room-link" data-room="606" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">606</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-607.html" class="room-link" data-room="607" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">607</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-608.html" class="room-link" data-room="608" data-code="TCSN" data-type="2 Double Bed Conference Suite"><div class="room-number">608</div><div class="room-code">TCSN</div></a>
-                        <a href="rooms/room-609.html" class="room-link" data-room="609" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">609</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-610.html" class="room-link" data-room="610" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">610</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-611.html" class="room-link" data-room="611" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">611</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-612.html" class="room-link" data-room="612" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">612</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-613.html" class="room-link" data-room="613" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">613</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-614.html" class="room-link" data-room="614" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">614</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-615.html" class="room-link" data-room="615" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">615</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-616.html" class="room-link" data-room="616" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">616</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-617.html" class="room-link" data-room="617" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">617</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-618.html" class="room-link" data-room="618" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">618</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-619.html" class="room-link" data-room="619" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">619</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-620.html" class="room-link" data-room="620" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">620</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-621.html" class="room-link" data-room="621" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">621</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-622.html" class="room-link" data-room="622" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">622</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-623.html" class="room-link" data-room="623" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">623</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-624.html" class="room-link" data-room="624" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">624</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-625.html" class="room-link" data-room="625" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">625</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-626.html" class="room-link" data-room="626" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">626</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-627.html" class="room-link" data-room="627" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">627</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-629.html" class="room-link" data-room="629" data-code="KEXN" data-type="King Executive Suite"><div class="room-number">629</div><div class="room-code">KEXN</div></a>
-                        <a href="rooms/room-630.html" class="room-link" data-room="630" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">630</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-631.html" class="room-link" data-room="631" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">631</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-632.html" class="room-link" data-room="632" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">632</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-633.html" class="room-link" data-room="633" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">633</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-634.html" class="room-link" data-room="634" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">634</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-635.html" class="room-link" data-room="635" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">635</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-636.html" class="room-link" data-room="636" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">636</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-637.html" class="room-link" data-room="637" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">637</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-638.html" class="room-link" data-room="638" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">638</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-639.html" class="room-link" data-room="639" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">639</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-640.html" class="room-link" data-room="640" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">640</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-641.html" class="room-link" data-room="641" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">641</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-642.html" class="room-link" data-room="642" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">642</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-643.html" class="room-link" data-room="643" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">643</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-644.html" class="room-link" data-room="644" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">644</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-645.html" class="room-link" data-room="645" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">645</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-646.html" class="room-link" data-room="646" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">646</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-647.html" class="room-link" data-room="647" data-code="NDSPXC" data-type="Premium Corner Double Bed Suite"><div class="room-number">647</div><div class="room-code">NDSPXC</div></a>
+                        <a href="room-601.html" class="room-link" data-room="601">601</a>
+                        <a href="room-602.html" class="room-link" data-room="602">602</a>
+                        <a href="room-603.html" class="room-link" data-room="603">603</a>
+                        <a href="room-604.html" class="room-link" data-room="604">604</a>
+                        <a href="room-605.html" class="room-link" data-room="605">605</a>
+                        <a href="room-606.html" class="room-link" data-room="606">606</a>
+                        <a href="room-607.html" class="room-link" data-room="607">607</a>
+                        <a href="room-608.html" class="room-link" data-room="608">608</a>
+                        <a href="room-609.html" class="room-link" data-room="609">609</a>
+                        <a href="room-610.html" class="room-link" data-room="610">610</a>
+                        <a href="room-611.html" class="room-link" data-room="611">611</a>
+                        <a href="room-612.html" class="room-link" data-room="612">612</a>
+                        <a href="room-613.html" class="room-link" data-room="613">613</a>
+                        <a href="room-614.html" class="room-link" data-room="614">614</a>
+                        <a href="room-615.html" class="room-link" data-room="615">615</a>
+                        <a href="room-616.html" class="room-link" data-room="616">616</a>
+                        <a href="room-617.html" class="room-link" data-room="617">617</a>
+                        <a href="room-618.html" class="room-link" data-room="618">618</a>
+                        <a href="room-619.html" class="room-link" data-room="619">619</a>
+                        <a href="room-620.html" class="room-link" data-room="620">620</a>
+                        <a href="room-621.html" class="room-link" data-room="621">621</a>
+                        <a href="room-622.html" class="room-link" data-room="622">622</a>
+                        <a href="room-623.html" class="room-link" data-room="623">623</a>
+                        <a href="room-624.html" class="room-link" data-room="624">624</a>
+                        <a href="room-625.html" class="room-link" data-room="625">625</a>
+                        <a href="room-626.html" class="room-link" data-room="626">626</a>
+                        <a href="room-627.html" class="room-link" data-room="627">627</a>
+                        <a href="room-628.html" class="room-link" data-room="628">628</a>
+                        <a href="room-629.html" class="room-link" data-room="629">629</a>
+                        <a href="room-630.html" class="room-link" data-room="630">630</a>
+                        <a href="room-631.html" class="room-link" data-room="631">631</a>
+                        <a href="room-632.html" class="room-link" data-room="632">632</a>
+                        <a href="room-633.html" class="room-link" data-room="633">633</a>
+                        <a href="room-634.html" class="room-link" data-room="634">634</a>
+                        <a href="room-635.html" class="room-link" data-room="635">635</a>
+                        <a href="room-636.html" class="room-link" data-room="636">636</a>
+                        <a href="room-637.html" class="room-link" data-room="637">637</a>
+                        <a href="room-638.html" class="room-link" data-room="638">638</a>
+                        <a href="room-639.html" class="room-link" data-room="639">639</a>
+                        <a href="room-640.html" class="room-link" data-room="640">640</a>
+                        <a href="room-641.html" class="room-link" data-room="641">641</a>
+                        <a href="room-642.html" class="room-link" data-room="642">642</a>
+                        <a href="room-643.html" class="room-link" data-room="643">643</a>
+                        <a href="room-644.html" class="room-link" data-room="644">644</a>
+                        <a href="room-645.html" class="room-link" data-room="645">645</a>
+                        <a href="room-646.html" class="room-link" data-room="646">646</a>
+                        <a href="room-647.html" class="room-link" data-room="647">647</a>
                     </div>
                 </div>
 
                 <!-- Floor 7 -->
                 <div class="floor-section" data-floor="7">
-                    <div class="floor-header">Floor 7 - Rooms 701-747 (44 rooms)</div>
+                    <div class="floor-header">Floor 7 - Rooms 701-747</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-701.html" class="room-link" data-room="701" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">701</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-702.html" class="room-link" data-room="702" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">702</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-703.html" class="room-link" data-room="703" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">703</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-704.html" class="room-link" data-room="704" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">704</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-705.html" class="room-link" data-room="705" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">705</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-706.html" class="room-link" data-room="706" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">706</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-707.html" class="room-link" data-room="707" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">707</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-708.html" class="room-link" data-room="708" data-code="TCSN" data-type="2 Double Bed Conference Suite"><div class="room-number">708</div><div class="room-code">TCSN</div></a>
-                        <a href="rooms/room-709.html" class="room-link" data-room="709" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">709</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-710.html" class="room-link" data-room="710" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">710</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-711.html" class="room-link" data-room="711" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">711</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-712.html" class="room-link" data-room="712" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">712</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-713.html" class="room-link" data-room="713" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">713</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-714.html" class="room-link" data-room="714" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">714</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-715.html" class="room-link" data-room="715" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">715</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-716.html" class="room-link" data-room="716" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">716</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-717.html" class="room-link" data-room="717" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">717</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-718.html" class="room-link" data-room="718" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">718</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-719.html" class="room-link" data-room="719" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">719</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-720.html" class="room-link" data-room="720" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">720</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-721.html" class="room-link" data-room="721" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">721</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-722.html" class="room-link" data-room="722" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">722</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-723.html" class="room-link" data-room="723" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">723</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-724.html" class="room-link" data-room="724" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">724</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-725.html" class="room-link" data-room="725" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">725</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-726.html" class="room-link" data-room="726" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">726</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-727.html" class="room-link" data-room="727" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">727</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-728.html" class="room-link" data-room="728" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">728</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-729.html" class="room-link" data-room="729" data-code="NKSCJ" data-type="King Corner Park View Suite"><div class="room-number">729</div><div class="room-code">NKSCJ</div></a>
-                        <a href="rooms/room-730.html" class="room-link" data-room="730" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">730</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-731.html" class="room-link" data-room="731" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">731</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-732.html" class="room-link" data-room="732" data-code="NKSPK" data-type="Park View Premium King Bed Suite"><div class="room-number">732</div><div class="room-code">NKSPK</div></a>
-                        <a href="rooms/room-733.html" class="room-link" data-room="733" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">733</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-734.html" class="room-link" data-room="734" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">734</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-735.html" class="room-link" data-room="735" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">735</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-736.html" class="room-link" data-room="736" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">736</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-737.html" class="room-link" data-room="737" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">737</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-738.html" class="room-link" data-room="738" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">738</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-739.html" class="room-link" data-room="739" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">739</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-740.html" class="room-link" data-room="740" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">740</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-741.html" class="room-link" data-room="741" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">741</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-742.html" class="room-link" data-room="742" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">742</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-743.html" class="room-link" data-room="743" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">743</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-747.html" class="room-link" data-room="747" data-code="KSPN" data-type="Presidential Suite"><div class="room-number">747</div><div class="room-code">KSPN</div></a>
+                        <a href="room-701.html" class="room-link" data-room="701">701</a>
+                        <a href="room-702.html" class="room-link" data-room="702">702</a>
+                        <a href="room-703.html" class="room-link" data-room="703">703</a>
+                        <a href="room-704.html" class="room-link" data-room="704">704</a>
+                        <a href="room-705.html" class="room-link" data-room="705">705</a>
+                        <a href="room-706.html" class="room-link" data-room="706">706</a>
+                        <a href="room-707.html" class="room-link" data-room="707">707</a>
+                        <a href="room-708.html" class="room-link" data-room="708">708</a>
+                        <a href="room-709.html" class="room-link" data-room="709">709</a>
+                        <a href="room-710.html" class="room-link" data-room="710">710</a>
+                        <a href="room-711.html" class="room-link" data-room="711">711</a>
+                        <a href="room-712.html" class="room-link" data-room="712">712</a>
+                        <a href="room-713.html" class="room-link" data-room="713">713</a>
+                        <a href="room-714.html" class="room-link" data-room="714">714</a>
+                        <a href="room-715.html" class="room-link" data-room="715">715</a>
+                        <a href="room-716.html" class="room-link" data-room="716">716</a>
+                        <a href="room-717.html" class="room-link" data-room="717">717</a>
+                        <a href="room-718.html" class="room-link" data-room="718">718</a>
+                        <a href="room-719.html" class="room-link" data-room="719">719</a>
+                        <a href="room-720.html" class="room-link" data-room="720">720</a>
+                        <a href="room-721.html" class="room-link" data-room="721">721</a>
+                        <a href="room-722.html" class="room-link" data-room="722">722</a>
+                        <a href="room-723.html" class="room-link" data-room="723">723</a>
+                        <a href="room-724.html" class="room-link" data-room="724">724</a>
+                        <a href="room-725.html" class="room-link" data-room="725">725</a>
+                        <a href="room-726.html" class="room-link" data-room="726">726</a>
+                        <a href="room-727.html" class="room-link" data-room="727">727</a>
+                        <a href="room-728.html" class="room-link" data-room="728">728</a>
+                        <a href="room-729.html" class="room-link" data-room="729">729</a>
+                        <a href="room-730.html" class="room-link" data-room="730">730</a>
+                        <a href="room-731.html" class="room-link" data-room="731">731</a>
+                        <a href="room-732.html" class="room-link" data-room="732">732</a>
+                        <a href="room-733.html" class="room-link" data-room="733">733</a>
+                        <a href="room-734.html" class="room-link" data-room="734">734</a>
+                        <a href="room-735.html" class="room-link" data-room="735">735</a>
+                        <a href="room-736.html" class="room-link" data-room="736">736</a>
+                        <a href="room-737.html" class="room-link" data-room="737">737</a>
+                        <a href="room-738.html" class="room-link" data-room="738">738</a>
+                        <a href="room-739.html" class="room-link" data-room="739">739</a>
+                        <a href="room-740.html" class="room-link" data-room="740">740</a>
+                        <a href="room-741.html" class="room-link" data-room="741">741</a>
+                        <a href="room-742.html" class="room-link" data-room="742">742</a>
+                        <a href="room-743.html" class="room-link" data-room="743">743</a>
+                        <a href="room-744.html" class="room-link" data-room="744">744</a>
+                        <a href="room-745.html" class="room-link" data-room="745">745</a>
+                        <a href="room-746.html" class="room-link" data-room="746">746</a>
+                        <a href="room-747.html" class="room-link" data-room="747">747</a>
                     </div>
                 </div>
 
                 <!-- Floor 8 -->
                 <div class="floor-section" data-floor="8">
-                    <div class="floor-header">Floor 8 - Rooms 801-847 (45 rooms)</div>
+                    <div class="floor-header">Floor 8 - Rooms 801-847</div>
                     <div class="rooms-grid">
-                        <a href="rooms/room-801.html" class="room-link" data-room="801" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">801</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-802.html" class="room-link" data-room="802" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">802</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-803.html" class="room-link" data-room="803" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">803</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-804.html" class="room-link" data-room="804" data-code="KNGN" data-type="Standard King Bed Suite"><div class="room-number">804</div><div class="room-code">KNGN</div></a>
-                        <a href="rooms/room-805.html" class="room-link" data-room="805" data-code="NKSPD" data-type="King Bed Handicap Accessible Suite"><div class="room-number">805</div><div class="room-code">NKSPD</div></a>
-                        <a href="rooms/room-806.html" class="room-link" data-room="806" data-code="NKSQA" data-type="King Bed Handicap Accessible Suite"><div class="room-number">806</div><div class="room-code">NKSQA</div></a>
-                        <a href="rooms/room-807.html" class="room-link" data-room="807" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">807</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-808.html" class="room-link" data-room="808" data-code="TCSN" data-type="2 Double Bed Conference Suite"><div class="room-number">808</div><div class="room-code">TCSN</div></a>
-                        <a href="rooms/room-809.html" class="room-link" data-room="809" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">809</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-810.html" class="room-link" data-room="810" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">810</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-811.html" class="room-link" data-room="811" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">811</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-812.html" class="room-link" data-room="812" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">812</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-813.html" class="room-link" data-room="813" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">813</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-814.html" class="room-link" data-room="814" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">814</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-815.html" class="room-link" data-room="815" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">815</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-816.html" class="room-link" data-room="816" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">816</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-817.html" class="room-link" data-room="817" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">817</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-818.html" class="room-link" data-room="818" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">818</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-819.html" class="room-link" data-room="819" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">819</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-820.html" class="room-link" data-room="820" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">820</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-821.html" class="room-link" data-room="821" data-code="TDBN" data-type="Standard 2 Double Bed Suite"><div class="room-number">821</div><div class="room-code">TDBN</div></a>
-                        <a href="rooms/room-822.html" class="room-link" data-room="822" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">822</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-823.html" class="room-link" data-room="823" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">823</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-824.html" class="room-link" data-room="824" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">824</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-825.html" class="room-link" data-room="825" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">825</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-826.html" class="room-link" data-room="826" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">826</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-827.html" class="room-link" data-room="827" data-code="TSVN" data-type="Park View 2 Double Bed Suite"><div class="room-number">827</div><div class="room-code">TSVN</div></a>
-                        <a href="rooms/room-828.html" class="room-link" data-room="828" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">828</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-829.html" class="room-link" data-room="829" data-code="NKSCJ" data-type="King Corner Park View Suite"><div class="room-number">829</div><div class="room-code">NKSCJ</div></a>
-                        <a href="rooms/room-830.html" class="room-link" data-room="830" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">830</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-831.html" class="room-link" data-room="831" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">831</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-832.html" class="room-link" data-room="832" data-code="NKSPK" data-type="Park View Premium King Bed Suite"><div class="room-number">832</div><div class="room-code">NKSPK</div></a>
-                        <a href="rooms/room-833.html" class="room-link" data-room="833" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">833</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-834.html" class="room-link" data-room="834" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">834</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-835.html" class="room-link" data-room="835" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">835</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-836.html" class="room-link" data-room="836" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">836</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-837.html" class="room-link" data-room="837" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">837</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-838.html" class="room-link" data-room="838" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">838</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-839.html" class="room-link" data-room="839" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">839</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-840.html" class="room-link" data-room="840" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">840</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-841.html" class="room-link" data-room="841" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">841</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-842.html" class="room-link" data-room="842" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">842</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-843.html" class="room-link" data-room="843" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">843</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-844.html" class="room-link" data-room="844" data-code="KSVN" data-type="Park View King Bed Suite"><div class="room-number">844</div><div class="room-code">KSVN</div></a>
-                        <a href="rooms/room-847.html" class="room-link" data-room="847" data-code="KOTN" data-type="Governor's Suite"><div class="room-number">847</div><div class="room-code">KOTN</div></a>
+                        <a href="room-801.html" class="room-link" data-room="801">801</a>
+                        <a href="room-802.html" class="room-link" data-room="802">802</a>
+                        <a href="room-803.html" class="room-link" data-room="803">803</a>
+                        <a href="room-804.html" class="room-link" data-room="804">804</a>
+                        <a href="room-805.html" class="room-link" data-room="805">805</a>
+                        <a href="room-806.html" class="room-link" data-room="806">806</a>
+                        <a href="room-807.html" class="room-link" data-room="807">807</a>
+                        <a href="room-808.html" class="room-link" data-room="808">808</a>
+                        <a href="room-809.html" class="room-link" data-room="809">809</a>
+                        <a href="room-810.html" class="room-link" data-room="810">810</a>
+                        <a href="room-811.html" class="room-link" data-room="811">811</a>
+                        <a href="room-812.html" class="room-link" data-room="812">812</a>
+                        <a href="room-813.html" class="room-link" data-room="813">813</a>
+                        <a href="room-814.html" class="room-link" data-room="814">814</a>
+                        <a href="room-815.html" class="room-link" data-room="815">815</a>
+                        <a href="room-816.html" class="room-link" data-room="816">816</a>
+                        <a href="room-817.html" class="room-link" data-room="817">817</a>
+                        <a href="room-818.html" class="room-link" data-room="818">818</a>
+                        <a href="room-819.html" class="room-link" data-room="819">819</a>
+                        <a href="room-820.html" class="room-link" data-room="820">820</a>
+                        <a href="room-821.html" class="room-link" data-room="821">821</a>
+                        <a href="room-822.html" class="room-link" data-room="822">822</a>
+                        <a href="room-823.html" class="room-link" data-room="823">823</a>
+                        <a href="room-824.html" class="room-link" data-room="824">824</a>
+                        <a href="room-825.html" class="room-link" data-room="825">825</a>
+                        <a href="room-826.html" class="room-link" data-room="826">826</a>
+                        <a href="room-827.html" class="room-link" data-room="827">827</a>
+                        <a href="room-828.html" class="room-link" data-room="828">828</a>
+                        <a href="room-829.html" class="room-link" data-room="829">829</a>
+                        <a href="room-830.html" class="room-link" data-room="830">830</a>
+                        <a href="room-831.html" class="room-link" data-room="831">831</a>
+                        <a href="room-832.html" class="room-link" data-room="832">832</a>
+                        <a href="room-833.html" class="room-link" data-room="833">833</a>
+                        <a href="room-834.html" class="room-link" data-room="834">834</a>
+                        <a href="room-835.html" class="room-link" data-room="835">835</a>
+                        <a href="room-836.html" class="room-link" data-room="836">836</a>
+                        <a href="room-837.html" class="room-link" data-room="837">837</a>
+                        <a href="room-838.html" class="room-link" data-room="838">838</a>
+                        <a href="room-839.html" class="room-link" data-room="839">839</a>
+                        <a href="room-840.html" class="room-link" data-room="840">840</a>
+                        <a href="room-841.html" class="room-link" data-room="841">841</a>
+                        <a href="room-842.html" class="room-link" data-room="842">842</a>
+                        <a href="room-843.html" class="room-link" data-room="843">843</a>
+                        <a href="room-844.html" class="room-link" data-room="844">844</a>
+                        <a href="room-845.html" class="room-link" data-room="845">845</a>
+                        <a href="room-846.html" class="room-link" data-room="846">846</a>
+                        <a href="room-847.html" class="room-link" data-room="847">847</a>
                     </div>
                 </div>
 
-                <div id="noResults" class="no-results">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p>No rooms found matching your search.</p>
-                </div>
             </div>
         </div>
+        </main>
     </div>
 
     <div class="footer">© 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only</div>
@@ -826,115 +816,26 @@
         const searchInput = document.getElementById('roomSearch');
         const roomLinks = document.querySelectorAll('.room-link');
         const floorSections = document.querySelectorAll('.floor-section');
-        const noResults = document.getElementById('noResults');
-        const filterInfo = document.getElementById('filterInfo');
-        const filterName = document.getElementById('filterName');
         const roomTypeCards = document.querySelectorAll('.room-type-card');
-        
-        let currentFilter = null;
+        const noResults = document.getElementById('noResults');
 
-        // Room type filter functionality
-        roomTypeCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const filterCode = this.getAttribute('data-filter');
-                
-                // If clicking the same filter, clear it
-                if (currentFilter === filterCode) {
-                    clearFilter();
-                    return;
-                }
-                
-                // Set new filter
-                currentFilter = filterCode;
-                
-                // Update active state
-                roomTypeCards.forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Show filter info banner
-                const roomTypeName = this.querySelector('h3').textContent;
-                filterName.textContent = roomTypeName;
-                filterInfo.classList.add('show');
-                
-                // Clear search input
-                searchInput.value = '';
-                
-                // Filter rooms
-                filterRooms(filterCode);
-            });
-        });
-
-        function clearFilter() {
-            currentFilter = null;
-            roomTypeCards.forEach(c => c.classList.remove('active'));
-            filterInfo.classList.remove('show');
-            searchInput.value = '';
-            showAllRooms();
-        }
-
-        function filterRooms(code) {
-            let hasResults = false;
-
-            roomLinks.forEach(link => {
-                const roomCode = link.getAttribute('data-code');
-                
-                if (roomCode === code) {
-                    link.classList.remove('hidden');
-                    hasResults = true;
-                } else {
-                    link.classList.add('hidden');
-                }
-            });
-
-            // Hide/show floors based on visible rooms
-            floorSections.forEach(section => {
-                const visibleRooms = section.querySelectorAll('.room-link:not(.hidden)');
-                if (visibleRooms.length > 0) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
-            });
-
-            // Show/hide no results message
-            if (hasResults) {
-                noResults.classList.remove('show');
-            } else {
-                noResults.classList.add('show');
-            }
-        }
-
-        function showAllRooms() {
-            roomLinks.forEach(link => link.classList.remove('hidden'));
-            floorSections.forEach(section => section.classList.remove('hidden'));
-            noResults.classList.remove('show');
-        }
-
-        // Enhanced search functionality
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             
-            // Clear any active filter when searching
-            if (searchTerm !== '' && currentFilter) {
-                clearFilter();
-            }
-            
             if (searchTerm === '') {
-                showAllRooms();
+                // Show all rooms and floors
+                roomLinks.forEach(link => link.classList.remove('hidden'));
+                floorSections.forEach(section => section.classList.remove('hidden'));
+                noResults.classList.remove('show');
                 return;
             }
 
             let hasResults = false;
 
-            // Search across room number, room code, and room type
+            // Search room numbers
             roomLinks.forEach(link => {
                 const roomNumber = link.getAttribute('data-room');
-                const roomCode = link.getAttribute('data-code').toLowerCase();
-                const roomType = link.getAttribute('data-type').toLowerCase();
-                
-                if (roomNumber.includes(searchTerm) || 
-                    roomCode.includes(searchTerm) || 
-                    roomType.includes(searchTerm)) {
+                if (roomNumber.includes(searchTerm)) {
                     link.classList.remove('hidden');
                     hasResults = true;
                 } else {
@@ -958,6 +859,35 @@
             } else {
                 noResults.classList.add('show');
             }
+        });
+    
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            
+            // Change icon based on state
+            if (sidebar.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu when a link is clicked (on mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 968) {
+                    toggleMenu();
+                }
+            });
         });
     </script>
 </body>

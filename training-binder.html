@@ -162,6 +162,9 @@
     </style>
 </head>
 <body>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <div class="header">
         <div class="header-content">
             <div class="logo-section">
@@ -185,8 +188,14 @@
                 <div class="nav-section-title">Guest Services</div>
                 <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
                 <a href="training-binder.html" class="nav-link active">Training Binder</a>
+                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
                 <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
                 <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">Hotel Dining</div>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
             </div>
             <div class="nav-section">
                 <div class="nav-section-title">Resources</div>
@@ -412,6 +421,35 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+    
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            
+            // Change icon based on state
+            if (sidebar.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+
+        // Close menu when a link is clicked (on mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 968) {
+                    toggleMenu();
+                }
+            });
+        });
     </script>
 </body>
 </html>
