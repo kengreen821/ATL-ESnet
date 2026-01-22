@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATL ESnet - Front Office Portal</title>
+    <title>ATL ESnet Portal - Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -16,464 +16,435 @@
             --embassy-blue: #0057A0;
             --embassy-gold: #C7A961;
             --embassy-light-blue: #E8F1F8;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666;
-            --border-color: #ddd;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-
-        .header {
             background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
-            color: white;
-            padding: 25px 40px;
-            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-section .subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-
-        .header-info {
-            text-align: right;
-            font-size: 14px;
-        }
-
-        .header-info .property {
-            margin-bottom: 5px;
-            font-weight: 300;
-        }
-
-        .header-info .time {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--embassy-gold);
+            min-height: 100vh;
+            padding: 40px 20px;
         }
 
         .container {
-            display: flex;
-            max-width: 1600px;
+            max-width: 1000px;
             margin: 0 auto;
-            min-height: calc(100vh - 120px);
         }
 
-        .sidebar {
-            width: 280px;
+        .header {
             background: white;
-            padding: 30px 0;
-            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
-        }
-
-        .nav-section {
+            border-radius: 15px;
+            padding: 30px;
             margin-bottom: 30px;
-        }
-
-        .nav-section-title {
-            padding: 0 25px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 14px 25px;
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            font-size: 15px;
-        }
-
-        .nav-link:hover {
-            background: var(--embassy-light-blue);
-            border-left-color: var(--embassy-blue);
-            color: var(--embassy-blue);
-        }
-
-        .nav-link.active {
-            background: var(--embassy-light-blue);
-            border-left-color: var(--embassy-blue);
-            color: var(--embassy-blue);
-            font-weight: 600;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 40px;
-        }
-
-        .page-title {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--embassy-navy);
-            margin-bottom: 10px;
-        }
-
-        .page-subtitle {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 35px;
-        }
-
-        .messages-container {
-            display: grid;
-            gap: 20px;
-        }
-
-        .message-card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
-            border-left: 4px solid;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .message-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.12);
-        }
-
-        .message-card.priority-high {
-            border-left-color: #dc3545;
-            background: linear-gradient(to right, #fff5f5 0%, white 10%);
-        }
-
-        .message-card.priority-normal {
-            border-left-color: var(--embassy-blue);
-            background: linear-gradient(to right, var(--embassy-light-blue) 0%, white 10%);
-        }
-
-        .message-card.priority-low {
-            border-left-color: #28a745;
-            background: linear-gradient(to right, #f0f9f4 0%, white 10%);
-        }
-
-        .message-header {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .message-meta {
-            display: flex;
-            gap: 15px;
             align-items: center;
         }
 
-        .message-author {
+        .header-left h1 {
+            color: var(--embassy-navy);
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header-left .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .user-info {
+            background: var(--embassy-light-blue);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .user-name {
+            font-size: 20px;
             font-weight: 600;
             color: var(--embassy-navy);
-            font-size: 16px;
+            margin-bottom: 5px;
         }
 
-        .message-date {
-            color: var(--text-secondary);
-            font-size: 13px;
+        .user-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
         }
 
-        .priority-badge {
-            padding: 4px 12px;
+        .role-badge {
+            display: inline-block;
+            padding: 6px 15px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .priority-badge.high {
-            background: #dc3545;
             color: white;
+            margin-bottom: 10px;
         }
 
-        .priority-badge.normal {
+        .role-admin {
+            background: var(--embassy-gold);
+        }
+
+        .role-manager {
             background: var(--embassy-blue);
-            color: white;
         }
 
-        .priority-badge.low {
-            background: #28a745;
-            color: white;
+        .role-dept-head {
+            background: #6B7280;
         }
 
-        .message-subject {
+        .role-staff {
+            background: #9CA3AF;
+        }
+
+        .logout-button {
+            padding: 10px 25px;
+            background: #DC2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background: #B91C1C;
+            transform: translateY(-2px);
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .welcome-card h2 {
+            color: var(--embassy-navy);
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-card p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .permissions-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .permissions-card h3 {
+            color: var(--embassy-navy);
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .permission-item:last-child {
+            border-bottom: none;
+        }
+
+        .permission-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+
+        .permission-allowed {
+            background: #DEF7EC;
+            color: #03543F;
+        }
+
+        .permission-denied {
+            background: #FDE8E8;
+            color: #9B1C1C;
+        }
+
+        .permission-text {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .link-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-card-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .link-card-title {
             font-size: 18px;
             font-weight: 600;
             color: var(--embassy-navy);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
-        .message-body {
-            color: var(--text-primary);
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        .footer {
-            background: var(--embassy-navy);
-            color: white;
-            text-align: center;
-            padding: 20px;
+        .link-card-desc {
             font-size: 13px;
-            opacity: 0.9;
+            color: #666;
         }
 
-        .menu-toggle {
-            display: none;
-            background: var(--embassy-gold);
-            border: none;
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
             color: white;
-            font-size: 24px;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
-            transition: transform 0.3s ease;
+            font-size: 18px;
         }
 
-        .menu-toggle:active {
-            transform: scale(0.95);
-        }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 998;
-        }
-
-        @media (max-width: 968px) {
-            .container {
+        @media (max-width: 768px) {
+            .header {
                 flex-direction: column;
-            }
-            
-            .sidebar {
-                position: fixed;
-                left: -100%;
-                top: 0;
-                height: 100vh;
-                width: 280px;
-                z-index: 999;
-                transition: left 0.3s ease;
-                overflow-y: auto;
+                text-align: center;
             }
 
-            .sidebar.active {
-                left: 0;
-            }
-
-            .sidebar-overlay.active {
-                display: block;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .main-content {
-                width: 100%;
+            .header-right {
+                margin-top: 20px;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <button class="menu-toggle" id="menuToggle">☰</button>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="loading" id="loading">
+        Loading your dashboard...
+    </div>
 
-    <div class="header">
-        <div class="header-content">
-            <div class="logo-section">
-                <h1>ATL ESnet</h1>
-                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+    <div class="container" id="dashboard" style="display: none;">
+        <div class="header">
+            <div class="header-left">
+                <h1>ATL ESnet Portal</h1>
+                <p class="subtitle">Embassy Suites Centennial Park</p>
             </div>
-            <div class="header-info">
-                <div class="property">Front Office Communications</div>
-                <div class="time" id="currentTime"></div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div id="userRoleBadge"></div>
+                    <div class="user-name" id="userName"></div>
+                    <div class="user-title" id="userTitle"></div>
+                    <div id="userEmail" style="font-size: 12px; color: #999;"></div>
+                </div>
+                <button class="logout-button" onclick="handleLogout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="welcome-card">
+            <h2 id="welcomeMessage"></h2>
+            <p>You are successfully logged into the ATL ESnet Portal with <span id="roleText"></span> access.</p>
+        </div>
+
+        <div class="permissions-card">
+            <h3>Your Permissions</h3>
+            <div id="permissionsList"></div>
+        </div>
+
+        <div class="quick-links">
+            <div class="link-card" onclick="alert('Training Binder feature coming soon!')">
+                <div class="link-card-icon">📚</div>
+                <div class="link-card-title">Training Binder</div>
+                <div class="link-card-desc">Access training materials and guides</div>
+            </div>
+
+            <div class="link-card" onclick="alert('Room Reference feature coming soon!')">
+                <div class="link-card-icon">🏨</div>
+                <div class="link-card-title">Room Reference</div>
+                <div class="link-card-desc">View room specifications and details</div>
+            </div>
+
+            <div class="link-card" onclick="alert('Group Guide feature coming soon!')">
+                <div class="link-card-icon">👥</div>
+                <div class="link-card-title">Group Guide</div>
+                <div class="link-card-desc">Manage group reservations</div>
+            </div>
+
+            <div class="link-card" onclick="alert('MOD Messages feature coming soon!')">
+                <div class="link-card-icon">📢</div>
+                <div class="link-card-title">MOD Messages</div>
+                <div class="link-card-desc">View and post manager messages</div>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <nav class="sidebar">
-            <div class="nav-section">
-                <div class="nav-section-title">Communications</div>
-                <a href="index.html" class="nav-link active">Front Office Messages</a>
-            </div>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
 
-            <div class="nav-section">
-                <div class="nav-section-title">Guest Services</div>
-                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
-                <a href="training-binder.html" class="nav-link">Training Binder</a>
-                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
-                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
-                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
-            </div>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-            <div class="nav-section">
-                <div class="nav-section-title">Hotel Dining</div>
-                <a href="starbucks.html" class="nav-link">Starbucks</a>
-                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
-            </div>
+        // Permission descriptions
+        const permissionDescriptions = {
+            viewAll: "View all portal content",
+            editAll: "Edit all content",
+            manageUsers: "Manage user accounts",
+            postMessages: "Post MOD messages",
+            viewGroupGuide: "Access Group Guide",
+            editGroupGuide: "Edit Group Guide",
+            viewFinancials: "View financial reports",
+            manageSettings: "Manage portal settings",
+            editDepartment: "Edit department content"
+        };
 
-            <div class="nav-section">
-                <div class="nav-section-title">Resources</div>
-                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
-                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
-            </div>
-        </nav>
-
-        <main class="main-content">
-            <h1 class="page-title">Front Office Communications</h1>
-            <p class="page-subtitle">Manager on Duty messages and updates for the front desk team</p>
-
-            <div class="messages-container">
-                <!-- Sample HIGH Priority Message -->
-                <div class="message-card priority-high">
-                    <div class="message-header">
-                        <div class="message-meta">
-                            <span class="message-author">Christian - Front Office Manager</span>
-                            <span class="message-date">January 3, 2026 - 2:45 PM</span>
-                        </div>
-                        <span class="priority-badge high">High Priority</span>
-                    </div>
-                    <div class="message-subject">System Maintenance Tonight - 11 PM</div>
-                    <div class="message-body">
-                        Opera PMS will be offline from 11:00 PM to 11:30 PM for scheduled maintenance. Please ensure all check-ins are completed before 10:45 PM if possible. Have manual registration cards ready as backup. Contact the MOD if you encounter any issues.
-                    </div>
-                </div>
-
-                <!-- Sample NORMAL Priority Message -->
-                <div class="message-card priority-normal">
-                    <div class="message-header">
-                        <div class="message-meta">
-                            <span class="message-author">Joseph - Assistant Front Office Manager</span>
-                            <span class="message-date">January 3, 2026 - 10:15 AM</span>
-                        </div>
-                        <span class="priority-badge normal">Normal</span>
-                    </div>
-                    <div class="message-subject">VIP Arrival - Suite 1205</div>
-                    <div class="message-body">
-                        We have a VIP checking in today at approximately 4:00 PM - Mr. Anderson in Suite 1205. Ensure the suite is ready by 3:00 PM. Amenities have been ordered. Please greet by name and escort to room if available.
-                    </div>
-                </div>
-
-                <!-- Sample LOW Priority Message -->
-                <div class="message-card priority-low">
-                    <div class="message-header">
-                        <div class="message-meta">
-                            <span class="message-author">Christian - Front Office Manager</span>
-                            <span class="message-date">January 2, 2026 - 3:30 PM</span>
-                        </div>
-                        <span class="priority-badge low">Low Priority</span>
-                    </div>
-                    <div class="message-subject">Team Appreciation</div>
-                    <div class="message-body">
-                        Great job everyone on maintaining excellent guest satisfaction scores last month! We're at 94% - keep up the outstanding work. Your dedication to providing exceptional service doesn't go unnoticed.
-                    </div>
-                </div>
-
-                <!-- Add more messages here using the same format -->
-            </div>
-        </main>
-    </div>
-
-    <div class="footer">
-        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
-    </div>
-
-    <script>
-        // Live clock
-        function updateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'short', 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
-        }
-        
-        updateTime();
-        setInterval(updateTime, 1000);
-
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-        function toggleMenu() {
-            sidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-            
-            // Change icon based on state
-            if (sidebar.classList.contains('active')) {
-                menuToggle.textContent = '✕';
-            } else {
-                menuToggle.textContent = '☰';
+        // Role badge colors
+        function getRoleBadgeClass(role) {
+            switch(role) {
+                case 'Admin': return 'role-admin';
+                case 'Manager': return 'role-manager';
+                case 'DepartmentHead': return 'role-dept-head';
+                case 'Staff': return 'role-staff';
+                default: return 'role-staff';
             }
         }
 
-        menuToggle.addEventListener('click', toggleMenu);
-        sidebarOverlay.addEventListener('click', toggleMenu);
+        // Role display text
+        function getRoleText(role) {
+            switch(role) {
+                case 'Admin': return '👑 Administrator';
+                case 'Manager': return '👔 Manager';
+                case 'DepartmentHead': return '📊 Department Head';
+                case 'Staff': return '👤 Staff';
+                default: return role;
+            }
+        }
 
-        // Close menu when a link is clicked (on mobile)
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 968) {
-                    toggleMenu();
+        // Logout function
+        window.handleLogout = async function() {
+            try {
+                await signOut(auth);
+                window.location.href = 'firebase-login.html';
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Error logging out. Please try again.');
+            }
+        };
+
+        // Check authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                // Not logged in, redirect to login
+                window.location.href = 'firebase-login.html';
+                return;
+            }
+
+            try {
+                // Get user profile from Firestore
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (!userDoc.exists()) {
+                    alert('User profile not found. Please contact administrator.');
+                    await signOut(auth);
+                    window.location.href = 'firebase-login.html';
+                    return;
                 }
-            });
+
+                const userProfile = userDoc.data();
+
+                // Update UI with user info
+                document.getElementById('userName').textContent = userProfile.name;
+                document.getElementById('userTitle').textContent = userProfile.title;
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userProfile.name}!`;
+                document.getElementById('roleText').textContent = getRoleText(userProfile.role).toLowerCase();
+
+                // Add role badge
+                const badge = document.createElement('span');
+                badge.className = `role-badge ${getRoleBadgeClass(userProfile.role)}`;
+                badge.textContent = getRoleText(userProfile.role);
+                document.getElementById('userRoleBadge').appendChild(badge);
+
+                // Display permissions
+                const permissionsList = document.getElementById('permissionsList');
+                
+                // Get permissions from Firestore or use defaults
+                const permissions = userProfile.permissions || {};
+                
+                // If no permissions in Firestore, show all as denied for staff, all granted for admin
+                if (Object.keys(permissions).length === 0) {
+                    if (userProfile.role === 'Admin') {
+                        // Grant all permissions for admin
+                        Object.keys(permissionDescriptions).forEach(key => {
+                            permissions[key] = true;
+                        });
+                    } else {
+                        // Just show viewAll for others
+                        permissions.viewAll = true;
+                    }
+                }
+
+                // Display each permission
+                Object.keys(permissionDescriptions).forEach(key => {
+                    const hasPermission = permissions[key] === true;
+                    const item = document.createElement('div');
+                    item.className = 'permission-item';
+                    item.innerHTML = `
+                        <div class="permission-icon ${hasPermission ? 'permission-allowed' : 'permission-denied'}">
+                            ${hasPermission ? '✓' : '✗'}
+                        </div>
+                        <div class="permission-text">${permissionDescriptions[key]}</div>
+                    `;
+                    permissionsList.appendChild(item);
+                });
+
+                // Show dashboard, hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+                alert('Error loading your profile. Please try again.');
+                document.getElementById('loading').textContent = 'Error loading dashboard. Please refresh.';
+            }
         });
     </script>
 </body>
