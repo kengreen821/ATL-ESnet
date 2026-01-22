@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Initial User Setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003057 0%, #0057A0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #003057;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .user-list {
+            margin-bottom: 30px;
+        }
+
+        .user-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0057A0;
+        }
+
+        .user-card h3 {
+            color: #003057;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-card .role-badge {
+            background: #0057A0;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .user-card p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .user-card code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .setup-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #0057A0 0%, #003057 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 87, 160, 0.3);
+        }
+
+        .setup-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 87, 160, 0.4);
+        }
+
+        .setup-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress-log {
+            background: #212529;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .progress-log .error {
+            color: #ff6b6b;
+        }
+
+        .progress-log .success {
+            color: #51cf66;
+        }
+
+        .progress-log .info {
+            color: #74c0fc;
+        }
+
+        .next-steps {
+            background: #d1f2eb;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .next-steps h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+
+        .next-steps ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .next-steps li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Initial User Setup</h1>
+        <p class="subtitle">Create 6 demo user accounts for ATL ESnet Portal</p>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> This page should only be run ONCE to create the initial demo users. 
+            If users already exist, this will fail with "email already in use" errors.
+        </div>
+
+        <div class="user-list">
+            <h2>Users to be created (6 total):</h2>
+
+            <div class="user-card">
+                <h3>
+                    👑 Ken Green
+                    <span class="role-badge">Administrator</span>
+                </h3>
+                <p><strong>Email:</strong> <code>ken.green@atlesnet.com</code></p>
+                <p><strong>Password:</strong> <code>password123</code></p>
+                <p><strong>Title:</strong> Guest Service Agent / Portal Developer</p>
+                <p><strong>Permissions:</strong> Full access to all features</p>
+            </div>
+
+            <div class="user-card">
+                <h3>
+                    👑 Ivy
+                    <span class="role-badge">Administrator</span>
+                </h3>
+                <p><strong>Email:</strong> <code>ivy.gm@atlesnet.com</code></p>
+                <p><strong>Password:</strong> <code>password123</code></p>
+                <p><strong>Title:</strong> General Manager</p>
+                <p><strong>Permissions:</strong> Full access to all features (Administrator level)</p>
+            </div>
+
+            <div class="user-card">
+                <h3>
+                    👔 Joseph
+                    <span class="role-badge">Manager</span>
+                </h3>
+                <p><strong>Email:</strong> <code>joseph.fom@atlesnet.com</code></p>
+                <p><strong>Password:</strong> <code>password123</code></p>
+                <p><strong>Title:</strong> Front Office Manager</p>
+                <p><strong>Permissions:</strong> View all, edit content, post messages, view Group Guide</p>
+            </div>
+
+            <div class="user-card">
+                <h3>
+                    👔 Antwain
+                    <span class="role-badge">Manager</span>
+                </h3>
+                <p><strong>Email:</strong> <code>antwain.afom@atlesnet.com</code></p>
+                <p><strong>Password:</strong> <code>password123</code></p>
+                <p><strong>Title:</strong> Assistant Front Office Manager</p>
+                <p><strong>Permissions:</strong> View all, edit content, post messages, view Group Guide</p>
+            </div>
+
+            <div class="user-card">
+                <h3>
+                    📊 Mike
+                    <span class="role-badge">Department Head</span>
+                </h3>
+                <p><strong>Email:</strong> <code>mike.sales@atlesnet.com</code></p>
+                <p><strong>Password:</strong> <code>password123</code></p>
+                <p><strong>Title:</strong> Group Sales Manager</p>
+                <p><strong>Department:</strong> Sales & Events</p>
+                <p><strong>Permissions:</strong> View all, edit Sales department content</p>
+            </div>
+
+            <div class="user-card">
+                <h3>
+                    👤 Front Desk Agent
+                    <span class="role-badge">Staff</span>
+                </h3>
+                <p><strong>Email:</strong> <code>agent.staff@atlesnet.com</code></p>
+                <p><strong>Password:</strong> <code>password123</code></p>
+                <p><strong>Title:</strong> Guest Service Agent</p>
+                <p><strong>Permissions:</strong> View all content (no editing or posting rights)</p>
+            </div>
+        </div>
+
+        <button class="setup-button" id="setupBtn" onclick="createAllUsers()">
+            Create All 6 Users
+        </button>
+
+        <div class="progress-log" id="progressLog"></div>
+
+        <div class="next-steps" id="nextSteps">
+            <h3>✅ Setup Complete!</h3>
+            <p>All 6 users have been created successfully. Next steps:</p>
+            <ol>
+                <li>Open <code>firebase-login.html</code> in your browser</li>
+                <li>Test logging in with each of the 6 demo accounts</li>
+                <li>Navigate to different pages to see permission-based content visibility</li>
+                <li>Try accessing Group Guide with different roles (only Admin/Manager can access)</li>
+                <li>Verify the logout functionality works correctly</li>
+            </ol>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createUser, ROLES } from './auth-system.js';
+
+        const progressLog = document.getElementById('progressLog');
+        const setupBtn = document.getElementById('setupBtn');
+        const nextSteps = document.getElementById('nextSteps');
+
+        function log(message, type = 'info') {
+            progressLog.style.display = 'block';
+            const timestamp = new Date().toLocaleTimeString();
+            const line = document.createElement('div');
+            line.className = type;
+            line.textContent = `[${timestamp}] ${message}`;
+            progressLog.appendChild(line);
+            progressLog.scrollTop = progressLog.scrollHeight;
+        }
+
+        async function createAllUsers() {
+            setupBtn.disabled = true;
+            setupBtn.textContent = 'Creating users...';
+            progressLog.innerHTML = '';
+            nextSteps.style.display = 'none';
+
+            log('Starting user creation process...', 'info');
+
+            // Define users to create
+            const users = [
+                {
+                    email: 'ken.green@atlesnet.com',
+                    password: 'password123',
+                    profile: {
+                        name: 'Ken Green',
+                        role: ROLES.ADMIN,
+                        title: 'Guest Service Agent / Portal Developer',
+                        department: 'Front Office'
+                    }
+                },
+                {
+                    email: 'ivy.gm@atlesnet.com',
+                    password: 'password123',
+                    profile: {
+                        name: 'Ivy',
+                        role: ROLES.ADMIN,
+                        title: 'General Manager',
+                        department: 'Management'
+                    }
+                },
+                {
+                    email: 'joseph.fom@atlesnet.com',
+                    password: 'password123',
+                    profile: {
+                        name: 'Joseph',
+                        role: ROLES.MANAGER,
+                        title: 'Front Office Manager',
+                        department: 'Front Office'
+                    }
+                },
+                {
+                    email: 'antwain.afom@atlesnet.com',
+                    password: 'password123',
+                    profile: {
+                        name: 'Antwain',
+                        role: ROLES.MANAGER,
+                        title: 'Assistant Front Office Manager',
+                        department: 'Front Office'
+                    }
+                },
+                {
+                    email: 'mike.sales@atlesnet.com',
+                    password: 'password123',
+                    profile: {
+                        name: 'Mike',
+                        role: ROLES.DEPARTMENT_HEAD,
+                        title: 'Group Sales Manager',
+                        department: 'Sales & Events'
+                    }
+                },
+                {
+                    email: 'agent.staff@atlesnet.com',
+                    password: 'password123',
+                    profile: {
+                        name: 'Front Desk Agent',
+                        role: ROLES.STAFF,
+                        title: 'Guest Service Agent',
+                        department: 'Front Office'
+                    }
+                }
+            ];
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const user of users) {
+                log(`Creating user: ${user.profile.name} (${user.email})...`, 'info');
+                
+                try {
+                    const result = await createUser(user.email, user.password, user.profile);
+                    
+                    if (result.success) {
+                        log(`✓ Successfully created ${user.profile.name}`, 'success');
+                        successCount++;
+                    } else {
+                        if (result.error === 'auth/email-already-in-use') {
+                            log(`⚠️ ${user.email} already exists - skipping`, 'info');
+                        } else {
+                            log(`✗ Error creating ${user.profile.name}: ${result.error}`, 'error');
+                            errorCount++;
+                        }
+                    }
+                } catch (error) {
+                    log(`✗ Unexpected error creating ${user.profile.name}: ${error.message}`, 'error');
+                    errorCount++;
+                }
+
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            log('', 'info');
+            log('==========================================', 'info');
+            log(`Setup complete! Created: ${successCount} | Errors: ${errorCount}`, 'success');
+            log('==========================================', 'info');
+
+            setupBtn.disabled = false;
+            setupBtn.textContent = 'Create All 6 Users';
+            nextSteps.style.display = 'block';
+        }
+
+        // Make function globally available
+        window.createAllUsers = createAllUsers;
+    </script>
+</body>
+</html>

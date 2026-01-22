@@ -1,0 +1,139 @@
+{
+  "users": {
+    "ken.green@atlesnet.com": {
+      "name": "Ken Green",
+      "role": "administrator",
+      "title": "Guest Service Agent / Portal Developer",
+      "permissions": {
+        "viewAll": true,
+        "editAll": true,
+        "manageUsers": true,
+        "postMessages": true,
+        "viewGroupGuide": true,
+        "editGroupGuide": true,
+        "viewFinancials": true,
+        "manageSettings": true
+      }
+    },
+    "ivy.gm@atlesnet.com": {
+      "name": "Ivy",
+      "role": "administrator",
+      "title": "General Manager",
+      "permissions": {
+        "viewAll": true,
+        "editAll": true,
+        "manageUsers": true,
+        "postMessages": true,
+        "viewGroupGuide": true,
+        "editGroupGuide": true,
+        "viewFinancials": true,
+        "manageSettings": true
+      }
+    },
+    "joseph.fom@atlesnet.com": {
+      "name": "Joseph",
+      "role": "manager",
+      "title": "Front Office Manager",
+      "permissions": {
+        "viewAll": true,
+        "editAll": false,
+        "manageUsers": false,
+        "postMessages": true,
+        "viewGroupGuide": true,
+        "editGroupGuide": true,
+        "viewFinancials": false,
+        "manageSettings": false
+      }
+    },
+    "antwain.afom@atlesnet.com": {
+      "name": "Antwain",
+      "role": "manager",
+      "title": "Assistant Front Office Manager",
+      "permissions": {
+        "viewAll": true,
+        "editAll": false,
+        "manageUsers": false,
+        "postMessages": true,
+        "viewGroupGuide": true,
+        "editGroupGuide": true,
+        "viewFinancials": false,
+        "manageSettings": false
+      }
+    },
+    "mike.sales@atlesnet.com": {
+      "name": "Mike",
+      "role": "departmentHead",
+      "title": "Group Sales Manager",
+      "permissions": {
+        "viewAll": true,
+        "editAll": false,
+        "manageUsers": false,
+        "postMessages": false,
+        "viewGroupGuide": false,
+        "editGroupGuide": false,
+        "viewFinancials": false,
+        "manageSettings": false,
+        "editDepartment": true
+      }
+    },
+    "agent.demo@atlesnet.com": {
+      "name": "Demo Agent",
+      "role": "staff",
+      "title": "Guest Service Agent",
+      "permissions": {
+        "viewAll": true,
+        "editAll": false,
+        "manageUsers": false,
+        "postMessages": false,
+        "viewGroupGuide": false,
+        "editGroupGuide": false,
+        "viewFinancials": false,
+        "manageSettings": false
+      }
+    }
+  },
+        "postMessages": false,
+        "viewGroupGuide": false,
+        "editGroupGuide": false,
+        "viewFinancials": false,
+        "manageSettings": false
+      }
+    }
+  },
+        "postMessages": false,
+        "viewGroupGuide": false,
+        "editGroupGuide": false,
+        "viewFinancials": false,
+        "manageSettings": false
+      }
+    }
+  },
+  "rolePermissions": {
+    "administrator": {
+      "description": "Full system access - can manage everything",
+      "accessLevel": 100
+    },
+    "manager": {
+      "description": "Management access - can view all content and post updates",
+      "accessLevel": 75
+    },
+    "staff": {
+      "description": "Staff access - can view public content only",
+      "accessLevel": 25
+    }
+  },
+  "pageRestrictions": {
+    "group-guide.html": {
+      "minRole": "manager",
+      "reason": "Contains sensitive guest information"
+    },
+    "financial-reports.html": {
+      "minRole": "manager",
+      "reason": "Contains financial data"
+    },
+    "user-management.html": {
+      "minRole": "administrator",
+      "reason": "User administration"
+    }
+  }
+}

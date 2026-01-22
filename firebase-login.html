@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(232, 241, 248, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 450px;
+            padding: 50px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-section h1 {
+            font-size: 36px;
+            color: var(--embassy-navy);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .welcome-text h2 {
+            font-size: 24px;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .welcome-text p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--embassy-navy);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--embassy-blue);
+            background: white;
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: var(--embassy-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--embassy-blue) 0%, var(--embassy-navy) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 87, 160, 0.3);
+        }
+
+        .login-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 87, 160, 0.4);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            padding: 0 15px;
+        }
+
+        .demo-accounts {
+            background: var(--embassy-light-blue);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .demo-accounts h3 {
+            font-size: 14px;
+            color: var(--embassy-navy);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-account {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--embassy-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-account:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0, 87, 160, 0.15);
+        }
+
+        .demo-account:last-child {
+            margin-bottom: 0;
+        }
+
+        .demo-account .role {
+            font-weight: 600;
+            color: var(--embassy-navy);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .demo-account .credentials {
+            font-size: 12px;
+            color: #666;
+            font-family: monospace;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            border-left: 4px solid #3c3;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 40px 25px;
+            }
+
+            .logo-section h1 {
+                font-size: 28px;
+            }
+
+            .welcome-text h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <h1>ATL ESnet</h1>
+            <p class="subtitle">Embassy Suites Centennial Park</p>
+        </div>
+
+        <div class="welcome-text">
+            <h2>Welcome Back</h2>
+            <p>Sign in to access the internal portal</p>
+        </div>
+
+        <div id="errorMessage" class="message error-message"></div>
+        <div id="successMessage" class="message success-message"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="your.name@atlesnet.com"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-password" onclick="alert('Password reset feature coming soon. Please contact IT for password assistance.'); return false;">
+                    Forgot password?
+                </a>
+            </div>
+
+            <button type="submit" class="login-button" id="loginBtn">Sign In</button>
+        </form>
+
+        <div class="divider">
+            <span>Demo Accounts for Testing</span>
+        </div>
+
+        <div class="demo-accounts">
+            <h3>🔐 Sample User Credentials (6 Users)</h3>
+            
+            <div class="demo-account" onclick="fillCredentials('ken.green@atlesnet.com', 'password123')">
+                <div class="role">👑 Administrator (Ken Green)</div>
+                <div class="credentials">ken.green@atlesnet.com / password123</div>
+            </div>
+
+            <div class="demo-account" onclick="fillCredentials('ivy.gm@atlesnet.com', 'password123')">
+                <div class="role">👑 Administrator - GM (Ivy)</div>
+                <div class="credentials">ivy.gm@atlesnet.com / password123</div>
+            </div>
+
+            <div class="demo-account" onclick="fillCredentials('joseph.fom@atlesnet.com', 'password123')">
+                <div class="role">👔 Manager (Joseph - FOM)</div>
+                <div class="credentials">joseph.fom@atlesnet.com / password123</div>
+            </div>
+
+            <div class="demo-account" onclick="fillCredentials('antwain.afom@atlesnet.com', 'password123')">
+                <div class="role">👔 Manager (Antwain - AFOM)</div>
+                <div class="credentials">antwain.afom@atlesnet.com / password123</div>
+            </div>
+
+            <div class="demo-account" onclick="fillCredentials('mike.sales@atlesnet.com', 'password123')">
+                <div class="role">📊 Dept Head (Mike - Sales)</div>
+                <div class="credentials">mike.sales@atlesnet.com / password123</div>
+            </div>
+
+            <div class="demo-account" onclick="fillCredentials('agent.staff@atlesnet.com', 'password123')">
+                <div class="role">👤 Staff (Front Desk Agent)</div>
+                <div class="credentials">agent.staff@atlesnet.com / password123</div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            🔒 Secure authentication powered by Firebase<br>
+            Demo system - Production will use Microsoft 365 SSO
+        </div>
+    </div>
+
+    <script type="module">
+        import { signIn, auth } from './auth-system.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Fill credentials function (for demo account clicks)
+        window.fillCredentials = function(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+        };
+
+        // Show message functions
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function setLoading(isLoading) {
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = isLoading;
+            loginBtn.textContent = isLoading ? 'Signing in...' : 'Sign In';
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            setLoading(true);
+
+            try {
+                const result = await signIn(email, password);
+                
+                if (result.success) {
+                    showSuccess('✓ Login successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    setLoading(false);
+                    
+                    let errorMessage = 'Login failed. Please check your credentials.';
+                    
+                    if (result.error === 'auth/user-not-found') {
+                        errorMessage = 'No account found with this email address.';
+                    } else if (result.error === 'auth/wrong-password') {
+                        errorMessage = 'Incorrect password. Please try again.';
+                    } else if (result.error === 'auth/invalid-email') {
+                        errorMessage = 'Invalid email address format.';
+                    } else if (result.error === 'auth/too-many-requests') {
+                        errorMessage = 'Too many failed attempts. Please try again later.';
+                    } else if (result.error === 'auth/invalid-credential') {
+                        errorMessage = 'Invalid credentials. Please check your email and password.';
+                    }
+                    
+                    showError(errorMessage);
+                }
+            } catch (error) {
+                setLoading(false);
+                showError('An unexpected error occurred. Please try again.');
+                console.error('Login error:', error);
+            }
+        });
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is already logged in, redirect to portal
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
