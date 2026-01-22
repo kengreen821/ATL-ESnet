@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - ATL ESnet Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            color: var(--embassy-navy);
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header-left .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .back-button {
+            padding: 10px 25px;
+            background: var(--embassy-navy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-blue);
+        }
+
+        .tabs {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-button {
+            padding: 12px 25px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-button.active {
+            background: var(--embassy-blue);
+            color: white;
+        }
+
+        .tab-button:hover:not(.active) {
+            background: var(--embassy-light-blue);
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .content-card.active {
+            display: block;
+        }
+
+        .content-card h2 {
+            color: var(--embassy-navy);
+            font-size: 28px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .user-table th {
+            background: var(--embassy-light-blue);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--embassy-navy);
+        }
+
+        .user-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .user-table tr:hover {
+            background: #fafafa;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .role-admin {
+            background: var(--embassy-gold);
+        }
+
+        .role-manager {
+            background: var(--embassy-blue);
+        }
+
+        .role-dept-head {
+            background: #6B7280;
+        }
+
+        .role-staff {
+            background: #9CA3AF;
+        }
+
+        .action-buttons-cell {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: var(--embassy-blue);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: var(--embassy-navy);
+        }
+
+        .btn-delete {
+            background: #DC2626;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #B91C1C;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--embassy-navy);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--embassy-blue);
+        }
+
+        .submit-button {
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #DEF7EC;
+            color: #03543F;
+            border-left: 4px solid #03543F;
+        }
+
+        .message.error {
+            background: #FDE8E8;
+            color: #9B1C1C;
+            border-left: 4px solid #9B1C1C;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .user-table {
+                font-size: 12px;
+            }
+
+            .user-table th,
+            .user-table td {
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        Loading user management...
+    </div>
+
+    <div class="container" id="managementPage" style="display: none;">
+        <div class="header">
+            <div class="header-left">
+                <h1>User Management</h1>
+                <p class="subtitle">Manage users, roles, and permissions</p>
+            </div>
+            <a href="account.html" class="back-button">← Back to Account</a>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('users')">👥 All Users</button>
+            <button class="tab-button" onclick="switchTab('add')">➕ Add User</button>
+            <button class="tab-button" onclick="switchTab('permissions')">🔐 Edit Permissions</button>
+        </div>
+
+        <!-- View All Users Tab -->
+        <div class="content-card active" id="users-tab">
+            <h2>All Portal Users</h2>
+            <p style="color: #666; margin-bottom: 20px;">Manage all users in the ATL ESnet Portal system.</p>
+            
+            <table class="user-table" id="userTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px;">Loading users...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add User Tab -->
+        <div class="content-card" id="add-tab">
+            <h2>Add New User</h2>
+            <p style="color: #666; margin-bottom: 30px;">Create a new user account for the ATL ESnet Portal.</p>
+            
+            <div class="message" id="addMessage"></div>
+
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="newName">Full Name *</label>
+                    <input type="text" id="newName" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="newEmail">Email Address *</label>
+                    <input type="email" id="newEmail" required placeholder="john.doe@atlesnet.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">Password *</label>
+                    <input type="password" id="newPassword" required placeholder="Minimum 6 characters">
+                </div>
+
+                <div class="form-group">
+                    <label for="newRole">Role *</label>
+                    <select id="newRole" required>
+                        <option value="">Select a role...</option>
+                        <option value="Admin">Administrator</option>
+                        <option value="Manager">Manager</option>
+                        <option value="DepartmentHead">Department Head</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="newTitle">Job Title *</label>
+                    <input type="text" id="newTitle" required placeholder="Guest Service Agent">
+                </div>
+
+                <div class="form-group">
+                    <label for="newDepartment">Department *</label>
+                    <input type="text" id="newDepartment" required placeholder="Front Office">
+                </div>
+
+                <button type="submit" class="submit-button" id="addUserBtn">Create User Account</button>
+            </form>
+        </div>
+
+        <!-- Edit Permissions Tab -->
+        <div class="content-card" id="permissions-tab">
+            <h2>Edit User Permissions</h2>
+            <p style="color: #666; margin-bottom: 30px;">Modify permissions for existing users.</p>
+            
+            <div class="message" id="permMessage"></div>
+
+            <div class="form-group">
+                <label for="selectUser">Select User</label>
+                <select id="selectUser" onchange="loadUserPermissions()">
+                    <option value="">Choose a user...</option>
+                </select>
+            </div>
+
+            <div id="permissionsForm" style="display: none;">
+                <h3 style="color: var(--embassy-navy); margin: 30px 0 20px;">Current Permissions</h3>
+                <div id="permissionCheckboxes"></div>
+                <button onclick="savePermissions()" class="submit-button" style="margin-top: 20px;">Save Permission Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, deleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc, deleteDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUserProfile = null;
+        let allUsers = [];
+
+        // Tab switching
+        window.switchTab = function(tabName) {
+            // Update buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.content-card').forEach(card => card.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        };
+
+        // Role badge helper
+        function getRoleBadgeClass(role) {
+            switch(role) {
+                case 'Admin': return 'role-admin';
+                case 'Manager': return 'role-manager';
+                case 'DepartmentHead': return 'role-dept-head';
+                case 'Staff': return 'role-staff';
+                default: return 'role-staff';
+            }
+        }
+
+        function getRoleText(role) {
+            switch(role) {
+                case 'Admin': return '👑 Administrator';
+                case 'Manager': return '👔 Manager';
+                case 'DepartmentHead': return '📊 Department Head';
+                case 'Staff': return '👤 Staff';
+                default: return role;
+            }
+        }
+
+        // Load all users
+        async function loadAllUsers() {
+            try {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                allUsers = [];
+                const tbody = document.getElementById('userTableBody');
+                tbody.innerHTML = '';
+
+                if (usersSnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No users found</td></tr>';
+                    return;
+                }
+
+                usersSnapshot.forEach((userDoc) => {
+                    const userData = userDoc.data();
+                    userData.uid = userDoc.id;
+                    allUsers.push(userData);
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${userData.name || 'N/A'}</td>
+                        <td>${userData.email || 'N/A'}</td>
+                        <td><span class="role-badge ${getRoleBadgeClass(userData.role)}">${getRoleText(userData.role)}</span></td>
+                        <td>${userData.title || 'N/A'}</td>
+                        <td class="action-buttons-cell">
+                            <button class="btn-small btn-edit" onclick="editUser('${userDoc.id}')">Edit</button>
+                            <button class="btn-small btn-delete" onclick="deleteUserAccount('${userDoc.id}', '${userData.name}')">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // Populate user select dropdown
+                const selectUser = document.getElementById('selectUser');
+                selectUser.innerHTML = '<option value="">Choose a user...</option>';
+                allUsers.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.uid;
+                    option.textContent = `${user.name} (${user.email})`;
+                    selectUser.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('userTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">Error loading users</td></tr>';
+            }
+        }
+
+        // Add user form handler
+        document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const addButton = document.getElementById('addUserBtn');
+            const message = document.getElementById('addMessage');
+            addButton.disabled = true;
+            addButton.textContent = 'Creating user...';
+
+            const newUser = {
+                name: document.getElementById('newName').value,
+                email: document.getElementById('newEmail').value,
+                password: document.getElementById('newPassword').value,
+                role: document.getElementById('newRole').value,
+                title: document.getElementById('newTitle').value,
+                department: document.getElementById('newDepartment').value
+            };
+
+            try {
+                // Create auth account
+                const userCredential = await createUserWithEmailAndPassword(auth, newUser.email, newUser.password);
+                
+                // Create Firestore profile
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    name: newUser.name,
+                    role: newUser.role,
+                    title: newUser.title,
+                    department: newUser.department,
+                    createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString()
+                });
+
+                // Show success
+                message.textContent = `✓ User "${newUser.name}" created successfully!`;
+                message.className = 'message success';
+                message.style.display = 'block';
+
+                // Reset form
+                document.getElementById('addUserForm').reset();
+
+                // Reload users
+                await loadAllUsers();
+
+            } catch (error) {
+                message.textContent = `Error: ${error.message}`;
+                message.className = 'message error';
+                message.style.display = 'block';
+            }
+
+            addButton.disabled = false;
+            addButton.textContent = 'Create User Account';
+        });
+
+        // Delete user
+        window.deleteUserAccount = async function(userId, userName) {
+            if (!confirm(`Are you sure you want to delete user "${userName}"? This cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                // Delete from Firestore
+                await deleteDoc(doc(db, 'users', userId));
+                
+                alert(`User "${userName}" has been deleted from the database. Note: The authentication account still exists and must be deleted manually from Firebase Console.`);
+                
+                await loadAllUsers();
+
+            } catch (error) {
+                alert(`Error deleting user: ${error.message}`);
+            }
+        };
+
+        // Load user permissions
+        window.loadUserPermissions = async function() {
+            const userId = document.getElementById('selectUser').value;
+            if (!userId) {
+                document.getElementById('permissionsForm').style.display = 'none';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                const userData = userDoc.data();
+
+                const permissionsForm = document.getElementById('permissionsForm');
+                const checkboxContainer = document.getElementById('permissionCheckboxes');
+                
+                const permissions = {
+                    viewAll: "View all portal content",
+                    editAll: "Edit all content",
+                    manageUsers: "Manage user accounts",
+                    postMessages: "Post MOD messages",
+                    viewGroupGuide: "Access Group Guide",
+                    editGroupGuide: "Edit Group Guide",
+                    viewFinancials: "View financial reports",
+                    manageSettings: "Manage portal settings",
+                    editDepartment: "Edit department content"
+                };
+
+                checkboxContainer.innerHTML = '';
+                
+                Object.keys(permissions).forEach(key => {
+                    const hasPermission = userData.permissions?.[key] || false;
+                    const div = document.createElement('div');
+                    div.style.padding = '10px 0';
+                    div.innerHTML = `
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" id="perm_${key}" ${hasPermission ? 'checked' : ''} style="margin-right: 10px; width: 18px; height: 18px;">
+                            <span>${permissions[key]}</span>
+                        </label>
+                    `;
+                    checkboxContainer.appendChild(div);
+                });
+
+                permissionsForm.style.display = 'block';
+
+            } catch (error) {
+                alert(`Error loading permissions: ${error.message}`);
+            }
+        };
+
+        // Save permissions
+        window.savePermissions = async function() {
+            const userId = document.getElementById('selectUser').value;
+            if (!userId) return;
+
+            const permissions = {
+                viewAll: document.getElementById('perm_viewAll').checked,
+                editAll: document.getElementById('perm_editAll').checked,
+                manageUsers: document.getElementById('perm_manageUsers').checked,
+                postMessages: document.getElementById('perm_postMessages').checked,
+                viewGroupGuide: document.getElementById('perm_viewGroupGuide').checked,
+                editGroupGuide: document.getElementById('perm_editGroupGuide').checked,
+                viewFinancials: document.getElementById('perm_viewFinancials').checked,
+                manageSettings: document.getElementById('perm_manageSettings').checked,
+                editDepartment: document.getElementById('perm_editDepartment').checked
+            };
+
+            try {
+                await updateDoc(doc(db, 'users', userId), {
+                    permissions: permissions
+                });
+
+                const message = document.getElementById('permMessage');
+                message.textContent = '✓ Permissions updated successfully!';
+                message.className = 'message success';
+                message.style.display = 'block';
+
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+
+            } catch (error) {
+                const message = document.getElementById('permMessage');
+                message.textContent = `Error: ${error.message}`;
+                message.className = 'message error';
+                message.style.display = 'block';
+            }
+        };
+
+        // Edit user (placeholder)
+        window.editUser = function(userId) {
+            alert('Edit user feature coming soon! For now, use the "Edit Permissions" tab to modify user permissions.');
+        };
+
+        // Check authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'firebase-login.html';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (!userDoc.exists()) {
+                    alert('User profile not found.');
+                    window.location.href = 'firebase-login.html';
+                    return;
+                }
+
+                currentUserProfile = userDoc.data();
+
+                // Check if user is admin
+                if (currentUserProfile.role !== 'Admin') {
+                    alert('Access denied. Only administrators can access user management.');
+                    window.location.href = 'account.html';
+                    return;
+                }
+
+                // Load all users
+                await loadAllUsers();
+
+                // Show page
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('managementPage').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error loading page.');
+                window.location.href = 'account.html';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATL ESnet Portal - Dashboard</title>
+    <title>My Account - ATL ESnet Portal</title>
     <style>
         * {
             margin: 0;
@@ -26,7 +26,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -52,16 +52,8 @@
             font-size: 14px;
         }
 
-        .header-right {
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
-        }
-
-        .menu-button {
-            padding: 8px 20px;
+        .back-button {
+            padding: 10px 25px;
             background: var(--embassy-navy);
             color: white;
             border: none;
@@ -70,33 +62,55 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .menu-button:hover {
+        .back-button:hover {
             background: var(--embassy-blue);
+            transform: translateY(-2px);
         }
 
-        .user-info {
-            background: var(--embassy-light-blue);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+        .account-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .user-name {
-            font-size: 20px;
+        .account-card h2 {
+            color: var(--embassy-navy);
+            font-size: 28px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .profile-section {
+            margin-bottom: 40px;
+        }
+
+        .profile-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
             font-weight: 600;
             color: var(--embassy-navy);
-            margin-bottom: 5px;
+            min-width: 150px;
+            font-size: 15px;
         }
 
-        .user-title {
-            font-size: 14px;
+        .profile-value {
             color: #666;
-            margin-bottom: 8px;
+            font-size: 15px;
         }
 
         .role-badge {
@@ -106,7 +120,6 @@
             font-size: 12px;
             font-weight: 600;
             color: white;
-            margin-bottom: 10px;
         }
 
         .role-admin {
@@ -125,58 +138,10 @@
             background: #9CA3AF;
         }
 
-        .logout-button {
-            padding: 10px 25px;
-            background: #DC2626;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .logout-button:hover {
-            background: #B91C1C;
-            transform: translateY(-2px);
-        }
-
-        .welcome-card {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .welcome-card h2 {
-            color: var(--embassy-navy);
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .welcome-card p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .permissions-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .permissions-card h3 {
+        .permissions-section h3 {
             color: var(--embassy-navy);
             font-size: 22px;
             margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--embassy-light-blue);
         }
 
         .permission-item {
@@ -216,44 +181,43 @@
             color: #333;
         }
 
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .admin-actions {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid var(--embassy-light-blue);
         }
 
-        .link-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .link-card-icon {
-            font-size: 32px;
-            margin-bottom: 15px;
-        }
-
-        .link-card-title {
-            font-size: 18px;
-            font-weight: 600;
+        .admin-actions h3 {
             color: var(--embassy-navy);
-            margin-bottom: 8px;
+            font-size: 22px;
+            margin-bottom: 20px;
         }
 
-        .link-card-desc {
-            font-size: 13px;
-            color: #666;
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .action-button {
+            padding: 15px 25px;
+            background: var(--embassy-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .action-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 87, 160, 0.3);
         }
 
         .loading {
@@ -266,81 +230,103 @@
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
-                text-align: center;
+                gap: 20px;
             }
 
-            .header-right {
-                margin-top: 20px;
-                text-align: center;
+            .profile-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .profile-label {
+                min-width: auto;
             }
         }
     </style>
 </head>
 <body>
     <div class="loading" id="loading">
-        Loading your dashboard...
+        Loading your account...
     </div>
 
-    <div class="container" id="dashboard" style="display: none;">
+    <div class="container" id="accountPage" style="display: none;">
         <div class="header">
             <div class="header-left">
-                <h1>ATL ESnet Portal</h1>
-                <p class="subtitle">Embassy Suites Centennial Park</p>
+                <h1>My Account</h1>
+                <p class="subtitle">View your profile and manage settings</p>
             </div>
-            <div class="header-right">
-                <button class="menu-button" onclick="window.location.href='account.html'">
-                    👤 View Account
-                </button>
-                <div class="user-info">
-                    <div id="userRoleBadge"></div>
-                    <div class="user-name" id="userName"></div>
-                    <div class="user-title" id="userTitle"></div>
-                    <div id="userEmail" style="font-size: 12px; color: #999;"></div>
+            <a href="index.html" class="back-button">← Back to Dashboard</a>
+        </div>
+
+        <div class="account-card">
+            <h2>Account Information</h2>
+            
+            <div class="profile-section">
+                <div class="profile-item">
+                    <div class="profile-label">Full Name:</div>
+                    <div class="profile-value" id="fullName"></div>
                 </div>
-                <button class="logout-button" onclick="handleLogout()">🚪 Logout</button>
+
+                <div class="profile-item">
+                    <div class="profile-label">Email Address:</div>
+                    <div class="profile-value" id="emailAddress"></div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="profile-label">Role:</div>
+                    <div class="profile-value">
+                        <span id="userRoleBadge"></span>
+                    </div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="profile-label">Title:</div>
+                    <div class="profile-value" id="userJobTitle"></div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="profile-label">Department:</div>
+                    <div class="profile-value" id="userDepartment"></div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="profile-label">Account Created:</div>
+                    <div class="profile-value" id="accountCreated"></div>
+                </div>
+
+                <div class="profile-item">
+                    <div class="profile-label">Last Login:</div>
+                    <div class="profile-value" id="lastLogin"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="welcome-card">
-            <h2 id="welcomeMessage"></h2>
-            <p>You are successfully logged into the ATL ESnet Portal with <span id="roleText"></span> access.</p>
-        </div>
-
-        <div class="permissions-card">
-            <h3>Your Permissions</h3>
-            <div id="permissionsList"></div>
-        </div>
-
-        <div class="quick-links">
-            <div class="link-card" onclick="alert('Training Binder feature coming soon!')">
-                <div class="link-card-icon">📚</div>
-                <div class="link-card-title">Training Binder</div>
-                <div class="link-card-desc">Access training materials and guides</div>
+            <div class="permissions-section">
+                <h3>Your Permissions</h3>
+                <div id="permissionsList"></div>
             </div>
 
-            <div class="link-card" onclick="alert('Room Reference feature coming soon!')">
-                <div class="link-card-icon">🏨</div>
-                <div class="link-card-title">Room Reference</div>
-                <div class="link-card-desc">View room specifications and details</div>
-            </div>
-
-            <div class="link-card" onclick="alert('Group Guide feature coming soon!')">
-                <div class="link-card-icon">👥</div>
-                <div class="link-card-title">Group Guide</div>
-                <div class="link-card-desc">Manage group reservations</div>
-            </div>
-
-            <div class="link-card" onclick="alert('MOD Messages feature coming soon!')">
-                <div class="link-card-icon">📢</div>
-                <div class="link-card-title">MOD Messages</div>
-                <div class="link-card-desc">View and post manager messages</div>
+            <div class="admin-actions" id="adminActions" style="display: none;">
+                <h3>Administrator Tools</h3>
+                <p style="color: #666; margin-bottom: 20px;">As an administrator, you have access to user management features.</p>
+                
+                <div class="action-buttons">
+                    <a href="user-management.html" class="action-button">
+                        👥 Manage Users
+                    </a>
+                    <a href="user-management.html#add-user" class="action-button">
+                        ➕ Add New User
+                    </a>
+                    <a href="user-management.html#permissions" class="action-button">
+                        🔐 Modify Permissions
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { firebaseConfig } from './firebase-config.js';
 
@@ -362,7 +348,7 @@
             editDepartment: "Edit department content"
         };
 
-        // Role badge colors
+        // Role badge functions
         function getRoleBadgeClass(role) {
             switch(role) {
                 case 'Admin': return 'role-admin';
@@ -373,7 +359,6 @@
             }
         }
 
-        // Role display text
         function getRoleText(role) {
             switch(role) {
                 case 'Admin': return '👑 Administrator';
@@ -384,44 +369,44 @@
             }
         }
 
-        // Logout function
-        window.handleLogout = async function() {
-            try {
-                await signOut(auth);
-                window.location.href = 'firebase-login.html';
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert('Error logging out. Please try again.');
-            }
-        };
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
 
         // Check authentication
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                // Not logged in, redirect to login
                 window.location.href = 'firebase-login.html';
                 return;
             }
 
             try {
-                // Get user profile from Firestore
+                // Get user profile
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
                 
                 if (!userDoc.exists()) {
-                    alert('User profile not found. Please contact administrator.');
-                    await signOut(auth);
+                    alert('User profile not found.');
                     window.location.href = 'firebase-login.html';
                     return;
                 }
 
                 const userProfile = userDoc.data();
 
-                // Update UI with user info
-                document.getElementById('userName').textContent = userProfile.name;
-                document.getElementById('userTitle').textContent = userProfile.title;
-                document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userProfile.name}!`;
-                document.getElementById('roleText').textContent = getRoleText(userProfile.role).toLowerCase();
+                // Display profile information
+                document.getElementById('fullName').textContent = userProfile.name || 'N/A';
+                document.getElementById('emailAddress').textContent = user.email;
+                document.getElementById('userJobTitle').textContent = userProfile.title || 'N/A';
+                document.getElementById('userDepartment').textContent = userProfile.department || 'N/A';
+                document.getElementById('accountCreated').textContent = formatDate(userProfile.createdAt);
+                document.getElementById('lastLogin').textContent = formatDate(userProfile.lastLogin);
 
                 // Add role badge
                 const badge = document.createElement('span');
@@ -431,19 +416,15 @@
 
                 // Display permissions
                 const permissionsList = document.getElementById('permissionsList');
-                
-                // Get permissions from Firestore or use defaults
                 const permissions = userProfile.permissions || {};
                 
-                // If no permissions in Firestore, show all as denied for staff, all granted for admin
+                // Default permissions if none exist
                 if (Object.keys(permissions).length === 0) {
                     if (userProfile.role === 'Admin') {
-                        // Grant all permissions for admin
                         Object.keys(permissionDescriptions).forEach(key => {
                             permissions[key] = true;
                         });
                     } else {
-                        // Just show viewAll for others
                         permissions.viewAll = true;
                     }
                 }
@@ -462,14 +443,19 @@
                     permissionsList.appendChild(item);
                 });
 
-                // Show dashboard, hide loading
+                // Show admin actions if user is admin
+                if (userProfile.role === 'Admin') {
+                    document.getElementById('adminActions').style.display = 'block';
+                }
+
+                // Show page
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('accountPage').style.display = 'block';
 
             } catch (error) {
-                console.error('Error loading user profile:', error);
-                alert('Error loading your profile. Please try again.');
-                document.getElementById('loading').textContent = 'Error loading dashboard. Please refresh.';
+                console.error('Error loading account:', error);
+                alert('Error loading your account. Please try again.');
+                document.getElementById('loading').textContent = 'Error loading account.';
             }
         });
     </script>
