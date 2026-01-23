@@ -5,273 +5,315 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATL ESnet Dashboard</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --embassy-navy: #003057;
             --embassy-blue: #0057A0;
             --embassy-gold: #C7A961;
             --embassy-light-blue: #E8F1F8;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
             min-height: 100vh;
+            padding: 20px;
         }
-        
+
         .loading {
             text-align: center;
             padding: 100px 20px;
-            color: var(--embassy-navy);
+            color: white;
             font-size: 18px;
         }
-        
-        .header {
-            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
-            color: white;
-            padding: 30px 40px;
-            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
-        }
-        .header-content {
-            max-width: 1400px;
+
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
-        .logo-section h1 { font-size: 36px; font-weight: 600; margin-bottom: 5px; }
-        .logo-section .subtitle { font-size: 16px; opacity: 0.9; }
-        .header-info { text-align: right; }
-        .user-greeting { font-size: 18px; font-weight: 500; margin-bottom: 5px; }
-        .property-name { font-size: 14px; opacity: 0.9; }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        .welcome-card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
-        }
-        .welcome-card h2 {
+
+        .header-left h1 {
             color: var(--embassy-navy);
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 32px;
+            margin-bottom: 5px;
         }
-        .welcome-card p {
+
+        .header-left .subtitle {
             color: #666;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        
-        .section-title {
-            color: var(--embassy-navy);
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid var(--embassy-gold);
-        }
-        
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        .quick-link-card {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.08);
-            border: 2px solid transparent;
-        }
-        .quick-link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 87, 160, 0.2);
-            border-color: var(--embassy-blue);
-        }
-        .quick-link-icon {
-            font-size: 36px;
+            font-size: 14px;
             margin-bottom: 15px;
         }
-        .quick-link-title {
+
+        .welcome-text {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--embassy-light-blue);
+        }
+
+        .welcome-text h2 {
             color: var(--embassy-navy);
             font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
-        .quick-link-desc {
+
+        .welcome-text p {
             color: #666;
             font-size: 14px;
-            line-height: 1.5;
         }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
         }
-        .feature-card {
-            background: white;
+
+        .account-button {
+            padding: 10px 25px;
+            background: var(--embassy-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .account-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .user-card {
+            background: var(--embassy-light-blue);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: right;
+            min-width: 250px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
             border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.08);
-        }
-        .feature-card h3 {
-            color: var(--embassy-navy);
-            font-size: 18px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
             margin-bottom: 10px;
         }
-        .feature-card p {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.6;
+
+        .role-admin {
+            background: #FEF3C7;
+            color: #92400E;
         }
-        
+
+        .role-manager {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .role-dept-head {
+            background: #E0E7FF;
+            color: #3730A3;
+        }
+
+        .role-staff {
+            background: #F3F4F6;
+            color: #374151;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #999;
+        }
+
         .logout-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 30px;
-            background: var(--embassy-navy);
+            padding: 8px 20px;
+            background: #DC2626;
             color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
             border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .logout-button:hover {
-            background: var(--embassy-blue);
-            transform: translateY(-2px);
+            background: #B91C1C;
         }
-        
-        footer {
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-card h2 {
+            color: var(--embassy-navy);
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quick-link-card {
+            background: var(--embassy-light-blue);
+            padding: 25px;
+            border-radius: 10px;
             text-align: center;
-            padding: 30px 20px;
-            color: #666;
-            font-size: 13px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 4px solid var(--embassy-blue);
+            text-decoration: none;
+            display: block;
         }
-        
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 87, 160, 0.3);
+            border-left-color: var(--embassy-gold);
+        }
+
+        .quick-link-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .quick-link-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 8px;
+        }
+
+        .quick-link-description {
+            font-size: 13px;
+            color: #666;
+        }
+
         @media (max-width: 768px) {
-            .header-content { flex-direction: column; gap: 20px; text-align: center; }
-            .header-info { text-align: center; }
-            .quick-links { grid-template-columns: 1fr; }
-            .features { grid-template-columns: 1fr; }
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header-right {
+                width: 100%;
+                align-items: stretch;
+            }
+
+            .user-card {
+                text-align: left;
+            }
+
+            .quick-links-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="loading" id="loading">
-        🔐 Loading Dashboard...
+        Loading dashboard...
     </div>
 
-    <div id="dashboardPage" style="display: none;">
-        <header class="header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1>🏨 ATL ESnet</h1>
-                    <p class="subtitle">Atlanta Embassy Suites Network - Internal Portal</p>
-                </div>
-                <div class="header-info">
-                    <div class="user-greeting">Welcome, <span id="userName">Team Member</span>!</div>
-                    <div class="property-name">Embassy Suites Centennial Park</div>
+    <div class="container" id="dashboard" style="display: none;">
+        <div class="header">
+            <div class="header-left">
+                <h1>ATL ESnet Portal</h1>
+                <p class="subtitle">Embassy Suites Centennial Park</p>
+                
+                <div class="welcome-text">
+                    <h2 id="welcomeMessage">Welcome back!</h2>
+                    <p id="accessText">You are successfully logged into the ATL ESnet Portal.</p>
                 </div>
             </div>
-        </header>
 
-        <div class="container">
-            <div class="welcome-card">
-                <h2>Welcome to ATL ESnet</h2>
-                <p>Your central hub for training resources, hotel information, and operational tools. Everything you need to deliver exceptional Embassy Suites service is right here.</p>
+            <div class="header-right">
+                <a href="account.html" class="account-button">👤 View Account</a>
+                
+                <div class="user-card">
+                    <div class="user-role">
+                        <span class="role-badge" id="userRoleBadge"></span>
+                    </div>
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-title" id="userTitle">Loading...</div>
+                    <div class="user-email" id="userEmail">Loading...</div>
+                </div>
+
+                <button class="logout-button" onclick="logout()">🚪 Logout</button>
             </div>
+        </div>
 
-            <h2 class="section-title">Quick Links</h2>
-            <div class="quick-links">
+        <div class="content-card">
+            <h2>📌 Quick Access</h2>
+            
+            <div class="quick-links-grid">
                 <a href="mod-communications.html" class="quick-link-card">
                     <div class="quick-link-icon">📢</div>
                     <div class="quick-link-title">MOD Communications</div>
-                    <div class="quick-link-desc">Important messages and updates from management</div>
+                    <div class="quick-link-description">View and post messages</div>
                 </a>
-                
-                <a href="room-reference.html" class="quick-link-card">
-                    <div class="quick-link-icon">🛏️</div>
-                    <div class="quick-link-title">Room Reference</div>
-                    <div class="quick-link-desc">Complete guide to all 321 guest rooms</div>
-                </a>
-                
+
                 <a href="group-guide.html" class="quick-link-card">
                     <div class="quick-link-icon">👥</div>
                     <div class="quick-link-title">Group Guide</div>
-                    <div class="quick-link-desc">Current group reservations and VIP information</div>
+                    <div class="quick-link-description">Manage group reservations</div>
                 </a>
-                
-                <a href="training-binder.html" class="quick-link-card">
-                    <div class="quick-link-icon">📚</div>
-                    <div class="quick-link-title">Training Binder</div>
-                    <div class="quick-link-desc">Front desk procedures and training materials</div>
-                </a>
-                
-                <a href="nearby-attractions.html" class="quick-link-card">
-                    <div class="quick-link-icon">🎭</div>
-                    <div class="quick-link-title">Nearby Attractions</div>
-                    <div class="quick-link-desc">Local attractions and guest recommendations</div>
-                </a>
-                
-                <a href="lv-restaurants.html" class="quick-link-card">
-                    <div class="quick-link-icon">🍽️</div>
-                    <div class="quick-link-title">LV Restaurants</div>
-                    <div class="quick-link-desc">Legacy Ventures dining locations</div>
-                </a>
-                
-                <a href="employee-handbook.html" class="quick-link-card">
-                    <div class="quick-link-icon">📖</div>
-                    <div class="quick-link-title">Employee Handbook</div>
-                    <div class="quick-link-desc">Company policies and guidelines</div>
-                </a>
-                
-                <a href="legacy-blueprint.html" class="quick-link-card">
-                    <div class="quick-link-icon">📋</div>
-                    <div class="quick-link-title">Legacy Blueprint</div>
-                    <div class="quick-link-desc">Our company mission and values</div>
+
+                <a href="room-reference.html" class="quick-link-card">
+                    <div class="quick-link-icon">🏨</div>
+                    <div class="quick-link-title">Room Reference</div>
+                    <div class="quick-link-description">Search all 321 guest rooms</div>
                 </a>
             </div>
-
-            <h2 class="section-title">Portal Features</h2>
-            <div class="features">
-                <div class="feature-card">
-                    <h3>🔐 Secure Access</h3>
-                    <p>All portal content is protected and accessible only to authorized team members.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>📱 Mobile Friendly</h3>
-                    <p>Access information from any device - desktop, tablet, or mobile phone.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔄 Always Updated</h3>
-                    <p>Content is regularly updated to ensure you have the latest information.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🎯 Quick Reference</h3>
-                    <p>Find what you need fast with organized sections and search tools.</p>
-                </div>
-            </div>
-
-            <button class="logout-button" onclick="handleLogout()">🚪 Logout</button>
         </div>
-
-        <footer>
-            <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
-            <p>© 2026 Legacy Ventures Hotels | For Team Member Use Only</p>
-        </footer>
     </div>
 
     <script type="module">
@@ -284,6 +326,26 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        function getRoleText(role) {
+            const roleMap = {
+                'Admin': 'Administrator',
+                'Manager': 'Manager',
+                'DeptHead': 'Department Head',
+                'Staff': 'Staff'
+            };
+            return roleMap[role] || role;
+        }
+
+        function getRoleBadgeClass(role) {
+            const classMap = {
+                'Admin': 'role-admin',
+                'Manager': 'role-manager',
+                'DeptHead': 'role-dept-head',
+                'Staff': 'role-staff'
+            };
+            return classMap[role] || 'role-staff';
+        }
+
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = 'firebase-login.html';
@@ -295,26 +357,36 @@
                 
                 if (!userDoc.exists()) {
                     alert('User profile not found.');
-                    await signOut(auth);
                     window.location.href = 'firebase-login.html';
                     return;
                 }
 
-                const userData = userDoc.data();
-                document.getElementById('userName').textContent = userData.name || user.email.split('@')[0];
-                
+                const userProfile = userDoc.data();
+
+                // Update UI
+                document.getElementById('userName').textContent = userProfile.name;
+                document.getElementById('userTitle').textContent = userProfile.title;
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userProfile.name}!`;
+                document.getElementById('accessText').textContent = `You are successfully logged into the ATL ESnet Portal with ${getRoleText(userProfile.role).toLowerCase()} access.`;
+
+                const badge = document.createElement('span');
+                badge.className = `role-badge ${getRoleBadgeClass(userProfile.role)}`;
+                badge.textContent = getRoleText(userProfile.role);
+                document.getElementById('userRoleBadge').appendChild(badge);
+
+                // Show dashboard
                 document.getElementById('loading').style.display = 'none';
-                document.getElementById('dashboardPage').style.display = 'block';
+                document.getElementById('dashboard').style.display = 'block';
 
             } catch (error) {
                 console.error('Error:', error);
                 alert('Error loading dashboard. Please try again.');
-                await signOut(auth);
                 window.location.href = 'firebase-login.html';
             }
         });
 
-        window.handleLogout = async function() {
+        window.logout = async function() {
             try {
                 await signOut(auth);
                 window.location.href = 'firebase-login.html';
