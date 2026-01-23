@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATL ESnet Dashboard</title>
+    <title>ATL ESnet Portal - Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -22,18 +22,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
             min-height: 100vh;
-            padding: 20px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 100px 20px;
-            color: white;
-            font-size: 18px;
+            padding: 40px 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -45,7 +38,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
         }
 
         .header-left h1 {
@@ -80,11 +73,15 @@
 
         .header-right {
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
         }
 
         .menu-button {
-            padding: 12px 24px;
-            background: var(--embassy-blue);
+            padding: 8px 20px;
+            background: var(--embassy-navy);
             color: white;
             border: none;
             border-radius: 8px;
@@ -92,82 +89,76 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .menu-button:hover {
-            background: var(--embassy-navy);
-            transform: translateY(-2px);
+            background: var(--embassy-blue);
         }
 
         .user-info {
-            background: linear-gradient(135deg, var(--embassy-navy), var(--embassy-blue));
-            color: white;
+            background: var(--embassy-light-blue);
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 15px;
-            min-width: 280px;
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
         }
 
         .role-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 6px 15px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: white;
             margin-bottom: 10px;
         }
 
-        .role-badge.admin {
+        .role-admin {
             background: var(--embassy-gold);
-            color: var(--embassy-navy);
         }
 
-        .role-badge.manager {
-            background: #5C9FD8;
-            color: white;
+        .role-manager {
+            background: var(--embassy-blue);
         }
 
-        .role-badge.staff {
-            background: #90CAF9;
-            color: var(--embassy-navy);
+        .role-dept-head {
+            background: #6B7280;
         }
 
-        .role-badge.department-head {
-            background: #A5D6A7;
-            color: var(--embassy-navy);
-        }
-
-        .user-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 5px 0;
-        }
-
-        .user-title {
-            font-size: 13px;
-            opacity: 0.9;
-            margin: 5px 0;
+        .role-staff {
+            background: #9CA3AF;
         }
 
         .logout-button {
-            padding: 10px 20px;
-            background: transparent;
+            padding: 10px 25px;
+            background: #DC2626;
             color: white;
-            border: 2px solid white;
+            border: none;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
         }
 
         .logout-button:hover {
-            background: white;
-            color: var(--embassy-navy);
+            background: #B91C1C;
+            transform: translateY(-2px);
         }
 
         .permissions-card {
@@ -186,16 +177,45 @@
             border-bottom: 2px solid var(--embassy-light-blue);
         }
 
-        .post-message-form {
+        .mod-message {
             background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
             padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+            border-radius: 8px;
         }
 
-        .post-message-form h4 {
+        .mod-message:last-child {
+            margin-bottom: 0;
+        }
+
+        .mod-message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .mod-message-author {
+            font-weight: 600;
             color: var(--embassy-navy);
-            margin-bottom: 15px;
+        }
+
+        .mod-message-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .mod-message-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .post-message-form {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--embassy-light-blue);
+            border-radius: 10px;
         }
 
         .post-message-form textarea {
@@ -237,42 +257,47 @@
             cursor: not-allowed;
         }
 
-        .mod-message {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--embassy-blue);
-        }
-
-        .mod-message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .mod-message-author {
-            font-weight: 600;
-            color: var(--embassy-navy);
-            font-size: 14px;
-        }
-
-        .mod-message-time {
-            color: #666;
-            font-size: 12px;
-        }
-
-        .mod-message-text {
-            color: #333;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
         .no-messages {
             text-align: center;
             padding: 40px;
             color: #666;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .permission-item:last-child {
+            border-bottom: none;
+        }
+
+        .permission-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 14px;
+        }
+
+        .permission-allowed {
+            background: #DEF7EC;
+            color: #03543F;
+        }
+
+        .permission-denied {
+            background: #FDE8E8;
+            color: #9B1C1C;
+        }
+
+        .permission-text {
+            font-size: 15px;
+            color: #333;
         }
 
         .quick-links {
@@ -284,21 +309,22 @@
 
         .link-card {
             background: white;
-            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            color: inherit;
             transition: all 0.3s ease;
-            text-align: center;
+            cursor: pointer;
         }
 
         .link-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
         .link-card-icon {
-            font-size: 48px;
+            font-size: 32px;
             margin-bottom: 15px;
         }
 
@@ -314,32 +340,32 @@
             color: #666;
         }
 
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+            font-size: 18px;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
+                text-align: center;
             }
 
             .header-right {
-                width: 100%;
                 margin-top: 20px;
-            }
-
-            .user-info {
-                width: 100%;
-            }
-
-            .quick-links {
-                grid-template-columns: 1fr;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div id="loading" class="loading">
-        <p>Loading your dashboard...</p>
+    <div class="loading" id="loading">
+        Loading your dashboard...
     </div>
 
-    <div id="dashboard" class="container" style="display: none;">
+    <div class="container" id="dashboard" style="display: none;">
         <div class="header">
             <div class="header-left">
                 <h1>ATL ESnet Portal</h1>
@@ -350,16 +376,16 @@
                 </div>
             </div>
             <div class="header-right">
-                <button class="menu-button" onclick="window.location.href='user-account.html'">
+                <button class="menu-button" onclick="window.location.href='account.html'">
                     👤 View Account
                 </button>
                 <div class="user-info">
                     <div id="userRoleBadge"></div>
                     <div class="user-name" id="userName"></div>
                     <div class="user-title" id="userTitle"></div>
-                    <div id="userEmail" style="font-size: 12px; opacity: 0.8;"></div>
+                    <div id="userEmail" style="font-size: 12px; color: #999;"></div>
                 </div>
-                <button class="logout-button" onclick="logout()">🚪 Logout</button>
+                <button class="logout-button" onclick="handleLogout()">🚪 Logout</button>
             </div>
         </div>
 
@@ -368,7 +394,7 @@
             
             <!-- Post Message Form (Managers and Admins only) -->
             <div class="post-message-form" id="postMessageForm" style="display: none;">
-                <h4>Post New Message</h4>
+                <h4 style="color: var(--embassy-navy); margin-bottom: 15px;">Post New Message</h4>
                 <textarea id="messageText" placeholder="Enter your MOD message here..."></textarea>
                 <button class="post-button" onclick="postMessage()" id="postBtn">📤 Post Message</button>
             </div>
@@ -380,10 +406,10 @@
         </div>
 
         <div class="quick-links">
-            <div class="link-card" onclick="window.location.href='group-guide.html'">
-                <div class="link-card-icon">👥</div>
-                <div class="link-card-title">Group Guide</div>
-                <div class="link-card-desc">Manage group reservations</div>
+            <div class="link-card" onclick="alert('Training Binder feature coming soon!')">
+                <div class="link-card-icon">📚</div>
+                <div class="link-card-title">Training Binder</div>
+                <div class="link-card-desc">Access training materials and guides</div>
             </div>
 
             <div class="link-card" onclick="window.location.href='room-reference.html'">
@@ -392,16 +418,10 @@
                 <div class="link-card-desc">View room specifications and details</div>
             </div>
 
-            <div class="link-card" onclick="alert('Training Binder feature coming soon!')">
-                <div class="link-card-icon">📚</div>
-                <div class="link-card-title">Training Binder</div>
-                <div class="link-card-desc">Access training materials and guides</div>
-            </div>
-
-            <div class="link-card" onclick="alert('Nearby Attractions feature coming soon!')">
-                <div class="link-card-icon">🎭</div>
-                <div class="link-card-title">Nearby Attractions</div>
-                <div class="link-card-desc">Local points of interest</div>
+            <div class="link-card" onclick="window.location.href='group-guide.html'">
+                <div class="link-card-icon">👥</div>
+                <div class="link-card-title">Group Guide</div>
+                <div class="link-card-desc">Manage group reservations</div>
             </div>
         </div>
     </div>
@@ -515,73 +535,30 @@
             postBtn.textContent = '📤 Post Message';
         };
 
-        // Role badge functions
-        function getRoleText(role) {
-            const roleMap = {
-                'admin': '👑 Administrator',
-                'manager': '👔 Manager',
-                'staff': '👤 Staff',
-                'department-head': '🎯 Department Head'
-            };
-            return roleMap[role] || role;
-        }
-
+        // Role badge colors
         function getRoleBadgeClass(role) {
-            return role;
+            switch(role) {
+                case 'Admin': return 'role-admin';
+                case 'Manager': return 'role-manager';
+                case 'DepartmentHead': return 'role-dept-head';
+                case 'Staff': return 'role-staff';
+                default: return 'role-staff';
+            }
         }
 
-        // Check authentication
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = 'firebase-login.html';
-                return;
+        // Role display text
+        function getRoleText(role) {
+            switch(role) {
+                case 'Admin': return '👑 Administrator';
+                case 'Manager': return '👔 Manager';
+                case 'DepartmentHead': return '📊 Department Head';
+                case 'Staff': return '👤 Staff';
+                default: return role;
             }
+        }
 
-            try {
-                const userDoc = await getDoc(doc(db, 'users', user.uid));
-                
-                if (!userDoc.exists()) {
-                    alert('User profile not found. Please contact an administrator.');
-                    await signOut(auth);
-                    window.location.href = 'firebase-login.html';
-                    return;
-                }
-
-                const userProfile = userDoc.data();
-                currentUserProfile = userProfile;
-
-                // Update UI with user info
-                document.getElementById('userName').textContent = userProfile.name;
-                document.getElementById('userTitle').textContent = userProfile.title;
-                document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userProfile.name}!`;
-                document.getElementById('accessText').innerHTML = `You are successfully logged into the ATL ESnet Portal with ${getRoleText(userProfile.role).toLowerCase()} access.`;
-
-                const badge = document.createElement('span');
-                badge.className = `role-badge ${getRoleBadgeClass(userProfile.role)}`;
-                badge.textContent = getRoleText(userProfile.role);
-                document.getElementById('userRoleBadge').appendChild(badge);
-
-                // Show post form for admins and managers
-                if (userProfile.role === 'admin' || userProfile.role === 'manager') {
-                    document.getElementById('postMessageForm').style.display = 'block';
-                }
-
-                // Load MOD messages
-                await loadMessages();
-
-                // Show dashboard
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error loading dashboard. Please try again.');
-                window.location.href = 'firebase-login.html';
-            }
-        });
-
-        window.logout = async function() {
+        // Logout function
+        window.handleLogout = async function() {
             try {
                 await signOut(auth);
                 window.location.href = 'firebase-login.html';
@@ -590,6 +567,64 @@
                 alert('Error logging out. Please try again.');
             }
         };
+
+        // Check authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                // Not logged in, redirect to login
+                window.location.href = 'firebase-login.html';
+                return;
+            }
+
+            try {
+                // Get user profile from Firestore
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (!userDoc.exists()) {
+                    alert('User profile not found. Please contact administrator.');
+                    await signOut(auth);
+                    window.location.href = 'firebase-login.html';
+                    return;
+                }
+
+                const userProfile = userDoc.data();
+
+                // Update UI with user info
+                document.getElementById('userName').textContent = userProfile.name;
+                document.getElementById('userTitle').textContent = userProfile.title;
+                document.getElementById('userEmail').textContent = user.email;
+                
+                // Update inline welcome message
+                document.getElementById('welcomeMessage').textContent = `Welcome back, ${userProfile.name}!`;
+                document.getElementById('accessText').innerHTML = `You are successfully logged into the ATL ESnet Portal with ${getRoleText(userProfile.role).toLowerCase()} access.`;
+
+                // Add role badge
+                const badge = document.createElement('span');
+                badge.className = `role-badge ${getRoleBadgeClass(userProfile.role)}`;
+                badge.textContent = getRoleText(userProfile.role);
+                document.getElementById('userRoleBadge').appendChild(badge);
+
+                // Store current user profile
+                currentUserProfile = userProfile;
+
+                // Show post message form if user is Admin or Manager
+                if (userProfile.role === 'Admin' || userProfile.role === 'Manager') {
+                    document.getElementById('postMessageForm').style.display = 'block';
+                }
+
+                // Load MOD messages
+                await loadMessages();
+
+                // Show dashboard, hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+                alert('Error loading your profile. Please try again.');
+                document.getElementById('loading').textContent = 'Error loading dashboard. Please refresh.';
+            }
+        });
     </script>
 </body>
 </html>
