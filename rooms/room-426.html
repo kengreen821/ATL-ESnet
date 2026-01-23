@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATL ESnet - Room 426</title>
+    <title>Room 426 - ATL ESnet</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -21,6 +21,14 @@
             color: var(--text-primary);
             min-height: 100vh;
         }
+        
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--embassy-navy);
+            font-size: 18px;
+        }
+        
         .header {
             background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
             color: white;
@@ -196,74 +204,118 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo-section">
-                <h1>ATL ESnet</h1>
-                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
-            </div>
-            <div class="header-info">
-                <div class="property">Embassy Suites Centennial Park</div>
-                <div>Internal Use Only</div>
-            </div>
-        </div>
-    </header>
-
-    <div class="breadcrumb">
-        <a href="../index.html">Home</a>
-        <span>›</span>
-        <a href="../room-reference.html">Room Reference Guide</a>
-        <span>›</span>
-        <span style="color: var(--embassy-navy); font-weight: 600;">Room 426</span>
+    <div class="loading" id="loading">
+        🔐 Authenticating & Loading Room 426...
     </div>
 
-    <div class="container">
-        <div class="content-card">
-            <div class="page-header">
-                <div class="room-type-badge">TDBN</div>
-                <h2>Room 426</h2>
-                <div class="floor-info">Floor 4</div>
+    <div id="roomPage" style="display: none;">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>ATL ESnet</h1>
+                    <p class="subtitle">Embassy Suites Atlanta - Room Reference</p>
+                </div>
+                <div class="header-info">
+                    <div class="property">Embassy Suites Centennial Park</div>
+                    <div>Internal Use Only</div>
+                </div>
             </div>
+        </header>
 
-            <div class="content">
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Room Type</h3>
-                        <p>Standard 2 Double Bed Suite</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Bed Configuration</h3>
-                        <p>2 Double Beds</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>View</h3>
-                        <p>Park View</p>
-                    </div>
+        <div class="breadcrumb">
+            <a href="../index.html">Dashboard</a>
+            <span>›</span>
+            <a href="../room-reference.html">Room Reference</a>
+            <span>›</span>
+            <span style="color: var(--embassy-navy); font-weight: 600;">Room 426</span>
+        </div>
+
+        <div class="container">
+            <div class="content-card">
+                <div class="page-header">
+                    <div class="room-type-badge">TDBN</div>
+                    <h2>Room 426</h2>
+                    <div class="floor-info">Floor 4</div>
                 </div>
 
-                <div class="info-section">
-                    <h3>🛏️ Room Features & Amenities</h3>
-                    <p><strong>Standard Features:</strong> Pull-out sofa, Microwave, Mini-fridge, Coffee maker</p>
-                </div>
-
-                <div class="photo-section">
-                    <h3>📷 Room Photos</h3>
-                    <div class="photo-placeholder">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <p>Photos will be added here</p>
+                <div class="content">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3>Room Type</h3>
+                            <p>Standard 2 Double Bed Suite</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>Bed Configuration</h3>
+                            <p>2 Double Beds</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>View</h3>
+                            <p>Park View</p>
+                        </div>
                     </div>
-                </div>
 
-                <a href="../room-reference.html" class="back-button">← Back to Room Reference Guide</a>
+                    <div class="info-section">
+                        <h3>🛏️ Room Features & Amenities</h3>
+                        <p><strong>Standard Features:</strong> Pull-out sofa, Microwave, Mini-fridge, Coffee maker</p>
+                        
+                    </div>
+
+                    <div class="photo-section">
+                        <h3>📷 Room Photos</h3>
+                        <div class="photo-placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p>Room photos will be added here</p>
+                        </div>
+                    </div>
+
+                    <a href="../room-reference.html" class="back-button">← Back to Room Reference</a>
+                </div>
             </div>
         </div>
+
+        <footer>
+            <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+            <p>For Team Member Use Only</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
-        <p>For Front Office Team Use Only</p>
-    </footer>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from '../firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = '../firebase-login.html';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (!userDoc.exists()) {
+                    alert('User profile not found.');
+                    window.location.href = '../firebase-login.html';
+                    return;
+                }
+
+                // Room Reference available to all authenticated users
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('roomPage').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error loading page.');
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
 </body>
 </html>
