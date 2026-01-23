@@ -179,6 +179,92 @@
             border-bottom: 2px solid var(--embassy-light-blue);
         }
 
+        .mod-message {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .mod-message:last-child {
+            margin-bottom: 0;
+        }
+
+        .mod-message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .mod-message-author {
+            font-weight: 600;
+            color: var(--embassy-navy);
+        }
+
+        .mod-message-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .mod-message-text {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .post-message-form {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--embassy-light-blue);
+            border-radius: 10px;
+        }
+
+        .post-message-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .post-message-form textarea:focus {
+            outline: none;
+            border-color: var(--embassy-blue);
+        }
+
+        .post-button {
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .post-button:hover:not(:disabled) {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+
+        .post-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .no-messages {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
         .permission-item {
             display: flex;
             align-items: center;
@@ -307,8 +393,19 @@
         </div>
 
         <div class="permissions-card">
-            <h3>Your Permissions</h3>
-            <div id="permissionsList"></div>
+            <h3>📢 MOD Communications</h3>
+            
+            <!-- Post Message Form (Managers and Admins only) -->
+            <div class="post-message-form" id="postMessageForm" style="display: none;">
+                <h4 style="color: var(--embassy-navy); margin-bottom: 15px;">Post New Message</h4>
+                <textarea id="messageText" placeholder="Enter your MOD message here..."></textarea>
+                <button class="post-button" onclick="postMessage()" id="postBtn">📤 Post Message</button>
+            </div>
+
+            <!-- Messages List -->
+            <div id="messagesList">
+                <div class="no-messages">Loading messages...</div>
+            </div>
         </div>
 
         <div class="quick-links">
@@ -341,7 +438,7 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, doc, getDoc, collection, addDoc, query, orderBy, limit, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { firebaseConfig } from './firebase-config.js';
 
         // Initialize Firebase
@@ -349,17 +446,102 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Permission descriptions
-        const permissionDescriptions = {
-            viewAll: "View all portal content",
-            editAll: "Edit all content",
-            manageUsers: "Manage user accounts",
-            postMessages: "Post MOD messages",
-            viewGroupGuide: "Access Group Guide",
-            editGroupGuide: "Edit Group Guide",
-            viewFinancials: "View financial reports",
-            manageSettings: "Manage portal settings",
-            editDepartment: "Edit department content"
+        let currentUserProfile = null;
+
+        // Format date/time helper
+        function formatDateTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+            });
+        }
+
+        // Load MOD messages
+        async function loadMessages() {
+            try {
+                const messagesRef = collection(db, 'mod-messages');
+                const q = query(messagesRef, orderBy('timestamp', 'desc'), limit(10));
+                const querySnapshot = await getDocs(q);
+
+                const messagesList = document.getElementById('messagesList');
+                
+                if (querySnapshot.empty) {
+                    messagesList.innerHTML = '<div class="no-messages">No messages yet. Be the first to post!</div>';
+                    return;
+                }
+
+                messagesList.innerHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'mod-message';
+                    messageDiv.innerHTML = `
+                        <div class="mod-message-header">
+                            <div class="mod-message-author">${msg.authorName} (${msg.authorRole})</div>
+                            <div class="mod-message-time">${formatDateTime(msg.timestamp)}</div>
+                        </div>
+                        <div class="mod-message-text">${msg.message}</div>
+                    `;
+                    messagesList.appendChild(messageDiv);
+                });
+
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                document.getElementById('messagesList').innerHTML = 
+                    '<div class="no-messages">Error loading messages. Please refresh the page.</div>';
+            }
+        }
+
+        // Post new message
+        window.postMessage = async function() {
+            const messageText = document.getElementById('messageText').value.trim();
+            
+            if (!messageText) {
+                alert('Please enter a message.');
+                return;
+            }
+
+            const postBtn = document.getElementById('postBtn');
+            postBtn.disabled = true;
+            postBtn.textContent = 'Posting...';
+
+            try {
+                await addDoc(collection(db, 'mod-messages'), {
+                    message: messageText,
+                    authorName: currentUserProfile.name,
+                    authorRole: currentUserProfile.role,
+                    authorEmail: auth.currentUser.email,
+                    timestamp: new Date().toISOString()
+                });
+
+                // Clear the textarea
+                document.getElementById('messageText').value = '';
+
+                // Reload messages
+                await loadMessages();
+
+                alert('✓ Message posted successfully!');
+
+            } catch (error) {
+                console.error('Error posting message:', error);
+                alert('Error posting message. Please try again.');
+            }
+
+            postBtn.disabled = false;
+            postBtn.textContent = '📤 Post Message';
         };
 
         // Role badge colors
@@ -429,38 +611,16 @@
                 badge.textContent = getRoleText(userProfile.role);
                 document.getElementById('userRoleBadge').appendChild(badge);
 
-                // Display permissions
-                const permissionsList = document.getElementById('permissionsList');
-                
-                // Get permissions from Firestore or use defaults
-                const permissions = userProfile.permissions || {};
-                
-                // If no permissions in Firestore, show all as denied for staff, all granted for admin
-                if (Object.keys(permissions).length === 0) {
-                    if (userProfile.role === 'Admin') {
-                        // Grant all permissions for admin
-                        Object.keys(permissionDescriptions).forEach(key => {
-                            permissions[key] = true;
-                        });
-                    } else {
-                        // Just show viewAll for others
-                        permissions.viewAll = true;
-                    }
+                // Store current user profile
+                currentUserProfile = userProfile;
+
+                // Show post message form if user is Admin or Manager
+                if (userProfile.role === 'Admin' || userProfile.role === 'Manager') {
+                    document.getElementById('postMessageForm').style.display = 'block';
                 }
 
-                // Display each permission
-                Object.keys(permissionDescriptions).forEach(key => {
-                    const hasPermission = permissions[key] === true;
-                    const item = document.createElement('div');
-                    item.className = 'permission-item';
-                    item.innerHTML = `
-                        <div class="permission-icon ${hasPermission ? 'permission-allowed' : 'permission-denied'}">
-                            ${hasPermission ? '✓' : '✗'}
-                        </div>
-                        <div class="permission-text">${permissionDescriptions[key]}</div>
-                    `;
-                    permissionsList.appendChild(item);
-                });
+                // Load MOD messages
+                await loadMessages();
 
                 // Show dashboard, hide loading
                 document.getElementById('loading').style.display = 'none';
