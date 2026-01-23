@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Groups Data - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003057 0%, #0057A0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #003057;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .status.pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .import-btn {
+            width: 100%;
+            padding: 15px;
+            background: #0057A0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .import-btn:hover {
+            background: #003057;
+        }
+
+        .import-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .groups-list {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #E8F1F8;
+        }
+
+        .groups-list h3 {
+            color: #003057;
+            margin-bottom: 15px;
+        }
+
+        .group-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #F8FAFC;
+            border-left: 3px solid #0057A0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .group-name {
+            font-weight: 600;
+            color: #003057;
+        }
+
+        .group-dates {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .warning {
+            background: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .warning-title {
+            font-weight: 600;
+            color: #92400E;
+            margin-bottom: 5px;
+        }
+
+        .warning-text {
+            color: #78350F;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0057A0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 Import Groups Data</h1>
+        <p class="subtitle">Import all current groups from 10-Day Resume Packet</p>
+
+        <div class="warning">
+            <div class="warning-title">⚠️ Important</div>
+            <div class="warning-text">This will add 5 groups from the current resume packet (Jan 23 - Feb 26). Only run this once!</div>
+        </div>
+
+        <div id="status" class="status pending">
+            Ready to import groups...
+        </div>
+
+        <button id="importBtn" class="import-btn" onclick="importGroups()">
+            Import 5 Groups from Resume Packet
+        </button>
+
+        <div class="groups-list">
+            <h3>Groups to Import:</h3>
+            <div class="group-item">
+                <div class="group-name">IPPE 2026</div>
+                <div class="group-dates">Jan 21 - Feb 2, 2026 • 913 rooms</div>
+            </div>
+            <div class="group-item">
+                <div class="group-name">Terminix Team Meeting</div>
+                <div class="group-dates">Jan 20 - Jan 23, 2026 • 62 rooms</div>
+            </div>
+            <div class="group-item">
+                <div class="group-name">Cineflix Media</div>
+                <div class="group-dates">Jan 25 - Jan 30, 2026 • 69 rooms</div>
+            </div>
+            <div class="group-item">
+                <div class="group-name">Dallas Safari Club 2026</div>
+                <div class="group-dates">Jan 31 - Feb 11, 2026 • 211 rooms</div>
+            </div>
+            <div class="group-item">
+                <div class="group-name">GFVGA Board Meeting</div>
+                <div class="group-dates">Feb 2 - Feb 4, 2026 • 13 rooms</div>
+            </div>
+        </div>
+
+        <a href="group-guide.html" class="back-link">← Go to Group Guide</a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check authentication
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = 'firebase-login.html';
+            }
+        });
+
+        // Groups data from resume packet
+        const groupsData = [
+            {
+                groupName: "IPPE 2026",
+                company: "International Production & Processing Expo",
+                arrivalDate: "2026-01-21",
+                departureDate: "2026-02-02",
+                roomBlock: 913,
+                roomsPicked: 913,
+                contactName: "John Starkey",
+                contactPhone: "770-493-9401",
+                contactEmail: "jstarkey@uspoultry.org",
+                vipNames: "Paul Bredwell - COMP PRESIDENTIAL SUITE, COMP PARKING\nValerie Chalker - COMP VICEPRESIDENTIAL SUITE, COMP PARKING",
+                specialRequests: "Housing Company\nSRP Code: C-SRP, C-93y (Comps), C-93U (Staff)\nComp Wi-Fi\n2 Executive Suites at Group Rate\n3 Parking Passes\n5 Amenities\nStaff: Scott Crawford, Claretha Davis, Jenai Gatlin, Mackenzie Long, Megan McCullough, Charles Olentine\nComp Policy: 1 per 40\nGuarantee: CC IPO\nCutoff: 1/8/2026"
+            },
+            {
+                groupName: "Terminix Team Meeting",
+                company: "Terminix",
+                arrivalDate: "2026-01-20",
+                departureDate: "2026-01-23",
+                roomBlock: 62,
+                roomsPicked: 62,
+                contactName: "Ryam Somo",
+                contactPhone: "(760) 290-1155",
+                contactEmail: "ryam.tommi@prestox.com",
+                vipNames: "",
+                specialRequests: "SRP Code: C-934 / CES934\nFlat Rate: $209\nF&B Minimum: $3,500.00\nMeetings: Legacy E (U Shape, 31 people) - Wed & Thu 9am-5pm\nLunch: Legacy F (Round Tables, 31 people) - Wed & Thu 12pm-1pm\nComp Wi-Fi\n20% Off Parking\nComp Meeting Space with F&B Minimum\nCutoff: 1/5/26\nCancellation: 72 hours prior to arrival"
+            },
+            {
+                groupName: "Cineflix Media",
+                company: "Cineflix Media",
+                arrivalDate: "2026-01-25",
+                departureDate: "2026-01-30",
+                roomBlock: 69,
+                roomsPicked: 69,
+                contactName: "Chloe Anderson",
+                contactPhone: "254-570-3916",
+                contactEmail: "chloeanderson@cineflixfilm.com",
+                vipNames: "",
+                specialRequests: "SRP Code: C-H25 / CESH25\nFlat Rate: $262 - ROH\nRooming List\nRoom/Tax to Master Account\nIncidentals: Guests Pay Own\nComp Wi-Fi\n20% Off Parking\nMeeting Planner Points: 1965332420\nAttrition: 80% (66-80%=52)\nCutoff: 01/05/2026\nCancellation: 72 hours prior to arrival\nEarly Dep Fee: 1nt Rm/Tx"
+            },
+            {
+                groupName: "Dallas Safari Club 2026",
+                company: "Dallas Safari Club (via Lakewood Media and Connections Housing)",
+                arrivalDate: "2026-01-31",
+                departureDate: "2026-02-11",
+                roomBlock: 211,
+                roomsPicked: 211,
+                contactName: "Nancy Hallberg",
+                contactPhone: "404-842-0000",
+                contactEmail: "nancy@atlantaconnections.com",
+                vipNames: "",
+                specialRequests: "SRP Code: C-DS1 (Main), C-DS2 (Comps), C-DS3 (Staff)\nFlat Rate: $229 - GTD Bedtypes\nHousing Company\nComp 1/40\n5 Staff rooms at $114.50\n5 Executive suite upgrades @ group rate\n2 Premium Suites @ 50%\nMeeting Planner Points: Khris Harris #1872197072\n1 complimentary room o/a from Wednesday to Sunday\n3 room nights for pre/post-conference planning trips\nComp guest room Wi-Fi\n2 VIP Welcome Amenities\nRebate: $15 per room ($7,215 total)\nCommission: 7% ($7,269.62)\nCutoff: 1/13/2026\nCancellation: 72 hours prior to arrival"
+            },
+            {
+                groupName: "GFVGA Board Meeting",
+                company: "Georgia Fruit and Vegetable Growers Association",
+                arrivalDate: "2026-02-02",
+                departureDate: "2026-02-04",
+                roomBlock: 13,
+                roomsPicked: 13,
+                contactName: "Kelley Atkinson",
+                contactPhone: "(706) 845-8200",
+                contactEmail: "katkinson@asginfo.net",
+                vipNames: "",
+                specialRequests: "SRP Code: CES93Q\nFlat Rate: $199 - ROH\nRooming List - Each Pays Own\nMeeting: Salon IV & V (U Shape, 20 people) - Tue 8am-5pm\nLunch: Salon IV & V (20 people) - Tue 12pm-1pm\nF&B Minimum: $620.00\nComp Meeting Room Rental with F&B minimum\n20% discount off valet parking\nComp Wi-Fi in guestrooms and meeting space\nMeeting Planner Points: 518500544U\nCommission: 7% ($222.88)\nCutoff: 1/16/2026\nCancellation: 72 hours prior to arrival\nCo-locates with GA Agribusiness Council"
+            }
+        ];
+
+        window.importGroups = async function() {
+            const statusDiv = document.getElementById('status');
+            const importBtn = document.getElementById('importBtn');
+
+            importBtn.disabled = true;
+            statusDiv.className = 'status pending';
+            statusDiv.textContent = 'Importing groups...';
+
+            try {
+                let successCount = 0;
+                
+                for (const groupData of groupsData) {
+                    // Add timestamps
+                    groupData.createdAt = new Date().toISOString();
+                    groupData.updatedAt = new Date().toISOString();
+                    
+                    await addDoc(collection(db, 'groups'), groupData);
+                    successCount++;
+                    
+                    statusDiv.textContent = `Importing... (${successCount}/${groupsData.length})`;
+                }
+
+                statusDiv.className = 'status success';
+                statusDiv.textContent = `✅ Success! Imported ${successCount} groups. You can now view them in Group Guide.`;
+                
+                setTimeout(() => {
+                    window.location.href = 'group-guide.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error importing groups:', error);
+                statusDiv.className = 'status error';
+                statusDiv.textContent = `❌ Error: ${error.message}. Make sure you've updated Firestore rules!`;
+                importBtn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>
