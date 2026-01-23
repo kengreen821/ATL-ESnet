@@ -50,6 +50,25 @@
         .header-left .subtitle {
             color: #666;
             font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-inline {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .welcome-text-inline {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 5px;
+        }
+
+        .welcome-access-inline {
+            font-size: 14px;
+            color: #666;
         }
 
         .header-right {
@@ -140,27 +159,6 @@
         .logout-button:hover {
             background: #B91C1C;
             transform: translateY(-2px);
-        }
-
-        .welcome-card {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .welcome-card h2 {
-            color: var(--embassy-navy);
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .welcome-card p {
-            color: #666;
-            font-size: 16px;
-            line-height: 1.6;
         }
 
         .permissions-card {
@@ -372,6 +370,10 @@
             <div class="header-left">
                 <h1>ATL ESnet Portal</h1>
                 <p class="subtitle">Embassy Suites Centennial Park</p>
+                <div class="welcome-inline">
+                    <div class="welcome-text-inline" id="welcomeMessage"></div>
+                    <div class="welcome-access-inline" id="accessText"></div>
+                </div>
             </div>
             <div class="header-right">
                 <button class="menu-button" onclick="window.location.href='account.html'">
@@ -385,11 +387,6 @@
                 </div>
                 <button class="logout-button" onclick="handleLogout()">🚪 Logout</button>
             </div>
-        </div>
-
-        <div class="welcome-card">
-            <h2 id="welcomeMessage"></h2>
-            <p>You are successfully logged into the ATL ESnet Portal with <span id="roleText"></span> access.</p>
         </div>
 
         <div class="permissions-card">
@@ -602,8 +599,10 @@
                 document.getElementById('userName').textContent = userProfile.name;
                 document.getElementById('userTitle').textContent = userProfile.title;
                 document.getElementById('userEmail').textContent = user.email;
+                
+                // Update inline welcome message
                 document.getElementById('welcomeMessage').textContent = `Welcome back, ${userProfile.name}!`;
-                document.getElementById('roleText').textContent = getRoleText(userProfile.role).toLowerCase();
+                document.getElementById('accessText').innerHTML = `You are successfully logged into the ATL ESnet Portal with ${getRoleText(userProfile.role).toLowerCase()} access.`;
 
                 // Add role badge
                 const badge = document.createElement('span');
