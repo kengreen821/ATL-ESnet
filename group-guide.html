@@ -389,6 +389,68 @@
             cursor: not-allowed;
         }
 
+        .detail-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: #374151;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-value:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-dates {
+            background: var(--embassy-light-blue);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .detail-dates-text {
+            color: var(--embassy-navy);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .vip-box {
+            background: #FEF3C7;
+            border-left: 4px solid var(--embassy-gold);
+            padding: 12px;
+            border-radius: 5px;
+            white-space: pre-line;
+            font-size: 14px;
+            color: #78350F;
+        }
+
+        .notes-box {
+            background: #F8FAFC;
+            border-left: 4px solid var(--embassy-blue);
+            padding: 12px;
+            border-radius: 5px;
+            white-space: pre-line;
+            font-size: 14px;
+            color: #334155;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -447,6 +509,19 @@
                     <div class="no-groups-icon">📋</div>
                     <p>No groups found.</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Details Modal -->
+    <div class="modal" id="viewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="viewModalTitle">Group Details</h3>
+                <button class="close-modal" onclick="closeViewModal()">×</button>
+            </div>
+            <div id="viewModalContent" style="line-height: 1.8;">
+                <!-- Content will be populated by JavaScript -->
             </div>
         </div>
     </div>
@@ -668,24 +743,106 @@
             editingGroupId = null;
         };
 
+        // Close view modal
+        window.closeViewModal = function() {
+            document.getElementById('viewModal').classList.remove('active');
+        };
+
+        // Close modals when clicking outside
+        document.getElementById('groupModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('viewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewModal();
+            }
+        });
+
         // View group details
         window.viewGroup = function(groupId) {
             const group = allGroups.find(g => g.id === groupId);
             if (!group) return;
 
-            alert(`
-Group Name: ${group.groupName}
-${group.company ? 'Company: ' + group.company + '\n' : ''}
-Arrival: ${formatDate(group.arrivalDate)}
-Departure: ${formatDate(group.departureDate)}
-${group.roomBlock ? 'Room Block: ' + group.roomBlock + '\n' : ''}
-${group.roomsPicked ? 'Rooms Picked: ' + group.roomsPicked + '\n' : ''}
-${group.contactName ? 'Contact: ' + group.contactName + '\n' : ''}
-${group.contactPhone ? 'Phone: ' + group.contactPhone + '\n' : ''}
-${group.contactEmail ? 'Email: ' + group.contactEmail + '\n' : ''}
-${group.vipNames ? '\nVIPs:\n' + group.vipNames + '\n' : ''}
-${group.specialRequests ? '\nNotes:\n' + group.specialRequests : ''}
-            `.trim());
+            const status = getGroupStatus(group.arrivalDate, group.departureDate);
+            const statusClass = `status-${status}`;
+            const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ');
+
+            let content = `
+                <div class="detail-section">
+                    <div class="detail-dates">
+                        <div class="detail-dates-text">
+                            📅 ${formatDate(group.arrivalDate)} - ${formatDate(group.departureDate)}
+                        </div>
+                    </div>
+                    <span class="status-badge ${statusClass}" style="display: inline-block; margin-top: 10px;">${statusText}</span>
+                </div>
+            `;
+
+            if (group.company) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-label">Company/Organization</div>
+                        <div class="detail-value">${group.company}</div>
+                    </div>
+                `;
+            }
+
+            if (group.roomBlock || group.roomsPicked) {
+                content += `<div class="detail-section">`;
+                if (group.roomBlock) {
+                    content += `
+                        <div class="detail-label">Room Block</div>
+                        <div class="detail-value">${group.roomBlock} rooms</div>
+                    `;
+                }
+                if (group.roomsPicked) {
+                    content += `
+                        <div class="detail-label">Rooms Picked Up</div>
+                        <div class="detail-value">${group.roomsPicked} rooms</div>
+                    `;
+                }
+                content += `</div>`;
+            }
+
+            if (group.contactName || group.contactPhone || group.contactEmail) {
+                content += `<div class="detail-section">`;
+                content += `<div class="detail-label">Primary Contact</div>`;
+                if (group.contactName) {
+                    content += `<div class="detail-value"><strong>Name:</strong> ${group.contactName}</div>`;
+                }
+                if (group.contactPhone) {
+                    content += `<div class="detail-value"><strong>Phone:</strong> ${group.contactPhone}</div>`;
+                }
+                if (group.contactEmail) {
+                    content += `<div class="detail-value"><strong>Email:</strong> <a href="mailto:${group.contactEmail}" style="color: var(--embassy-blue);">${group.contactEmail}</a></div>`;
+                }
+                content += `</div>`;
+            }
+
+            if (group.vipNames) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-label">VIP Names</div>
+                        <div class="vip-box">${group.vipNames}</div>
+                    </div>
+                `;
+            }
+
+            if (group.specialRequests) {
+                content += `
+                    <div class="detail-section">
+                        <div class="detail-label">Special Requests / Notes</div>
+                        <div class="notes-box">${group.specialRequests}</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('viewModalTitle').textContent = group.groupName;
+            document.getElementById('viewModalContent').innerHTML = content;
+            document.getElementById('viewModal').classList.add('active');
         };
 
         // Edit group
