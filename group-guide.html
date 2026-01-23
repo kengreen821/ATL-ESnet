@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Guide - ATL ESnet Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            color: var(--embassy-navy);
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header-left .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .back-button {
+            padding: 10px 25px;
+            background: var(--embassy-navy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-blue);
+        }
+
+        .controls-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .add-group-btn {
+            padding: 12px 25px;
+            background: var(--embassy-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-group-btn:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--embassy-blue);
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-card h2 {
+            color: var(--embassy-navy);
+            font-size: 28px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .group-card {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 87, 160, 0.2);
+        }
+
+        .group-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .group-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 5px;
+        }
+
+        .group-dates {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .group-info {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .group-info-row {
+            display: flex;
+            margin-bottom: 5px;
+        }
+
+        .group-info-label {
+            font-weight: 600;
+            margin-right: 8px;
+            min-width: 80px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-in-house {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-past {
+            background: #E5E7EB;
+            color: #374151;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .btn-small {
+            padding: 6px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: var(--embassy-blue);
+            color: white;
+        }
+
+        .btn-edit {
+            background: var(--embassy-gold);
+            color: white;
+        }
+
+        .btn-delete {
+            background: #DC2626;
+            color: white;
+        }
+
+        .btn-small:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .no-groups {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-groups-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+            font-size: 18px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .modal-header h3 {
+            color: var(--embassy-navy);
+            font-size: 24px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: var(--embassy-navy);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--embassy-navy);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--embassy-blue);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            background: var(--embassy-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            background: var(--embassy-navy);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .groups-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-card {
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        Loading Group Guide...
+    </div>
+
+    <div class="container" id="groupGuidePage" style="display: none;">
+        <div class="header">
+            <div class="header-left">
+                <h1>👥 Group Guide</h1>
+                <p class="subtitle">Manage group reservations and in-house groups</p>
+            </div>
+            <a href="index.html" class="back-button">← Back to Dashboard</a>
+        </div>
+
+        <div class="controls-card">
+            <button class="add-group-btn" id="addGroupBtn" onclick="openAddGroupModal()" style="display: none;">
+                ➕ Add Group
+            </button>
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search groups by name, contact, or company...">
+            <select class="filter-select" id="statusFilter">
+                <option value="all">All Groups</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="in-house">In-House</option>
+                <option value="past">Past</option>
+            </select>
+        </div>
+
+        <div class="content-card">
+            <h2>Current & Upcoming Groups</h2>
+            <div class="groups-grid" id="groupsGrid">
+                <div class="no-groups">
+                    <div class="no-groups-icon">📋</div>
+                    <p>No groups found.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Group Modal -->
+    <div class="modal" id="groupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Group</h3>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+            <form id="groupForm">
+                <div class="form-group">
+                    <label for="groupName">Group Name *</label>
+                    <input type="text" id="groupName" required placeholder="e.g., Atlanta Tech Summit">
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company/Organization</label>
+                    <input type="text" id="company" placeholder="e.g., Tech Corp Inc">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="arrivalDate">Arrival Date *</label>
+                        <input type="date" id="arrivalDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="departureDate">Departure Date *</label>
+                        <input type="date" id="departureDate" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="roomBlock">Room Block</label>
+                        <input type="number" id="roomBlock" min="1" placeholder="e.g., 50">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomsPicked">Rooms Picked Up</label>
+                        <input type="number" id="roomsPicked" min="0" placeholder="e.g., 45">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactName">Primary Contact Name</label>
+                    <input type="text" id="contactName" placeholder="e.g., John Smith">
+                </div>
+
+                <div class="form-group">
+                    <label for="contactPhone">Contact Phone</label>
+                    <input type="tel" id="contactPhone" placeholder="e.g., (404) 555-0123">
+                </div>
+
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email</label>
+                    <input type="email" id="contactEmail" placeholder="e.g., john@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="vipNames">VIP Names</label>
+                    <textarea id="vipNames" placeholder="List VIP guests (one per line)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests / Notes</label>
+                    <textarea id="specialRequests" placeholder="Any special requests, dietary restrictions, room preferences, etc."></textarea>
+                </div>
+
+                <button type="submit" class="submit-button" id="submitBtn">Save Group</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUserProfile = null;
+        let allGroups = [];
+        let editingGroupId = null;
+
+        // Helper function to determine group status
+        function getGroupStatus(arrivalDate, departureDate) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const arrival = new Date(arrivalDate);
+            const departure = new Date(departureDate);
+            
+            if (today < arrival) return 'upcoming';
+            if (today >= arrival && today <= departure) return 'in-house';
+            return 'past';
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Load groups from Firestore
+        async function loadGroups() {
+            try {
+                const groupsRef = collection(db, 'groups');
+                const q = query(groupsRef, orderBy('arrivalDate', 'asc'));
+                const querySnapshot = await getDocs(q);
+
+                allGroups = [];
+                querySnapshot.forEach((doc) => {
+                    allGroups.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                displayGroups(allGroups);
+            } catch (error) {
+                console.error('Error loading groups:', error);
+                document.getElementById('groupsGrid').innerHTML = 
+                    '<div class="no-groups"><div class="no-groups-icon">⚠️</div><p>Error loading groups. Please refresh the page.</p></div>';
+            }
+        }
+
+        // Display groups
+        function displayGroups(groups) {
+            const grid = document.getElementById('groupsGrid');
+            
+            if (groups.length === 0) {
+                grid.innerHTML = '<div class="no-groups"><div class="no-groups-icon">📋</div><p>No groups found. Click "Add Group" to create one.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = '';
+            groups.forEach(group => {
+                const status = getGroupStatus(group.arrivalDate, group.departureDate);
+                const statusClass = `status-${status}`;
+                const statusText = status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ');
+
+                const card = document.createElement('div');
+                card.className = 'group-card';
+                card.innerHTML = `
+                    <div class="group-card-header">
+                        <div>
+                            <div class="group-name">${group.groupName}</div>
+                            ${group.company ? `<div style="font-size: 14px; color: #666;">${group.company}</div>` : ''}
+                        </div>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="group-dates">
+                        📅 ${formatDate(group.arrivalDate)} - ${formatDate(group.departureDate)}
+                    </div>
+                    <div class="group-info">
+                        ${group.roomBlock ? `<div class="group-info-row"><span class="group-info-label">Room Block:</span>${group.roomBlock} rooms</div>` : ''}
+                        ${group.roomsPicked ? `<div class="group-info-row"><span class="group-info-label">Picked Up:</span>${group.roomsPicked} rooms</div>` : ''}
+                        ${group.contactName ? `<div class="group-info-row"><span class="group-info-label">Contact:</span>${group.contactName}</div>` : ''}
+                        ${group.contactPhone ? `<div class="group-info-row"><span class="group-info-label">Phone:</span>${group.contactPhone}</div>` : ''}
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-small btn-view" onclick="viewGroup('${group.id}')">👁️ View Details</button>
+                        ${currentUserProfile?.role === 'Admin' || currentUserProfile?.role === 'Manager' ? 
+                            `<button class="btn-small btn-edit" onclick="editGroup('${group.id}')">✏️ Edit</button>
+                             <button class="btn-small btn-delete" onclick="deleteGroup('${group.id}', '${group.groupName}')">🗑️ Delete</button>` 
+                            : ''}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter and search
+        function filterGroups() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            let filtered = allGroups;
+
+            // Filter by status
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(group => 
+                    getGroupStatus(group.arrivalDate, group.departureDate) === statusFilter
+                );
+            }
+
+            // Filter by search term
+            if (searchTerm) {
+                filtered = filtered.filter(group =>
+                    (group.groupName?.toLowerCase().includes(searchTerm)) ||
+                    (group.company?.toLowerCase().includes(searchTerm)) ||
+                    (group.contactName?.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            displayGroups(filtered);
+        }
+
+        // Event listeners for search and filter
+        document.getElementById('searchInput').addEventListener('input', filterGroups);
+        document.getElementById('statusFilter').addEventListener('change', filterGroups);
+
+        // Open add group modal
+        window.openAddGroupModal = function() {
+            editingGroupId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Group';
+            document.getElementById('groupForm').reset();
+            document.getElementById('groupModal').classList.add('active');
+        };
+
+        // Close modal
+        window.closeModal = function() {
+            document.getElementById('groupModal').classList.remove('active');
+            editingGroupId = null;
+        };
+
+        // View group details
+        window.viewGroup = function(groupId) {
+            const group = allGroups.find(g => g.id === groupId);
+            if (!group) return;
+
+            alert(`
+Group Name: ${group.groupName}
+${group.company ? 'Company: ' + group.company + '\n' : ''}
+Arrival: ${formatDate(group.arrivalDate)}
+Departure: ${formatDate(group.departureDate)}
+${group.roomBlock ? 'Room Block: ' + group.roomBlock + '\n' : ''}
+${group.roomsPicked ? 'Rooms Picked: ' + group.roomsPicked + '\n' : ''}
+${group.contactName ? 'Contact: ' + group.contactName + '\n' : ''}
+${group.contactPhone ? 'Phone: ' + group.contactPhone + '\n' : ''}
+${group.contactEmail ? 'Email: ' + group.contactEmail + '\n' : ''}
+${group.vipNames ? '\nVIPs:\n' + group.vipNames + '\n' : ''}
+${group.specialRequests ? '\nNotes:\n' + group.specialRequests : ''}
+            `.trim());
+        };
+
+        // Edit group
+        window.editGroup = function(groupId) {
+            const group = allGroups.find(g => g.id === groupId);
+            if (!group) return;
+
+            editingGroupId = groupId;
+            document.getElementById('modalTitle').textContent = 'Edit Group';
+            document.getElementById('groupName').value = group.groupName || '';
+            document.getElementById('company').value = group.company || '';
+            document.getElementById('arrivalDate').value = group.arrivalDate || '';
+            document.getElementById('departureDate').value = group.departureDate || '';
+            document.getElementById('roomBlock').value = group.roomBlock || '';
+            document.getElementById('roomsPicked').value = group.roomsPicked || '';
+            document.getElementById('contactName').value = group.contactName || '';
+            document.getElementById('contactPhone').value = group.contactPhone || '';
+            document.getElementById('contactEmail').value = group.contactEmail || '';
+            document.getElementById('vipNames').value = group.vipNames || '';
+            document.getElementById('specialRequests').value = group.specialRequests || '';
+            
+            document.getElementById('groupModal').classList.add('active');
+        };
+
+        // Delete group
+        window.deleteGroup = async function(groupId, groupName) {
+            if (!confirm(`Are you sure you want to delete "${groupName}"? This cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, 'groups', groupId));
+                alert('Group deleted successfully!');
+                await loadGroups();
+            } catch (error) {
+                console.error('Error deleting group:', error);
+                alert('Error deleting group. Please try again.');
+            }
+        };
+
+        // Form submission
+        document.getElementById('groupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+
+            const groupData = {
+                groupName: document.getElementById('groupName').value,
+                company: document.getElementById('company').value,
+                arrivalDate: document.getElementById('arrivalDate').value,
+                departureDate: document.getElementById('departureDate').value,
+                roomBlock: parseInt(document.getElementById('roomBlock').value) || null,
+                roomsPicked: parseInt(document.getElementById('roomsPicked').value) || null,
+                contactName: document.getElementById('contactName').value,
+                contactPhone: document.getElementById('contactPhone').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                vipNames: document.getElementById('vipNames').value,
+                specialRequests: document.getElementById('specialRequests').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            try {
+                if (editingGroupId) {
+                    // Update existing group
+                    await updateDoc(doc(db, 'groups', editingGroupId), groupData);
+                    alert('Group updated successfully!');
+                } else {
+                    // Add new group
+                    groupData.createdAt = new Date().toISOString();
+                    await addDoc(collection(db, 'groups'), groupData);
+                    alert('Group added successfully!');
+                }
+
+                closeModal();
+                await loadGroups();
+
+            } catch (error) {
+                console.error('Error saving group:', error);
+                alert('Error saving group. Please try again.');
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save Group';
+        });
+
+        // Check authentication and permissions
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'firebase-login.html';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (!userDoc.exists()) {
+                    alert('User profile not found.');
+                    window.location.href = 'firebase-login.html';
+                    return;
+                }
+
+                currentUserProfile = userDoc.data();
+
+                // Check if user has viewGroupGuide permission
+                const hasPermission = currentUserProfile.role === 'Admin' || 
+                                    currentUserProfile.role === 'Manager' ||
+                                    (currentUserProfile.permissions && currentUserProfile.permissions.viewGroupGuide);
+
+                if (!hasPermission) {
+                    alert('Access denied. You do not have permission to view the Group Guide.');
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                // Show Add Group button for Admin/Manager only
+                if (currentUserProfile.role === 'Admin' || currentUserProfile.role === 'Manager') {
+                    document.getElementById('addGroupBtn').style.display = 'block';
+                }
+
+                // Load groups
+                await loadGroups();
+
+                // Show page
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('groupGuidePage').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error loading page. Please try again.');
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>
