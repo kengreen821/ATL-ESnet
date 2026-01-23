@@ -500,9 +500,21 @@
                 text-align: center;
             }
         }
+        
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--embassy-navy);
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
+    <div class="loading" id="loading">
+        🔐 Authenticating & Loading Room Reference...
+    </div>
+
+    <div id="roomReferencePage" style="display: none;">
     <button class="menu-toggle" id="menuToggle">☰</button>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -1048,7 +1060,55 @@
 
     <div class="footer">© 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only</div>
 
-    <script>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'firebase-login.html';
+                return;
+            }
+
+            try {
+                // Get user profile
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (!userDoc.exists()) {
+                    alert('User profile not found.');
+                    window.location.href = 'firebase-login.html';
+                    return;
+                }
+
+                // Room Reference is available to all authenticated users
+                // No special permissions needed - it's a basic reference tool
+
+                // Show page
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('roomReferencePage').style.display = 'block';
+
+                // Initialize time display
+                updateTime();
+                setInterval(updateTime, 1000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error loading page. Please try again.');
+                window.location.href = 'index.html';
+            }
+        });
+
+
         function updateTime() {
             const now = new Date();
             const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
