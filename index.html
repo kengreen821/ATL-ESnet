@@ -41,13 +41,6 @@
             align-items: center;
         }
 
-        .datetime-display {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
         .header-left h1 {
             color: var(--embassy-navy);
             font-size: 32px;
@@ -375,7 +368,6 @@
     <div class="container" id="dashboard" style="display: none;">
         <div class="header">
             <div class="header-left">
-                <div class="datetime-display" id="currentDateTime"></div>
                 <h1>ATL ESnet Portal</h1>
                 <p class="subtitle">Embassy Suites Centennial Park</p>
                 <div class="welcome-inline">
@@ -420,7 +412,7 @@
                 <div class="link-card-desc">Access training materials and guides</div>
             </div>
 
-            <div class="link-card" onclick="window.location.href='room-reference.html'">
+            <div class="link-card" onclick="alert('Room Reference feature coming soon!')">
                 <div class="link-card-icon">🏨</div>
                 <div class="link-card-title">Room Reference</div>
                 <div class="link-card-desc">View room specifications and details</div>
@@ -430,6 +422,18 @@
                 <div class="link-card-icon">👥</div>
                 <div class="link-card-title">Group Guide</div>
                 <div class="link-card-desc">Manage group reservations</div>
+            </div>
+
+            <div class="link-card" onclick="window.location.href='group-guide-unified.html'">
+                <div class="link-card-icon">🤖</div>
+                <div class="link-card-title">AI Group Guide</div>
+                <div class="link-card-desc">AI-powered group management</div>
+            </div>
+
+            <div class="link-card" onclick="alert('MOD Messages feature coming soon!')">
+                <div class="link-card-icon">📢</div>
+                <div class="link-card-title">MOD Messages</div>
+                <div class="link-card-desc">View and post manager messages</div>
             </div>
         </div>
     </div>
@@ -446,30 +450,6 @@
         const db = getFirestore(app);
 
         let currentUserProfile = null;
-
-        // Update date and time display
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const dateTimeString = now.toLocaleDateString('en-US', options);
-            const dateTimeElement = document.getElementById('currentDateTime');
-            if (dateTimeElement) {
-                dateTimeElement.textContent = dateTimeString;
-            }
-        }
-
-        // Update time immediately and then every second
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
 
         // Format date/time helper
         function formatDateTime(timestamp) {
