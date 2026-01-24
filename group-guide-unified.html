@@ -914,9 +914,6 @@
                 <button class="add-group-btn ai-upload-btn" id="aiUploadBtn" onclick="toggleUploadSection()" style="display: none;">
                     🤖 AI Upload
                 </button>
-                <button class="add-group-btn" id="apiKeyBtn" onclick="manageApiKey()" style="display: none; background: #64748b;">
-                    🔑 API Key
-                </button>
                 <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search groups by name, contact, or company...">
                 <select class="filter-select" id="statusFilter">
                     <option value="all">All Groups</option>
@@ -1082,70 +1079,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // API Key Management - Stored in Browser localStorage
-        function getAnthropicApiKey() {
-            return localStorage.getItem('anthropic_api_key');
-        }
-
-        function setAnthropicApiKey(key) {
-            localStorage.setItem('anthropic_api_key', key);
-        }
-
-        function promptForApiKey() {
-            const key = prompt(
-                '🔑 Anthropic API Key Required\n\n' +
-                'Please enter your Anthropic API key to enable AI document processing.\n\n' +
-                'Get your key at: https://console.anthropic.com/settings/keys\n\n' +
-                'Your key will be stored securely in your browser and never shared.'
-            );
-            
-            if (key && key.startsWith('sk-ant-')) {
-                setAnthropicApiKey(key);
-                return key;
-            } else if (key) {
-                alert('Invalid API key format. API keys should start with "sk-ant-"');
-                return null;
-            }
-            return null;
-        }
-
-        // API Key Settings Management
-        window.manageApiKey = function() {
-            const currentKey = getAnthropicApiKey();
-            const message = currentKey 
-                ? '✓ API Key is configured\n\nWhat would you like to do?\n\n1. View current key\n2. Change key\n3. Clear key\n4. Cancel\n\nEnter 1, 2, 3, or 4:'
-                : '✗ No API Key configured\n\nWould you like to add one now?\n\nEnter your Anthropic API key or click Cancel:';
-            
-            if (currentKey) {
-                const choice = prompt(message);
-                if (choice === '1') {
-                    const masked = currentKey.substring(0, 20) + '...' + currentKey.substring(currentKey.length - 10);
-                    alert('Current API Key:\n\n' + masked + '\n\n(Masked for security)');
-                } else if (choice === '2') {
-                    const newKey = prompt('Enter new Anthropic API key:');
-                    if (newKey && newKey.startsWith('sk-ant-')) {
-                        setAnthropicApiKey(newKey);
-                        alert('✓ API Key updated successfully!');
-                    } else if (newKey) {
-                        alert('Invalid API key format. Keys should start with "sk-ant-"');
-                    }
-                } else if (choice === '3') {
-                    if (confirm('Are you sure you want to clear the stored API key?\n\nYou will need to enter it again to use AI features.')) {
-                        localStorage.removeItem('anthropic_api_key');
-                        alert('✓ API Key cleared');
-                    }
-                }
-            } else {
-                const newKey = prompt(message);
-                if (newKey && newKey.startsWith('sk-ant-')) {
-                    setAnthropicApiKey(newKey);
-                    alert('✓ API Key saved successfully!');
-                } else if (newKey) {
-                    alert('Invalid API key format. Keys should start with "sk-ant-"');
-                }
-            }
-        }
-
         let currentUserProfile = null;
         let allGroups = [];
         let editingGroupId = null;
@@ -1262,19 +1195,9 @@
             hideAllAlerts();
         }
 
-        // Process document with Claude API
+        // Process document with Claude API via Firebase Cloud Function
         window.processDocument = async function() {
             if (!selectedFile) return;
-
-            // Get API key from localStorage or prompt
-            let apiKey = getAnthropicApiKey();
-            if (!apiKey) {
-                apiKey = promptForApiKey();
-                if (!apiKey) {
-                    showAlert('error', 'API key is required to process documents.');
-                    return;
-                }
-            }
 
             // Show processing
             document.getElementById('processingSection').classList.add('show');
@@ -1284,14 +1207,20 @@
                 // Read file content
                 const fileContent = await readFileContent(selectedFile);
 
-                // Call Claude API using localStorage API key
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                // Call Firebase Cloud Function (solves CORS issue)
+                // Get your Firebase project ID from Firebase Console
+                const projectId = firebaseConfig.projectId;
+                const functionUrl = `https://us-central1-${projectId}.cloudfunctions.net/processGroupDocument`;
+
+                const response = await fetch(functionUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "x-api-key": apiKey,
-                        "anthropic-version": "2023-06-01"
                     },
+                    body: JSON.stringify({
+                        content: fileContent
+                    })
+                });
                     body: JSON.stringify({
                         model: "claude-sonnet-4-20250514",
                         max_tokens: 4000,
@@ -1826,7 +1755,6 @@ ${fileContent}`
                 if (currentUserProfile.role === 'Admin' || currentUserProfile.role === 'Manager') {
                     document.getElementById('addGroupBtn').style.display = 'block';
                     document.getElementById('aiUploadBtn').style.display = 'block';
-                    document.getElementById('apiKeyBtn').style.display = 'block';
                 }
 
                 // Load groups
