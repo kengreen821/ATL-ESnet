@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix User Emails - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003057 0%, #0057A0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #003057;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .status.loading {
+            background: #E8F1F8;
+            color: #0057A0;
+        }
+
+        .status.success {
+            background: #DEF7EC;
+            color: #03543F;
+        }
+
+        .status.error {
+            background: #FDE8E8;
+            color: #9B1C1C;
+        }
+
+        .user-list {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0057A0;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .button-link:hover {
+            background: #003057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix User Email Addresses</h1>
+        <p>This will add email addresses to all user documents in Firestore.</p>
+
+        <div id="status" class="status loading">
+            <strong>Please wait...</strong><br>
+            Checking users and updating emails...
+        </div>
+
+        <div id="userList" class="user-list" style="display: none;"></div>
+
+        <div id="actions" style="display: none;">
+            <a href="user-management.html" class="button-link">← Back to User Management</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, getDocs, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Known user emails (update these to match your actual users)
+        const knownEmails = {
+            'Ken Green': 'ken.green@atlesnet.com',
+            'Front Desk Agent': 'agent.demo@atlesnet.com',
+            'Ivy': 'ivy.gm@atlesnet.com',
+            'Joseph': 'joseph.fom@atlesnet.com',
+            'Antwain': 'antwain.afom@atlesnet.com',
+            'Mike': 'mike.sales@atlesnet.com'
+        };
+
+        async function fixUserEmails() {
+            const statusDiv = document.getElementById('status');
+            const userListDiv = document.getElementById('userList');
+            const actionsDiv = document.getElementById('actions');
+
+            try {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                let updatedCount = 0;
+                let skippedCount = 0;
+                const updates = [];
+
+                for (const userDoc of usersSnapshot.docs) {
+                    const userData = userDoc.data();
+                    const userName = userData.name;
+
+                    // Check if email already exists
+                    if (userData.email && userData.email !== 'N/A') {
+                        updates.push(`✓ ${userName}: Already has email (${userData.email})`);
+                        skippedCount++;
+                        continue;
+                    }
+
+                    // Try to find email from known emails
+                    const email = knownEmails[userName];
+
+                    if (email) {
+                        await updateDoc(doc(db, 'users', userDoc.id), {
+                            email: email
+                        });
+                        updates.push(`✓ ${userName}: Added email (${email})`);
+                        updatedCount++;
+                    } else {
+                        updates.push(`⚠️ ${userName}: No email found (please add manually)`);
+                        skippedCount++;
+                    }
+                }
+
+                // Show results
+                userListDiv.innerHTML = updates.map(u => `<div class="user-item">${u}</div>`).join('');
+                userListDiv.style.display = 'block';
+
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <strong>✓ Process Complete!</strong><br>
+                    Updated: ${updatedCount} users<br>
+                    Skipped: ${skippedCount} users
+                `;
+
+                actionsDiv.style.display = 'block';
+
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `
+                    <strong>Error:</strong><br>
+                    ${error.message}
+                `;
+                actionsDiv.style.display = 'block';
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                document.getElementById('status').className = 'status error';
+                document.getElementById('status').innerHTML = '<strong>Please login first!</strong><br><a href="firebase-login.html">Go to Login</a>';
+                return;
+            }
+
+            // Check if user is admin
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            if (!userDoc.exists() || userDoc.data().role !== 'Admin') {
+                document.getElementById('status').className = 'status error';
+                document.getElementById('status').innerHTML = '<strong>Access Denied!</strong><br>Only administrators can run this fix.';
+                document.getElementById('actions').style.display = 'block';
+                return;
+            }
+
+            // Run the fix
+            await fixUserEmails();
+        });
+    </script>
+</body>
+</html>
