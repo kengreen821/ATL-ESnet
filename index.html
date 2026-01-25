@@ -41,6 +41,13 @@
             align-items: center;
         }
 
+        .datetime-display {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
         .header-left h1 {
             color: var(--embassy-navy);
             font-size: 32px;
@@ -300,43 +307,94 @@
             color: #333;
         }
 
-        .quick-links {
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-bottom: 30px;
         }
 
-        .link-card {
+        .dashboard-button {
             background: white;
             border-radius: 15px;
-            padding: 25px;
+            padding: 40px 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            color: inherit;
             transition: all 0.3s ease;
             cursor: pointer;
+            border: none;
+            text-align: center;
         }
 
-        .link-card:hover {
+        .dashboard-button:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .link-card-icon {
-            font-size: 32px;
+        .dashboard-button-icon {
+            font-size: 48px;
             margin-bottom: 15px;
         }
 
-        .link-card-title {
-            font-size: 18px;
+        .dashboard-button-title {
+            font-size: 22px;
             font-weight: 600;
             color: var(--embassy-navy);
             margin-bottom: 8px;
         }
 
-        .link-card-desc {
-            font-size: 13px;
+        .dashboard-button-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sub-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .sub-cards.expanded {
+            max-height: 500px;
+            opacity: 1;
+            margin-bottom: 20px;
+        }
+
+        .sub-card {
+            background: var(--embassy-light-blue);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .sub-card:hover {
+            background: white;
+            border-color: var(--embassy-blue);
+            transform: translateY(-3px);
+        }
+
+        .sub-card-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .sub-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 5px;
+        }
+
+        .sub-card-desc {
+            font-size: 12px;
             color: #666;
         }
 
@@ -368,6 +426,7 @@
     <div class="container" id="dashboard" style="display: none;">
         <div class="header">
             <div class="header-left">
+                <div class="datetime-display" id="currentDateTime"></div>
                 <h1>ATL ESnet Portal</h1>
                 <p class="subtitle">Embassy Suites Centennial Park</p>
                 <div class="welcome-inline">
@@ -396,7 +455,7 @@
             <div class="post-message-form" id="postMessageForm" style="display: none;">
                 <h4 style="color: var(--embassy-navy); margin-bottom: 15px;">Post New Message</h4>
                 <textarea id="messageText" placeholder="Enter your MOD message here..."></textarea>
-                <button class="post-button" onclick="postMessage()" id="postBtn">📤 Post Message</button>
+                <button class="post-button" onclick="postModMessage()" id="postBtn">📤 Post Message</button>
             </div>
 
             <!-- Messages List -->
@@ -405,35 +464,91 @@
             </div>
         </div>
 
-        <div class="quick-links">
-            <div class="link-card" onclick="window.location.href='training-binder.html'">
-                <div class="link-card-icon">📚</div>
-                <div class="link-card-title">Training Binder</div>
-                <div class="link-card-desc">Access training materials and guides</div>
+        <!-- Dashboard Buttons -->
+        <div class="dashboard-grid">
+            <!-- Guest Services Button -->
+            <div>
+                <button class="dashboard-button" onclick="toggleSubCards('guestServices')">
+                    <div class="dashboard-button-icon">🏨</div>
+                    <div class="dashboard-button-title">Guest Services</div>
+                    <div class="dashboard-button-desc">Room info, amenities, and attractions</div>
+                </button>
+                <div class="sub-cards" id="guestServices">
+                    <a href="room-reference.html" class="sub-card">
+                        <div class="sub-card-icon">🚪</div>
+                        <div class="sub-card-title">Room Reference Guide</div>
+                        <div class="sub-card-desc">Complete directory of all 321 rooms</div>
+                    </a>
+                    <a href="hotel-amenities.html" class="sub-card">
+                        <div class="sub-card-icon">🏊</div>
+                        <div class="sub-card-title">Hotel Amenities</div>
+                        <div class="sub-card-desc">Pool, fitness, parking, and more</div>
+                    </a>
+                    <a href="nearby-attractions.html" class="sub-card">
+                        <div class="sub-card-icon">🗺️</div>
+                        <div class="sub-card-title">Nearby Attractions</div>
+                        <div class="sub-card-desc">Local points of interest</div>
+                    </a>
+                </div>
             </div>
 
-            <div class="link-card" onclick="window.location.href='room-reference.html'">
-                <div class="link-card-icon">🚪</div>
-                <div class="link-card-title">Room Reference</div>
-                <div class="link-card-desc">View room specifications and details</div>
+            <!-- Dining & Outlets Button -->
+            <div>
+                <button class="dashboard-button" onclick="toggleSubCards('dining')">
+                    <div class="dashboard-button-icon">🍽️</div>
+                    <div class="dashboard-button-title">Dining & Outlets</div>
+                    <div class="dashboard-button-desc">Restaurant information and menus</div>
+                </button>
+                <div class="sub-cards" id="dining">
+                    <a href="lv-restaurants.html" class="sub-card">
+                        <div class="sub-card-icon">🍽️</div>
+                        <div class="sub-card-title">LV Restaurants</div>
+                        <div class="sub-card-desc">Legacy Ventures dining options</div>
+                    </a>
+                    <a href="starbucks.html" class="sub-card">
+                        <div class="sub-card-icon">☕</div>
+                        <div class="sub-card-title">Starbucks</div>
+                        <div class="sub-card-desc">Coffee shop hours and menu</div>
+                    </a>
+                    <a href="ruths-chris.html" class="sub-card">
+                        <div class="sub-card-icon">🥩</div>
+                        <div class="sub-card-title">Ruth's Chris</div>
+                        <div class="sub-card-desc">Steakhouse information</div>
+                    </a>
+                </div>
             </div>
 
-            <div class="link-card" onclick="window.location.href='group-guide.html'">
-                <div class="link-card-icon">👥</div>
-                <div class="link-card-title">Group Guide</div>
-                <div class="link-card-desc">Manage group reservations</div>
-            </div>
+            <!-- Groups Button (Direct Link) -->
+            <button class="dashboard-button" onclick="window.location.href='group-guide-unified.html'">
+                <div class="dashboard-button-icon">👥</div>
+                <div class="dashboard-button-title">Groups</div>
+                <div class="dashboard-button-desc">Manage group reservations</div>
+            </button>
 
-            <div class="link-card" onclick="window.location.href='group-guide-unified.html'">
-                <div class="link-card-icon">🤖</div>
-                <div class="link-card-title">AI Group Guide</div>
-                <div class="link-card-desc">AI-powered group management</div>
-            </div>
-
-            <div class="link-card" onclick="alert('MOD Messages feature coming soon!')">
-                <div class="link-card-icon">📢</div>
-                <div class="link-card-title">MOD Messages</div>
-                <div class="link-card-desc">View and post manager messages</div>
+            <!-- Resources Button -->
+            <div>
+                <button class="dashboard-button" onclick="toggleSubCards('resources')">
+                    <div class="dashboard-button-icon">📚</div>
+                    <div class="dashboard-button-title">Resources</div>
+                    <div class="dashboard-button-desc">Training and reference materials</div>
+                </button>
+                <div class="sub-cards" id="resources">
+                    <a href="training-binder.html" class="sub-card">
+                        <div class="sub-card-icon">📚</div>
+                        <div class="sub-card-title">Training Binder</div>
+                        <div class="sub-card-desc">Comprehensive training materials</div>
+                    </a>
+                    <a href="employee-handbook.html" class="sub-card">
+                        <div class="sub-card-icon">📖</div>
+                        <div class="sub-card-title">Employee Handbook</div>
+                        <div class="sub-card-desc">Policies and procedures</div>
+                    </a>
+                    <a href="legacy-blueprint.html" class="sub-card">
+                        <div class="sub-card-icon">📘</div>
+                        <div class="sub-card-title">Legacy Blueprint</div>
+                        <div class="sub-card-desc">Company standards and values</div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -450,6 +565,30 @@
         const db = getFirestore(app);
 
         let currentUserProfile = null;
+
+        // Update date and time display
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const dateTimeString = now.toLocaleDateString('en-US', options);
+            const dateTimeElement = document.getElementById('currentDateTime');
+            if (dateTimeElement) {
+                dateTimeElement.textContent = dateTimeString;
+            }
+        }
+
+        // Update time immediately and then every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
 
         // Format date/time helper
         function formatDateTime(timestamp) {
@@ -509,7 +648,7 @@
         }
 
         // Post new message
-        window.postMessage = async function() {
+        window.postModMessage = async function() {
             const messageText = document.getElementById('messageText').value.trim();
             
             if (!messageText) {
@@ -566,6 +705,21 @@
                 case 'DepartmentHead': return '📊 Department Head';
                 case 'Staff': return '👤 Staff';
                 default: return role;
+            }
+        }
+
+        // Toggle sub-cards for dashboard buttons
+        window.toggleSubCards = function(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                // Close all other sub-cards
+                document.querySelectorAll('.sub-cards').forEach(card => {
+                    if (card.id !== id) {
+                        card.classList.remove('expanded');
+                    }
+                });
+                // Toggle the clicked one
+                element.classList.toggle('expanded');
             }
         }
 
