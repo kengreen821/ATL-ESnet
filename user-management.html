@@ -410,13 +410,17 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { firebaseConfig } from './firebase-config.js';
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        
+        // Create secondary app for adding users without logging out admin
+        const secondaryApp = initializeApp(firebaseConfig, 'Secondary');
+        const secondaryAuth = getAuth(secondaryApp);
 
         let currentUserProfile = null;
         let allUsers = [];
@@ -530,8 +534,8 @@
             addBtn.textContent = 'Creating...';
 
             try {
-                // Create authentication account
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // Create authentication account using SECONDARY auth (doesn't log out admin!)
+                const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
                 const user = userCredential.user;
 
                 // Set default permissions based on role
@@ -583,9 +587,12 @@
                     permissions: permissions,
                     createdAt: new Date().toISOString()
                 });
+                
+                // Sign out the new user from secondary auth (doesn't affect admin!)
+                await signOut(secondaryAuth);
 
                 const message = document.getElementById('addMessage');
-                message.textContent = `✓ User "${name}" created successfully!`;
+                message.textContent = `✓ User "${name}" created successfully! You remain logged in as admin.`;
                 message.className = 'message success';
                 message.style.display = 'block';
 
