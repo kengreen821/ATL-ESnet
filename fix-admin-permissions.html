@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fix Admin Permissions</title>
+</head>
+<body>
+    <h1>Fixing Admin Permissions...</h1>
+    <div id="status">Loading...</div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { firebaseConfig } from './firebase-config.js';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                document.getElementById('status').textContent = 'Please login first!';
+                return;
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                const userData = userDoc.data();
+
+                // Set full admin permissions
+                await updateDoc(doc(db, 'users', user.uid), {
+                    permissions: {
+                        viewAll: true,
+                        editAll: true,
+                        manageUsers: true,
+                        postMessages: true,
+                        viewGroupGuide: true,
+                        editGroupGuide: true,
+                        viewFinancials: true,
+                        manageSettings: true,
+                        editDepartment: true
+                    }
+                });
+
+                document.getElementById('status').innerHTML = `
+                    <h2 style="color: green;">✓ Permissions Fixed!</h2>
+                    <p>User: ${userData.name} (${user.email})</p>
+                    <p>All admin permissions have been enabled.</p>
+                    <p><a href="user-management.html">Go to User Management</a></p>
+                `;
+
+            } catch (error) {
+                document.getElementById('status').innerHTML = `
+                    <h2 style="color: red;">Error</h2>
+                    <p>${error.message}</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
