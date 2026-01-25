@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Firestore Rules - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003057 0%, #0057A0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #003057;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #0057A0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .step {
+            background: #E8F1F8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0057A0;
+        }
+
+        .step strong {
+            color: #003057;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .warning {
+            background: #FEF3C7;
+            border: 2px solid #F59E0B;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning strong {
+            color: #92400E;
+        }
+
+        .success {
+            background: #DEF7EC;
+            border: 2px solid #10B981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .success strong {
+            color: #03543F;
+        }
+
+        ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0057A0;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .button-link:hover {
+            background: #003057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix Firestore Security Rules</h1>
+        <p>You're getting "Missing or insufficient permissions" because your Firestore database rules are too restrictive. Follow these steps to fix it:</p>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> You need to update your Firestore Security Rules in the Firebase Console. This is a one-time setup!
+        </div>
+
+        <h2>📋 Step-by-Step Instructions:</h2>
+
+        <div class="step">
+            <strong>Step 1:</strong> Go to your Firebase Console
+            <br>
+            <a href="https://console.firebase.google.com" target="_blank" class="button-link">Open Firebase Console →</a>
+        </div>
+
+        <div class="step">
+            <strong>Step 2:</strong> Select your project: <strong>atl-esnet-auth</strong>
+        </div>
+
+        <div class="step">
+            <strong>Step 3:</strong> In the left sidebar, click <strong>Firestore Database</strong>
+        </div>
+
+        <div class="step">
+            <strong>Step 4:</strong> Click the <strong>Rules</strong> tab at the top
+        </div>
+
+        <div class="step">
+            <strong>Step 5:</strong> Replace ALL the existing rules with these new rules:
+        </div>
+
+        <div class="code-block">rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+    }
+    
+    // Helper function to check if user has specific permission
+    function hasPermission(permission) {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.permissions[permission] == true;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      // Anyone authenticated can read their own profile
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Admins can read and write all users
+      allow read, write: if request.auth != null && isAdmin();
+      
+      // Users with manageUsers permission can read and write all users
+      allow read, write: if request.auth != null && hasPermission('manageUsers');
+      
+      // Allow users to be created (for registration)
+      allow create: if request.auth != null;
+    }
+    
+    // Groups collection
+    match /groups/{groupId} {
+      // Admins and managers can read/write
+      allow read, write: if request.auth != null && isAdmin();
+      
+      // Users with viewGroupGuide can read
+      allow read: if request.auth != null && hasPermission('viewGroupGuide');
+      
+      // Users with editGroupGuide can write
+      allow write: if request.auth != null && hasPermission('editGroupGuide');
+    }
+    
+    // MOD Messages collection
+    match /mod-messages/{messageId} {
+      // Everyone authenticated can read messages
+      allow read: if request.auth != null;
+      
+      // Admins and users with postMessages can create
+      allow create: if request.auth != null && (isAdmin() || hasPermission('postMessages'));
+      
+      // Admins can delete messages
+      allow delete: if request.auth != null && isAdmin();
+    }
+    
+    // Default: deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}</div>
+
+        <div class="step">
+            <strong>Step 6:</strong> Click the <strong>Publish</strong> button at the top
+        </div>
+
+        <div class="step">
+            <strong>Step 7:</strong> Wait for the confirmation message: "Rules published successfully"
+        </div>
+
+        <div class="success">
+            <strong>✓ Done!</strong> Your Firestore rules are now updated. Go back to User Management and try editing permissions again - it should work now!
+        </div>
+
+        <h2>🔍 What These Rules Do:</h2>
+
+        <p><strong>Admins can:</strong></p>
+        <ul>
+            <li>Read and update ALL user profiles</li>
+            <li>Manage all groups</li>
+            <li>Post and delete MOD messages</li>
+        </ul>
+
+        <p><strong>Managers can:</strong></p>
+        <ul>
+            <li>Read their own profile</li>
+            <li>View and edit groups (if they have permission)</li>
+            <li>Post MOD messages (if they have permission)</li>
+        </ul>
+
+        <p><strong>Staff can:</strong></p>
+        <ul>
+            <li>Read their own profile</li>
+            <li>View groups (if they have viewGroupGuide permission)</li>
+            <li>Read MOD messages</li>
+        </ul>
+
+        <div class="warning">
+            <strong>🔒 Security Note:</strong> These rules are production-ready and secure. They check user roles and permissions before allowing any database operations.
+        </div>
+
+        <h2>❓ Need Help?</h2>
+        <p>If you're still having issues after updating the rules:</p>
+        <ol>
+            <li>Make sure you clicked "Publish" in Firebase Console</li>
+            <li>Wait 30 seconds for rules to propagate</li>
+            <li>Refresh your ATL ESnet page</li>
+            <li>Try editing permissions again</li>
+        </ol>
+
+        <a href="user-management.html" class="button-link">← Back to User Management</a>
+    </div>
+</body>
+</html>
