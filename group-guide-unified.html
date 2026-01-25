@@ -1082,6 +1082,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let currentUser = null;
         let currentUserProfile = null;
         let allGroups = [];
         let editingGroupId = null;
@@ -1349,7 +1350,7 @@
                         ...group,
                         createdAt: new Date().toISOString(),
                         updatedAt: new Date().toISOString(),
-                        createdBy: currentUserProfile.email
+                        createdBy: currentUser?.email || 'Unknown'
                     };
 
                     await addDoc(collection(db, 'groups'), groupData);
@@ -1682,6 +1683,7 @@
                 } else {
                     // Add new group
                     groupData.createdAt = new Date().toISOString();
+                    groupData.createdBy = currentUser?.email || 'Unknown';
                     await addDoc(collection(db, 'groups'), groupData);
                     showAlert('success', 'Group added successfully!');
                 }
@@ -1722,6 +1724,9 @@
                 window.location.href = 'firebase-login.html';
                 return;
             }
+
+            // Store current user
+            currentUser = user;
 
             try {
                 const userDoc = await getDoc(doc(db, 'users', user.uid));
