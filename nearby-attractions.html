@@ -94,7 +94,7 @@
         }
 
         .nav-link.home:before {
-            content: "🏠 ";
+            content: "ðŸ  ";
         }
 
         /* Main Content Area */
@@ -213,6 +213,23 @@
                 gap: 15px;
             }
         }
+
+        /* Content-Specific Styles */
+        .attraction-card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; border-left: 5px solid var(--embassy-gold); }
+        .attraction-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px solid var(--embassy-light-blue); }
+        .attraction-name { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 5px; }
+        .attraction-type { color: var(--embassy-blue); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .attraction-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .info-item { display: flex; align-items: start; }
+        .info-label { font-weight: 600; color: var(--embassy-navy); min-width: 80px; margin-right: 10px; }
+        .info-value { color: var(--text-primary); line-height: 1.6; }
+        .attraction-description { color: var(--text-primary); line-height: 1.7; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--embassy-light-blue); }
+        .highlight-badge { background: #FFF9E6; border-left: 4px solid var(--embassy-gold); padding: 10px 15px; margin-top: 12px; border-radius: 4px; font-size: 14px; }
+        .section-divider { margin: 40px 0; border-top: 3px solid var(--embassy-light-blue); padding-top: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 20px; }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -234,22 +251,16 @@
                 <div class="nav-section">
                     <div class="nav-section-title">Guest Services</div>
                     <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                    <a href="training-binder.html" class="nav-link">Training Binder</a>
                     <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
                     <a href="nearby-attractions.html" class="nav-link active">Nearby Attractions</a>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Dining & Entertainment</div>
-                    <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
-                    <a href="starbucks.html" class="nav-link">Starbucks</a>
-                    <a href="atlanta-magic-theater.html" class="nav-link">Atlanta Magic Theater</a>
-                    <a href="kwans-deli.html" class="nav-link">Kwan's Deli</a>
                     <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
                 </div>
 
                 <div class="nav-section">
-                    <div class="nav-section-title">Group Guide</div>
-                    <a href="group-guide-unified.html" class="nav-link">Group Guide</a>
+                    <div class="nav-section-title">Hotel Dining</div>
+                    <a href="starbucks.html" class="nav-link">Starbucks</a>
+                    <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
                 </div>
 
                 <div class="nav-section">
@@ -275,10 +286,11 @@
                     </h1>
                     <p>Local points of interest and destinations</p>
                 </div>
-                <a href="index.html" class="back-button">← Back to Dashboard</a>
+                <a href="index.html" class="back-button">← Back to Dashboard</a>
             </header>
 
             <!-- Main Content -->
+
             <div class="intro-box">
                 <strong>Guest Service Tip:</strong> Embassy Suites Centennial Park is located in the heart of Atlanta's entertainment district. All attractions listed below are within a 5-10 minute walk, making us the perfect home base for exploring downtown Atlanta. Many attractions offer package deals with our hotel.
             </div>
@@ -572,6 +584,9 @@
             <div class="intro-box">
                 <strong>Planning Tip:</strong> Atlanta CityPASS offers significant savings (up to 49%) on admission to 5 of 6 top attractions including Georgia Aquarium, World of Coca-Cola, Zoo Atlanta, Fernbank Museum, College Football Hall of Fame, and National Center for Civil and Human Rights. Valid for 9 days. Recommend to guests planning multiple attraction visits!
             </div>
+
+            <a href="index.html" class="back-button">← Back to Home</a>
+        
         </main>
     </div>
 
