@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATL ESnet - Parking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199, 169, 97, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .header-info .property {
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .header-info .time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            padding: 30px 0;
+            box-shadow: 2px 0 15px rgba(0, 48, 87, 0.08);
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 14px 25px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--embassy-light-blue);
+        }
+
+        .rates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .rate-card {
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, white 100%);
+            border: 2px solid var(--embassy-blue);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 87, 160, 0.2);
+        }
+
+        .rate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--embassy-blue), var(--embassy-gold));
+        }
+
+        .rate-type {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+
+        .rate-price {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--embassy-blue);
+            margin-bottom: 10px;
+        }
+
+        .rate-price .dollar {
+            font-size: 32px;
+            vertical-align: super;
+        }
+
+        .rate-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .featured-rate {
+            border-color: var(--embassy-gold);
+            background: linear-gradient(135deg, #fff9e6 0%, white 100%);
+        }
+
+        .featured-rate .rate-price {
+            color: var(--embassy-gold);
+        }
+
+        .highlight-box {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-blue);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--embassy-navy);
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .highlight-box p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .payment-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .payment-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--embassy-blue) 0%, var(--embassy-navy) 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 87, 160, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 87, 160, 0.4);
+        }
+
+        .payment-button.disabled {
+            background: linear-gradient(135deg, #999 0%, #666 100%);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .payment-button.disabled:hover {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--embassy-gold);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .info-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--embassy-blue);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Mobile Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--embassy-gold);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 968px) {
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                background: white;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header-info {
+                text-align: center;
+            }
+
+            .rates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rate-price {
+                font-size: 40px;
+            }
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Centennial Park - Internal Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Parking Information</div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-section-title">Communications</div>
+                <a href="index.html" class="nav-link">Front Office Messages</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Guest Services</div>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
+                <a href="parking.html" class="nav-link active">Parking</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Hotel Dining</div>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="kwans-deli.html" class="nav-link">Kwan's Deli</a>
+                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <h1 class="page-title">🅿️ Valet Parking</h1>
+            <p class="page-subtitle">Staff reference for parking rates and guest inquiries</p>
+
+            <div class="info-card">
+                <h2 class="section-header">Parking Rates</h2>
+                <div class="rates-grid">
+                    <div class="rate-card">
+                        <div class="rate-type">0-3 Hours</div>
+                        <div class="rate-price"><span class="dollar">$</span>25</div>
+                        <div class="rate-description">Perfect for quick visits, meetings, or dining</div>
+                    </div>
+
+                    <div class="rate-card">
+                        <div class="rate-type">3-6 Hours</div>
+                        <div class="rate-price"><span class="dollar">$</span>35</div>
+                        <div class="rate-description">Ideal for extended stays or daytime events</div>
+                    </div>
+
+                    <div class="rate-card">
+                        <div class="rate-type">6+ Hours</div>
+                        <div class="rate-price"><span class="dollar">$</span>55</div>
+                        <div class="rate-description">Full-day rate for guests staying longer</div>
+                    </div>
+
+                    <div class="rate-card featured-rate">
+                        <div class="rate-type">Overnight Parking</div>
+                        <div class="rate-price"><span class="dollar">$</span>55</div>
+                        <div class="rate-description">Per night for hotel guests<br><strong>Most Popular</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>ℹ️ Important Information</h3>
+                <ul class="info-list">
+                    <li><strong>Location:</strong> Main entrance - valet stand open 24/7</li>
+                    <li><strong>Payment:</strong> Credit/Debit cards accepted at front desk</li>
+                    <li><strong>Room Charge:</strong> Guests can charge parking to their room</li>
+                    <li><strong>In/Out Privileges:</strong> Available for overnight guests</li>
+                    <li><strong>Oversized Vehicles:</strong> Contact valet staff for availability and rates</li>
+                    <li><strong>Lost Ticket:</strong> Standard overnight rate applies</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h2 class="section-header">Group & Special Rates</h2>
+                <div class="highlight-box">
+                    <p><strong>Group Discounts:</strong> Groups may be eligible for discounted parking rates. Check group resume or contact Sales & Events for details.</p>
+                    <p><strong>Meeting Attendees:</strong> Some meeting packages include discounted or complimentary parking. Verify with meeting organizer.</p>
+                    <p><strong>VIP Guests:</strong> Complimentary parking may be included for certain VIP reservations. Check guest profile in PEP.</p>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h2 class="section-header">💳 Process Parking Payment</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                    Streamlined payment processing for valet parking charges
+                </p>
+                <a href="#" class="payment-button disabled" onclick="return false;">
+                    Process Parking Payment
+                    <span class="coming-soon-badge">Coming Soon</span>
+                </a>
+                <p style="margin-top: 15px; font-size: 14px; color: var(--text-secondary);">
+                    <strong>Note:</strong> Digital payment processing system in development. Currently process parking payments at front desk using standard credit card procedures.
+                </p>
+            </div>
+
+            <div class="info-card" style="margin-top: 30px;">
+                <h2 class="section-header">📝 Staff Notes</h2>
+                <div class="highlight-box">
+                    <h3>Validation & Comp Parking</h3>
+                    <ul>
+                        <li>Check group resume for parking concessions</li>
+                        <li>VIP guests may have comp parking noted in reservation</li>
+                        <li>Verify authorization before waiving parking charges</li>
+                        <li>Document any comped parking in guest notes</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        © 2026 Embassy Suites by Hilton - Centennial Park | ATL ESnet Internal Portal | For Team Member Use Only
+    </div>
+
+    <script>
+        // Live clock
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            
+            if (sidebar.classList.contains('active')) {
+                menuToggle.textContent = '✕';
+            } else {
+                menuToggle.textContent = '☰';
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 968) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
