@@ -213,6 +213,278 @@
                 gap: 15px;
             }
         }
+
+        /* Content-Specific Styles */
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--embassy-gold);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--embassy-blue);
+        }
+
+        .info-box h3 {
+            color: var(--embassy-navy);
+            font-size: 16px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .info-box p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .hours-table th,
+        .hours-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hours-table th {
+            background: var(--embassy-navy);
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .hours-table tr:hover {
+            background: var(--embassy-light-blue);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--embassy-gold);
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .highlight-box p {
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 15px;
+        }
+
+        .highlight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .highlight-box li:before {
+            content: "🥩";
+            position: absolute;
+            left: 0;
+        }
+
+        .dress-code-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 2px solid var(--embassy-gold);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .dress-code-box h3 {
+            color: var(--embassy-navy);
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .dress-code-box p {
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .dress-code-box ul {
+            margin-top: 15px;
+            color: var(--text-primary);
+            padding-left: 20px;
+        }
+
+        .dress-code-box li {
+            margin-bottom: 8px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .feature-box {
+            background: white;
+            border: 2px solid var(--embassy-gold);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.12);
+        }
+
+        .feature-box h4 {
+            color: var(--embassy-navy);
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .feature-box p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .promo-section {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .promo-section h3 {
+            color: #1b5e20;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .promo-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #4caf50;
+        }
+
+        .promo-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .promo-item h4 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .promo-item p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+                .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
     </style>
 </head>
 <body>
@@ -279,6 +551,7 @@
             </header>
 
             <!-- Main Content -->
+
             <div class="content-card">
                 <div class="info-grid">
                     <div class="info-box">
@@ -440,6 +713,7 @@
                     <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);"><strong>Staff Tip:</strong> For guests celebrating special occasions, call ahead to inform the restaurant. Ruth's Chris often provides special touches for birthdays, anniversaries, and other celebrations.</p>
                 </div>
             </div>
+        
         </main>
     </div>
 

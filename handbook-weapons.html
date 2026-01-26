@@ -213,6 +213,53 @@
                 gap: 15px;
             }
         }
+
+        /* Content-Specific Styles */
+        .breadcrumb { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .breadcrumb a { color: var(--embassy-blue); text-decoration: none; }
+        .page-title { font-size: 32px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 10px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 35px; }
+        .content-section { background: white; border-radius: 10px; padding: 35px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid var(--embassy-light-blue); }
+        .content-text { line-height: 1.8; color: var(--text-primary); margin-bottom: 15px; }
+        .highlight-box { background: var(--embassy-light-blue); border-left: 4px solid var(--embassy-blue); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .warning-box { background: #FEE; border-left: 4px solid #C00; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .bullet-list { margin: 15px 0; padding-left: 25px; }
+        .bullet-list li { margin-bottom: 12px; line-height: 1.6; }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+                .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
     </style>
 </head>
 <body>
@@ -270,15 +317,16 @@
             <header class="page-header">
                 <div class="page-title-section">
                     <h1>
-                        <span>🚫</span>
+                        <span>🔫</span>
                         Weapons Policy
                     </h1>
-                    <p>Prohibited items and security procedures</p>
+                    <p>Prohibited items policy</p>
                 </div>
                 <a href="index.html" class="back-button">← Back to Dashboard</a>
             </header>
 
             <!-- Main Content -->
+
             <div class="content-section">
                 <h2 class="section-title">Weapons Prohibition Policy</h2>
                 <div class="warning-box">
@@ -321,6 +369,8 @@
                     Violation of this policy may result in disciplinary action up to and including termination of employment. The Company takes this policy very seriously and will enforce it strictly to ensure the safety and security of all team members and visitors.
                 </p>
             </div>
+            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
+        
         </main>
     </div>
 

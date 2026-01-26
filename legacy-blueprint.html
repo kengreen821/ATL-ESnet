@@ -213,6 +213,132 @@
                 gap: 15px;
             }
         }
+
+        /* Content-Specific Styles */
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+
+        .blueprint-info {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+            margin-bottom: 30px;
+            border-left: 4px solid var(--embassy-gold);
+        }
+
+        .blueprint-tagline {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 10px;
+        }
+
+        .blueprint-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .toc-container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+        }
+
+        .toc-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--embassy-navy);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .toc-item {
+            display: block;
+            padding: 15px 20px;
+            background: var(--embassy-light-blue);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--embassy-navy);
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--embassy-blue);
+        }
+
+        .toc-item:hover {
+            background: var(--embassy-blue);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .toc-item-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .toc-item-page {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .footer {
+            background: var(--embassy-navy);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+                .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
     </style>
 </head>
 <body>
@@ -273,12 +399,13 @@
                         <span>⭐</span>
                         Legacy Blueprint
                     </h1>
-                    <p>Guest service standards and expectations</p>
+                    <p>Our service philosophy</p>
                 </div>
                 <a href="index.html" class="back-button">← Back to Dashboard</a>
             </header>
 
             <!-- Main Content -->
+
             <div class="blueprint-info">
                 <div class="blueprint-tagline">Building Legacy Ventures Culture</div>
                 <p class="blueprint-description">
@@ -322,6 +449,7 @@
                     </a>
                 </div>
             </div>
+        
         </main>
     </div>
 
