@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Amenities - ATL ESnet</title>
+    <title>Page Title - ATL ESnet</title>
     <style>
         * {
             margin: 0;
@@ -16,9 +16,6 @@
             --embassy-blue: #0057A0;
             --embassy-gold: #C7A961;
             --embassy-light-blue: #E8F1F8;
-            --text-primary: #1a1a1a;
-            --text-secondary: #666;
-            --border-color: #ddd;
         }
 
         body {
@@ -97,7 +94,7 @@
         }
 
         .nav-link.home:before {
-            content: "🏠 ";
+            content: "ðŸ  ";
         }
 
         /* Main Content Area */
@@ -173,57 +170,51 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            margin-bottom: 25px;
         }
 
-        /* Content Styling - The Missing Piece! */
-        .content-card h2,
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--embassy-navy);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid var(--embassy-gold);
-        }
-
-        .content-card h3 {
-            color: var(--embassy-navy);
-            font-size: 20px;
-            margin: 20px 0 15px 0;
-            font-weight: 600;
-        }
-
-        .content-card h4 {
-            color: var(--embassy-blue);
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
             font-size: 18px;
-            margin: 15px 0 10px 0;
-            font-weight: 600;
         }
 
-        .content-card p {
-            color: var(--text-primary);
-            line-height: 1.8;
-            margin-bottom: 15px;
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
         }
 
-        .content-card ul,
-        .content-card ol {
-            margin-left: 25px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .datetime-display {
+                position: static;
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
 
-        .content-card li {
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .content-card strong {
-            color: var(--embassy-navy);
-        }
-
-        /* Amenity/Grid Layouts */
+        /* Content-Specific Styles from Original */
         .amenity-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -277,19 +268,6 @@
             font-size: 14px;
         }
 
-        /* Badges */
-        .hours-badge {
-            display: inline-block;
-            background: var(--embassy-blue);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-top: 10px;
-            margin-right: 8px;
-        }
-
         .location-badge {
             display: inline-block;
             background: var(--embassy-gold);
@@ -301,20 +279,16 @@
             margin-top: 10px;
         }
 
-        /* Info/Note Boxes */
-        .info-note {
-            background: #fff8e1;
-            border-left: 4px solid #ffa000;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-        }
-
-        .info-note p {
-            color: #663c00;
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0;
+        .hours-badge {
+            display: inline-block;
+            background: var(--embassy-blue);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-right: 8px;
         }
 
         .highlight-box {
@@ -335,7 +309,6 @@
         .highlight-box p {
             line-height: 1.7;
             margin-bottom: 10px;
-            color: white;
         }
 
         .highlight-box ul {
@@ -348,7 +321,6 @@
             padding: 8px 0;
             padding-left: 25px;
             position: relative;
-            color: white;
         }
 
         .highlight-box li:before {
@@ -359,7 +331,21 @@
             font-weight: bold;
         }
 
-        /* Vending Machine Grid */
+        .info-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .info-note p {
+            color: #663c00;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
         .vending-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -375,11 +361,6 @@
             text-align: center;
         }
 
-        .vending-item .icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
         .vending-item h4 {
             color: var(--embassy-navy);
             font-size: 16px;
@@ -393,51 +374,13 @@
             line-height: 1.6;
         }
 
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 100px 20px;
+        .footer {
+            background: var(--embassy-navy);
             color: white;
-            font-size: 18px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-            }
-
-            .main-content {
-                padding: 20px;
-            }
-
-            .datetime-display {
-                position: static;
-                margin-bottom: 15px;
-                text-align: left;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .amenity-grid,
-            .vending-grid {
-                grid-template-columns: 1fr;
-            }
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -460,22 +403,16 @@
                 <div class="nav-section">
                     <div class="nav-section-title">Guest Services</div>
                     <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                    <a href="training-binder.html" class="nav-link">Training Binder</a>
                     <a href="hotel-amenities.html" class="nav-link active">Hotel Amenities</a>
                     <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Dining & Entertainment</div>
-                    <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
-                    <a href="starbucks.html" class="nav-link">Starbucks</a>
-                    <a href="atlanta-magic-theater.html" class="nav-link">Atlanta Magic Theater</a>
-                    <a href="kwans-deli.html" class="nav-link">Kwan's Deli</a>
                     <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
                 </div>
 
                 <div class="nav-section">
-                    <div class="nav-section-title">Group Guide</div>
-                    <a href="group-guide-unified.html" class="nav-link">Group Guide</a>
+                    <div class="nav-section-title">Hotel Dining</div>
+                    <a href="starbucks.html" class="nav-link">Starbucks</a>
+                    <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
                 </div>
 
                 <div class="nav-section">
@@ -496,16 +433,79 @@
             <header class="page-header">
                 <div class="page-title-section">
                     <h1>
-                        <span>🏊</span>
+                        <span>ðŸ‘¥</span>
                         Hotel Amenities
                     </h1>
                     <p>Pool, fitness, parking, and services</p>
                 </div>
-                <a href="index.html" class="back-button">← Back to Dashboard</a>
+                <a href="index.html" class="back-button">â† Back to Dashboard</a>
             </header>
 
             <!-- Main Content -->
-            <h2 class="section-title">🧺 Laundry Services</h2>
+
+            <div class="amenity-grid">
+                <div class="amenity-box">
+                    <h3><span class="icon">🏊‍♂️</span> Swimming Pool</h3>
+                    
+                    <div class="amenity-detail">
+                        <strong>Hours of Operation</strong>
+                        <p>Daily: 6:00 AM - 10:00 PM</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Location</strong>
+                        <p>Second Floor - Next to Suite 218</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Pool Features</strong>
+                        <p>• Outdoor heated pool<br>
+                        • Comfortable temperature (not high-heat)<br>
+                        • Poolside seating area<br>
+                        • Towels provided</p>
+                    </div>
+
+                    <span class="hours-badge">6 AM - 10 PM</span>
+                    <span class="location-badge">2nd Floor - Near 218</span>
+
+                    <div class="info-note">
+                        <p><strong>Note:</strong> Pool is heated for comfort but not to a high temperature. Perfect for refreshing swims year-round.</p>
+                    </div>
+                </div>
+
+                <div class="amenity-box">
+                    <h3><span class="icon">💪</span> Fitness Center</h3>
+                    
+                    <div class="amenity-detail">
+                        <strong>Hours of Operation</strong>
+                        <p>24 Hours / 7 Days a Week</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Location</strong>
+                        <p>Second Floor - Next to Suite 218<br>
+                        (Adjacent to Swimming Pool)</p>
+                    </div>
+
+                    <div class="amenity-detail">
+                        <strong>Gym Access</strong>
+                        <p>• Available 24/7 for hotel guests<br>
+                        • Room key required for entry<br>
+                        • Cardio and strength equipment<br>
+                        • Complimentary towels</p>
+                    </div>
+
+                    <span class="hours-badge">24/7 Access</span>
+                    <span class="location-badge">2nd Floor - Near 218</span>
+
+                    <div class="info-note">
+                        <p><strong>Guest Tip:</strong> The fitness center is conveniently located next to the pool area for a complete wellness experience.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h2 class="section-title">🧺 Laundry Services</h2>
                 
                 <div class="amenity-grid">
                     <div class="amenity-box" style="border-left-color: var(--embassy-gold);">
@@ -593,6 +593,8 @@
                     <li><strong>Snacks:</strong> 2nd Floor across from Suite 205</li>
                     <li><strong>Valet Laundry:</strong> Contact front desk for pickup</li>
                 </ul>
+            </div>
+        
         </main>
     </div>
 
