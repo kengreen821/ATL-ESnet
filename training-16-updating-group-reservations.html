@@ -3,330 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Updating Group Reservations - ATL ESnet</title>
+    <title>ATL ESnet - Updating group reservations</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --embassy-navy: #003057;
             --embassy-blue: #0057A0;
             --embassy-gold: #C7A961;
             --embassy-light-blue: #E8F1F8;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --border-color: #ddd;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-light-blue) 0%, #ffffff 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        .header {
             background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
-            min-height: 100vh;
-            display: flex;
+            color: white;
+            padding: 25px 40px;
+            box-shadow: 0 2px 10px rgba(0, 48, 87, 0.15);
         }
-
-        /* Left Sidebar Navigation */
-        .sidebar {
-            width: 280px;
-            background: white;
-            min-height: 100vh;
-            padding: 30px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-header {
-            padding: 0 25px 25px;
-            border-bottom: 2px solid var(--embassy-light-blue);
-            margin-bottom: 20px;
-        }
-
-        .sidebar-header h2 {
-            color: var(--embassy-navy);
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .sidebar-header p {
-            color: #666;
-            font-size: 13px;
-        }
-
-        .nav-section {
-            margin-bottom: 25px;
-        }
-
-        .nav-section-title {
-            padding: 0 25px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 12px 25px;
-            color: #333;
-            text-decoration: none;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .nav-link:hover {
-            background: var(--embassy-light-blue);
-            border-left-color: var(--embassy-blue);
-            color: var(--embassy-navy);
-        }
-
-        .nav-link.active {
-            background: var(--embassy-light-blue);
-            border-left-color: var(--embassy-blue);
-            color: var(--embassy-navy);
-            font-weight: 600;
-        }
-
-        .nav-link.home {
-            color: var(--embassy-blue);
-            font-weight: 600;
-        }
-
-        .nav-link.home:before {
-            content: "🏠 ";
-        }
-
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        /* Date/Time Display Above Header */
-        .datetime-display {
-            position: absolute;
-            top: 10px;
-            right: 40px;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--embassy-gold);
-            text-align: right;
-            z-index: 10;
-        }
-
-        /* Top Header */
-        .page-header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            margin-top: 50px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .page-title-section h1 {
-            color: var(--embassy-navy);
-            font-size: 36px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .page-title-section p {
-            color: #666;
-            font-size: 15px;
-        }
-
-        .back-button {
-            padding: 12px 24px;
-            background: var(--embassy-navy);
-            color: white;
-            border: none;
-            border-radius: 8px;
+        .logo-section h1 { font-size: 32px; font-weight: 600; margin-bottom: 5px; }
+        .logo-section .subtitle { font-size: 14px; opacity: 0.9; }
+        .header-info { text-align: right; font-size: 13px; }
+        .header-info .property { font-weight: 600; margin-bottom: 3px; }
+        
+        .breadcrumb {
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 1px solid var(--border-color);
             font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        }
+        .breadcrumb a {
+            color: var(--embassy-blue);
             text-decoration: none;
-            display: inline-block;
-            white-space: nowrap;
+            font-weight: 500;
         }
-
-        .back-button:hover {
-            background: var(--embassy-blue);
-            transform: translateY(-2px);
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-secondary); margin: 0 8px; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
-
-        /* Content Card */
         .content-card {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 48, 87, 0.1);
+            overflow: hidden;
         }
-
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 100px 20px;
+        .page-header {
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
             color: white;
-            font-size: 18px;
+            padding: 30px;
         }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
-            }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
-
+        .page-header .topic-number {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .content {
+            padding: 40px;
+        }
+        .content-placeholder {
+            background: var(--embassy-light-blue);
+            border-left: 4px solid var(--embassy-gold);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .content-placeholder h3 {
+            color: var(--embassy-navy);
+            margin-bottom: 15px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--embassy-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: var(--embassy-navy);
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 40px;
+        }
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-            }
-
-            .main-content {
-                padding: 20px;
-            }
-
-            .datetime-display {
-                position: static;
-                margin-bottom: 15px;
-                text-align: left;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
+            .header-content { flex-direction: column; gap: 15px; text-align: center; }
+            .header-info { text-align: center; }
+            .content { padding: 20px; }
         }
     </style>
 </head>
 <body>
-    <div id="loading" class="loading">
-        <p>Loading...</p>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>ATL ESnet</h1>
+                <p class="subtitle">Embassy Suites Atlanta - Front Office Portal</p>
+            </div>
+            <div class="header-info">
+                <div class="property">Embassy Suites Centennial Park</div>
+                <div>Internal Use Only</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="training-binder.html">Training Binder</a>
+        <span>›</span>
+        <span style="color: var(--embassy-navy); font-weight: 600;">Updating group reservations</span>
     </div>
 
-    <div id="pageContent" style="display: none; width: 100%; display: flex;">
-        <!-- Left Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>ATL ESnet</h2>
-                <p>Embassy Suites Centennial Park</p>
+    <div class="container">
+        <div class="content-card">
+            <div class="page-header">
+                <div class="topic-number">Training Topic #16</div>
+                <h2>Updating group reservations</h2>
             </div>
 
-            <nav>
-                <a href="index.html" class="nav-link home">Dashboard Home</a>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Guest Services</div>
-                    <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
-                    <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
-                    <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+            <div class="content">
+                <!-- CONTENT PLACEHOLDER - ADD YOUR TRAINING CONTENT HERE -->
+                <div class="content-placeholder">
+                    <h3>📝 Content Coming Soon</h3>
+                    <p>This training topic is ready for content.</p>
+                    <p style="margin-top: 10px;">Open this file in a text editor and replace this section with your training materials.</p>
                 </div>
+                
+                <!-- Example of how to add content:
+                <h3>Overview</h3>
+                <p>Your content here...</p>
+                
+                <h3>Procedures</h3>
+                <ol>
+                    <li>Step 1</li>
+                    <li>Step 2</li>
+                </ol>
+                -->
 
-                <div class="nav-section">
-                    <div class="nav-section-title">Dining & Entertainment</div>
-                    <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
-                    <a href="starbucks.html" class="nav-link">Starbucks</a>
-                    <a href="atlanta-magic-theater.html" class="nav-link">Atlanta Magic Theater</a>
-                    <a href="kwans-deli.html" class="nav-link">Kwan's Deli</a>
-                    <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Group Guide</div>
-                    <a href="group-guide-unified.html" class="nav-link">Group Guide</a>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-section-title">Resources</div>
-                    <a href="training-binder.html" class="nav-link active">Training Binder</a>
-                    <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
-                    <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
-                </div>
-            </nav>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Date/Time Display Above Header -->
-            <div class="datetime-display" id="currentDateTime"></div>
-
-            <!-- Page Header -->
-            <header class="page-header">
-                <div class="page-title-section">
-                    <h1>
-                        <span>👥</span>
-                        Updating Group Reservations
-                    </h1>
-                    <p>Group booking modifications</p>
-                </div>
-                <a href="index.html" class="back-button">← Back to Dashboard</a>
-            </header>
-
-            <!-- Main Content -->
-
-        </main>
+                <a href="training-binder.html" class="back-button">← Back to Training Binder</a>
+            </div>
+        </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { firebaseConfig } from './firebase-config.js';
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Update date and time display
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'short', 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const dateTimeString = now.toLocaleDateString('en-US', options);
-            const dateTimeElement = document.getElementById('currentDateTime');
-            if (dateTimeElement) {
-                dateTimeElement.textContent = dateTimeString;
-            }
-        }
-
-        // Update time immediately and then every second
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-
-        // Check authentication
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = 'firebase-login.html';
-                return;
-            }
-
-            // User is authenticated, show content
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('pageContent').style.display = 'flex';
-        });
-    </script>
+    <footer>
+        <p>ATL ESnet - Embassy Suites Centennial Park Internal Portal</p>
+        <p>For Front Office Team Use Only</p>
+    </footer>
 </body>
 </html>
