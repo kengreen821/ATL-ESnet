@@ -26,40 +26,15 @@
         }
 
         /* Hamburger Menu Button (Mobile Only) */
-        .hamburger {
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-            background: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
+        
 
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: var(--embassy-navy);
-            margin: 5px 0;
-            transition: 0.3s;
-        }
+        
 
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
-        }
+        
 
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
+        
 
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
-        }
+        
 
         /* Sidebar Navigation */
         .sidebar {
@@ -785,9 +760,7 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
+            
 
             .sidebar {
                 transform: translateX(-100%);
@@ -848,46 +821,137 @@
                 width: calc(100% - 240px);
             }
         }
+
+        .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 999;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                width: 100%;
+            }
+            
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .header-info {
+                text-align: center;
+            }
+            
+            .logo-section h1 {
+                font-size: 24px;
+            }
+        }
     </style>
     
     <!-- Mammoth.js for DOCX extraction -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 </head>
 <body>
-    <!-- Hamburger Menu Button -->
-    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Sidebar Navigation -->
+        <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1>ATL ESnet</h1>
             <p>Embassy Suites Centennial Park</p>
         </div>
         <div class="sidebar-nav">
-            <div class="nav-section">
-                <a href="index.html" class="nav-link">🏠 Dashboard Home</a>
-            </div>
+            <a href="index.html" class="nav-link">Dashboard Home</a>
 
             <div class="nav-section">
                 <div class="nav-section-title">Guest Services</div>
-                <a href="training-binder.html" class="nav-link">📚 Training Binder</a>
-                <a href="room-reference.html" class="nav-link">🚪 Room Reference</a>
-                <a href="group-guide.html" class="nav-link active">👥 Group Guide</a>
-                <a href="attractions.html" class="nav-link">🎡 Nearby Attractions</a>
+                <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
+                <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                <a href="parking.html" class="nav-link">Parking</a>
+                <a href="accounting.html" class="nav-link">Accounting</a>
             </div>
 
             <div class="nav-section">
-                <div class="nav-section-title">Hotel Dining</div>
-                <a href="restaurant-info.html" class="nav-link">🍽️ Restaurant Info</a>
+                <div class="nav-section-title">Dining & Entertainment</div>
+                <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
+                <a href="starbucks.html" class="nav-link">Starbucks</a>
+                <a href="atlanta-magic-theater.html" class="nav-link">Atlanta Magic Theater</a>
+                <a href="kwans-deli.html" class="nav-link">Kwan's Deli</a>
+                <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+                <a href="chick-fil-a.html" class="nav-link">Chick-fil-A</a>
             </div>
 
             <div class="nav-section">
-                <div class="nav-section-title">Management</div>
-                <a href="mod-communications.html" class="nav-link">📢 MOD Communications</a>
+                <div class="nav-section-title">Group Guide</div>
+                <a href="group-guide-unified.html" class="nav-link active">Group Guide</a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <a href="phone-email-directory.html" class="nav-link">Phone & Email Directory</a>
+                <a href="training-binder.html" class="nav-link">Training Binder</a>
+                <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
             </div>
         </div>
     </nav>
@@ -1092,23 +1156,16 @@
         // Toggle Sidebar for Mobile
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('sidebar');
-            const hamburger = document.getElementById('hamburger');
             sidebar.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        };
+            };
 
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
-            const hamburger = document.getElementById('hamburger');
-            
             if (window.innerWidth <= 768 && 
                 sidebar.classList.contains('active') && 
                 !sidebar.contains(event.target) && 
-                !hamburger.contains(event.target)) {
-                sidebar.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
+                }
         });
 
         // Update date and time display

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone & Email Directory - ATL ESnet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --embassy-navy: #003057;
+            --embassy-blue: #0057A0;
+            --embassy-gold: #C7A961;
+            --embassy-light-blue: #E8F1F8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Left Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: white;
+            min-height: 100vh;
+            padding: 30px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 2px solid var(--embassy-light-blue);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
+            color: var(--embassy-navy);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section-title {
+            padding: 0 25px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px 25px;
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-navy);
+        }
+
+        .nav-link.active {
+            background: var(--embassy-light-blue);
+            border-left-color: var(--embassy-blue);
+            color: var(--embassy-navy);
+            font-weight: 600;
+        }
+
+        .nav-link.home {
+            color: var(--embassy-blue);
+            font-weight: 600;
+        }
+
+        .nav-link.home:before {
+            content: "🏠 ";
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Date/Time Display Above Header */
+        .datetime-display {
+            position: absolute;
+            top: 10px;
+            right: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--embassy-gold);
+            text-align: right;
+            z-index: 10;
+        }
+
+        /* Top Header */
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            margin-top: 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title-section h1 {
+            color: var(--embassy-navy);
+            font-size: 36px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-title-section p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .back-button {
+            padding: 12px 24px;
+            background: var(--embassy-navy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .back-button:hover {
+            background: var(--embassy-blue);
+            transform: translateY(-2px);
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .datetime-display {
+                position: static;
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        /* Content-Specific Styles */
+        .breadcrumb { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .breadcrumb a { color: var(--embassy-blue); text-decoration: none; }
+        .page-title { font-size: 32px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 10px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 35px; line-height: 1.6; }
+        .intro-box { background: var(--embassy-light-blue); border-left: 4px solid var(--embassy-blue); padding: 20px; margin: 25px 0; border-radius: 5px; }
+        .distance-badge { display: inline-block; background: var(--embassy-gold); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-left: 10px; }
+        .attraction-card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; border-left: 5px solid var(--embassy-gold); }
+        .attraction-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px solid var(--embassy-light-blue); }
+        .attraction-name { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 5px; }
+        .attraction-type { color: var(--embassy-blue); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .attraction-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .info-item { display: flex; align-items: start; }
+        .info-label { font-weight: 600; color: var(--embassy-navy); min-width: 80px; margin-right: 10px; }
+        .info-value { color: var(--text-primary); line-height: 1.6; }
+        .attraction-description { color: var(--text-primary); line-height: 1.7; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--embassy-light-blue); }
+        .highlight-badge { background: #FFF9E6; border-left: 4px solid var(--embassy-gold); padding: 10px 15px; margin-top: 12px; border-radius: 4px; font-size: 14px; }
+        .section-divider { margin: 40px 0; border-top: 3px solid var(--embassy-light-blue); padding-top: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 20px; }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
+                .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+
+
+        /* Fix section titles on navy background - make them WHITE */
+        .section-title {
+            color: white !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--embassy-gold);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 48, 87, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 999;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                width: 100%;
+            }
+            
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .header-info {
+                text-align: center;
+            }
+            
+            .logo-section h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div id="loading" class="loading">
+        <p>Loading...</p>
+    </div>
+
+    <div id="pageContent" style="display: none; width: 100%; display: flex;">
+        <!-- Left Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ATL ESnet</h2>
+                <p>Embassy Suites Centennial Park</p>
+            </div>
+
+            <nav>
+                <a href="index.html" class="nav-link home">Dashboard Home</a>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Guest Services</div>
+                    <a href="room-reference.html" class="nav-link">Room Reference Guide</a>
+                    <a href="hotel-amenities.html" class="nav-link">Hotel Amenities</a>
+                    <a href="nearby-attractions.html" class="nav-link">Nearby Attractions</a>
+                    <a href="parking.html" class="nav-link">Parking</a>
+                    <a href="accounting.html" class="nav-link">Accounting</a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Dining & Entertainment</div>
+                    <a href="ruths-chris.html" class="nav-link">Ruth's Chris Steak House</a>
+                    <a href="starbucks.html" class="nav-link">Starbucks</a>
+                    <a href="atlanta-magic-theater.html" class="nav-link">Atlanta Magic Theater</a>
+                    <a href="kwans-deli.html" class="nav-link">Kwan's Deli</a>
+                    <a href="lv-restaurants.html" class="nav-link">LV Restaurants</a>
+                    <a href="chick-fil-a.html" class="nav-link">Chick-fil-A</a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Group Guide</div>
+                    <a href="group-guide-unified.html" class="nav-link">Group Guide</a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Resources</div>
+                    <a href="phone-email-directory.html" class="nav-link active">Phone & Email Directory</a>
+                    <a href="training-binder.html" class="nav-link">Training Binder</a>
+                    <a href="employee-handbook.html" class="nav-link">Employee Handbook</a>
+                    <a href="legacy-blueprint.html" class="nav-link">Legacy Blueprint</a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Date/Time Display Above Header -->
+            <div class="datetime-display" id="currentDateTime"></div>
+
+            <!-- Page Header -->
+            <header class="page-header">
+                <div class="page-title-section">
+                    <h1>
+                        <span>📞</span>
+                        Phone & Email Directory
+                    </h1>
+                    <p>Contact information for all departments and staff</p>
+                </div>
+                <a href="index.html" class="back-button">← Back to Dashboard</a>
+            </header>
+
+            <!-- Main Content -->
+            <div class="intro-box">
+                <strong>Quick Reference:</strong> Search by name, department, or extension. Click on email addresses to send a message.
+            </div>
+
+            <div class="search-container" style="margin-bottom: 30px;">
+                <input type="text" id="directorySearch" placeholder="🔍 Search by name, department, or extension..." 
+                       style="width: 100%; padding: 15px; font-size: 16px; border: 2px solid var(--embassy-blue); border-radius: 8px;">
+            </div>
+
+            <!-- Important Numbers -->
+            <div class="content-card" style="background: linear-gradient(135deg, var(--embassy-navy) 0%, var(--embassy-blue) 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+                <h2 style="color: white; margin-bottom: 20px; font-size: 24px;">📞 Important Numbers</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">Hotel Main Line</div>
+                        <div style="font-size: 20px; font-weight: 600;"><a href="tel:4042232300" style="color: white; text-decoration: none;">(404) 223-2300</a></div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">Hilton IT Help Desk</div>
+                        <div style="font-size: 20px; font-weight: 600;"><a href="tel:18004357435" style="color: white; text-decoration: none;">1-800-435-7435</a></div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">Hilton Honors</div>
+                        <div style="font-size: 20px; font-weight: 600;"><a href="tel:18004466677" style="color: white; text-decoration: none;">1-800-446-6677</a></div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">Guest Assistance</div>
+                        <div style="font-size: 20px; font-weight: 600;"><a href="tel:18882406152" style="color: white; text-decoration: none;">1-888-240-6152</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="directoryResults">
+            
+            <!-- Accounting Department -->
+            <div class="dept-section" data-dept="accounting">
+                <h2 class="section-title" style="color: var(--embassy-navy);">💼 Accounting (ext. 2929)</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Phillip Lavin" data-ext="2712">
+                        <div class="contact-name">Phillip Lavin</div>
+                        <div class="contact-position">Complex Controller</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860718">678-686-0718</a></span>
+                            <span>📱 Ext. 2712</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#7a0a12131616130a54161b0c1314483a1213160e151454191517"><span class="__cf_email__" data-cfemail="4a3a22232626233a64262b3c2324780a2223263e252464292527">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="AmyLynn Stutzman" data-ext="2797">
+                        <div class="contact-name">AmyLynn Stutzman</div>
+                        <div class="contact-position">Accounting Clerk</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860797">678-686-0797</a></span>
+                            <span>📱 Ext. 2797</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#3f7e524673465151116c4b4a4b45525e510d7f5756534b5051115c5052"><span class="__cf_email__" data-cfemail="88c9e5f1c4f1e6e6a6dbfcfdfcf2e5e9e6bac8e0e1e4fce7e6a6ebe7e5">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Department -->
+            <div class="dept-section" data-dept="admin">
+                <h2 class="section-title" style="color: var(--embassy-navy);">⚙️ Admin</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Ivy Mpofu" data-ext="2700">
+                        <div class="contact-name">Ivy Mpofu</div>
+                        <div class="contact-position">General Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860700">678-686-0700</a></span>
+                            <span>📱 Ext. 2700</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#48213e31662538272e3d082021243c2726662b2725"><span class="__cf_email__" data-cfemail="fd948b84d3908d929b88bd959491899293d39e9290">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Danielle Michel" data-ext="2798">
+                        <div class="contact-name">Danielle Michel</div>
+                        <div class="contact-position">Asst. General Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860798">678-686-0798</a></span>
+                            <span>📱 Ext. 2798</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#debabfb0b7bbb2b2bbf0b3b7bdb6bbb29eb6b7b2aab1b0f0bdb1b3"><span class="__cf_email__" data-cfemail="bdd9dcd3d4d8d1d1d893d0d4ded5d8d1fdd5d4d1c9d2d393ded2d0">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Yolanda Coleman" data-ext="2212">
+                        <div class="contact-name">Yolanda Coleman</div>
+                        <div class="contact-position">Night Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860747">678-686-0747</a></span>
+                            <span>📱 Ext. 2212</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#275e484b464943460944484b424a464915674f4e4b5348490944484a"><span class="__cf_email__" data-cfemail="51283e3d303f35307f323e3d343c303f631139383d253e3f7f323e3c">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Charles Lampton" data-ext="">
+                        <div class="contact-name">Charles Lampton</div>
+                        <div class="contact-position">Chief Concierge</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786000317">678-600-0317</a></span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#14776463777b7a777d71667371547379757d783a777b79"><span class="__cf_email__" data-cfemail="a3c0d3d4c0cccdc0cac6d1c4c6e3c4cec2cacf8dc0ccce">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Engineering -->
+            <div class="dept-section" data-dept="engineering">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🔧 Engineering</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Mustafa Al-Shamaa" data-ext="2708">
+                        <div class="contact-name">Mustafa Al-Shamaa</div>
+                        <div class="contact-position">Chief Engineer</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860708">678-686-0708</a></span>
+                            <span>📱 Ext. 2708</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#e08d959394818681ce818ccdb388818d8181a088898c948f8ece838f8d"><span class="__cf_email__" data-cfemail="660b13151207000748070a4b350e070b0707260e0f0a1209084805090b">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Ettai Saiss/Hassani" data-ext="2117">
+                        <div class="contact-name">Ettai Saiss/Hassani</div>
+                        <div class="contact-position">Lead Engineer</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860117">678-686-0117</a></span>
+                            <span>📱 Ext. 2117</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#b1f4c5c5d0d89fe2d0d8c2c2f9d0c2c2d0dfd8f1f9d8ddc5dedf9fd2dedc"><span class="__cf_email__" data-cfemail="8ecbfafaefe7a0ddefe7fdfdc6effdfdefe0e7cec6e7e2fae1e0a0ede1e3">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Front Office -->
+            <div class="dept-section" data-dept="front-office">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🏨 Front Office (ext. 1000)</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Christian Nichols" data-ext="2138">
+                        <div class="contact-name">Christian Nichols</div>
+                        <div class="contact-position">Front Office Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860701">678-686-0701</a></span>
+                            <span>📱 Ext. 2138</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#a0c3c8d2c9d3d4c9c1ce8ecec9c3c8cfccd3e0c8c9ccd4cfce8ec3cfcd"><span class="__cf_email__" data-cfemail="cfaca7bda6bcbba6aea1e1a1a6aca7a0a3bc8fa7a6a3bba0a1e1aca0a2">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Antwain Braggs" data-ext="2137">
+                        <div class="contact-name">Antwain Braggs</div>
+                        <div class="contact-position">Asst. Front Office Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860737">678-686-0737</a></span>
+                            <span>📱 Ext. 2137</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#0647687271676f6828447467616175466e6f6a7269682865696b"><span class="__cf_email__" data-cfemail="2c6d42585b4d4542026e5e4d4b4b5f6c444540584342024f4341">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Joseph Herrera" data-ext="2137">
+                        <div class="contact-name">Joseph Herrera</div>
+                        <div class="contact-position">Asst. Front Office Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860717">678-686-0717</a></span>
+                            <span>📱 Ext. 2137</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#0b6164786e7b6325636e79796e796a4b6362677f646525686466"><span class="__cf_email__" data-cfemail="ea8085998f9a82c4828f98988f988baa8283869e8584c4898587">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Housekeeping -->
+            <div class="dept-section" data-dept="housekeeping">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🧹 Housekeeping</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Anne Forman" data-ext="2714">
+                        <div class="contact-name">Anne Forman</div>
+                        <div class="contact-position">Executive Housekeeper</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860714">678-686-0714</a></span>
+                            <span>📱 Ext. 2714</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#f5b49b9b90dbb39a8798949bb5bd9c99819a9bdb969a98"><span class="__cf_email__" data-cfemail="a2e3ccccc78ce4cdd0cfc3cce2eacbced6cdcc8cc1cdcf">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Kyyon Sumlin" data-ext="2114/2119">
+                        <div class="contact-name">Kyyon Sumlin</div>
+                        <div class="contact-position">Asst. Executive Housekeeper</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860714">678-686-0714</a></span>
+                            <span>📱 Ext. 2114/2119</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#95feececfafbbbe6e0f8f9fcfbd5fdfcf9e1fafbbbf6faf8"><span class="__cf_email__" data-cfemail="3d5644445253134e48505154537d555451495253135e5250">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR -->
+            <div class="dept-section" data-dept="hr">
+                <h2 class="section-title" style="color: var(--embassy-navy);">👥 Human Resources</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Derrick Stanislawski" data-ext="2707">
+                        <div class="contact-name">Derrick Stanislawski</div>
+                        <div class="contact-position">Human Resource Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860707">678-686-0707</a></span>
+                            <span>📱 Ext. 2707</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#e2868790908b8189cc9196838c8b918e839591898ba28a8b8e968d8ccc818d8f"><span class="__cf_email__" data-cfemail="96f2f3e4e4fff5fdb8e5e2f7f8ffe5faf7e1e5fdffd6fefffae2f9f8b8f5f9fb">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parking -->
+            <div class="dept-section" data-dept="parking">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🅿️ Parking Reservations</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Omar Jawara" data-ext="2126">
+                        <div class="contact-name">Omar Jawara</div>
+                        <div class="contact-position">Valet Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:4045736855">404-573-6855</a></span>
+                            <span>📱 Ext. 2126</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#94fbf9f5e6fef5e3f5e6f5d4e4f5e6fffdfaf3f9f3f9e0e7f1e6e2fdf7f1e7baf7fbf9"><span class="__cf_email__" data-cfemail="6c03010d1e060d1b0d1e0d2c1c0d1e0705020b010b01181f091e1a050f091f420f0301">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue -->
+            <div class="dept-section" data-dept="revenue">
+                <h2 class="section-title" style="color: var(--embassy-navy);">💰 Revenue Management</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Tampa Florida" data-ext="2756">
+                        <div class="contact-name">Tampa Florida</div>
+                        <div class="contact-position">Revenue Manager</div>
+                        <div class="contact-info">
+                            <span>📞 866-553-3176</span>
+                            <span>📱 Ext. 2756</span>
+                        </div>
+                    </div>
+                    <div class="contact-card" data-name="Dolores White" data-ext="">
+                        <div class="contact-name">Dolores White</div>
+                        <div class="contact-position">Dir. Revenue Management</div>
+                        <div class="contact-info">
+                            <span>📞 863-398-0704</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#5337243b3a2736133f253e34277d303c3e"><span class="__cf_email__" data-cfemail="30544758594455705c465d57441e535f5d">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ruth's Chris -->
+            <div class="dept-section" data-dept="ruths-chris">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🥩 Ruth's Chris Steak House</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Brian Hughes" data-ext="2231">
+                        <div class="contact-name">Brian Hughes</div>
+                        <div class="contact-position">General Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:4042236100">404-223-6100</a></span>
+                            <span>📱 Ext. 2231</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#e98b819c8e818c9aa99b9c9d819a8a819b809ac7878c9d"><span class="__cf_email__" data-cfemail="bddfd5c8dad5d8cefdcfc8c9d5ceded5cfd4ce93d3d8c9">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Chris Gillis" data-ext="2230">
+                        <div class="contact-name">Chris Gillis</div>
+                        <div class="contact-position">Chef</div>
+                        <div class="contact-info">
+                            <span>📱 Ext. 2230</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#2340444a4f4f4a50635156574b50404b514a500d4d4657"><span class="__cf_email__" data-cfemail="91f2f6f8fdfdf8e2d1e3e4e5f9e2f2f9e3f8e2bffff4e5">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Lindsay Delsin" data-ext="2709">
+                        <div class="contact-name">Lindsay Delsin</div>
+                        <div class="contact-position">Catering Director</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860709">678-686-0709</a></span>
+                            <span>📱 Ext. 2709</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#c18da8afa5b2a0b8ef85a4adb2a8af8189a8adb5aeafefa2aeac"><span class="__cf_email__" data-cfemail="5d113433392e3c24731938312e34331d153431293233733e3230">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Amber Millice" data-ext="2793">
+                        <div class="contact-name">Amber Millice</div>
+                        <div class="contact-position">Catering Coordinator</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860793">678-686-0793</a></span>
+                            <span>📱 Ext. 2793</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#27664a454255096a4e4b4b4e4442676f4e4b5348490944484a"><span class="__cf_email__" data-cfemail="1554787770673b587c79797c7670555d7c79617a7b3b767a78">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Deborah Dextra" data-ext="2736">
+                        <div class="contact-name">Deborah Dextra</div>
+                        <div class="contact-position">Catering Coordinator</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860736">678-686-0736</a></span>
+                            <span>📱 Ext. 2736</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#2a4e4f4845584b42044e4f525e584b6a4243465e454404494547"><span class="__cf_email__" data-cfemail="2c48494e435e4d4402484954585e4d6c444540584342024f4341">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales -->
+            <div class="dept-section" data-dept="sales">
+                <h2 class="section-title" style="color: var(--embassy-navy);">📊 Sales (ext. 2099)</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Anthony Laudato" data-ext="2705">
+                        <div class="contact-name">Anthony Laudato</div>
+                        <div class="contact-position">Dir. Sales and Marketing</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860705">678-686-0705</a></span>
+                            <span>📱 Ext. 2705</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#f5b49b819d9a9b8cdbb994809194819ab59d9c99819a9bdb969a98"><span class="__cf_email__" data-cfemail="f1b09f85999e9f88dfbd90849590859eb199989d859e9fdf929e9c">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Michele Sidler" data-ext="2761">
+                        <div class="contact-name">Michele Sidler</div>
+                        <div class="contact-position">Asst Dir of Sales and Marketing</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860761">678-686-0761</a></span>
+                            <span>📱 Ext. 2761</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#264b4f454e434a4308554f424a4354664e4f4a5249480845494b"><span class="__cf_email__" data-cfemail="ed80848e85888188c39e848981889fad858481998283c38e8280">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Tonya Graham" data-ext="2753">
+                        <div class="contact-name">Tonya Graham</div>
+                        <div class="contact-position">Specialty Market Sales Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860753">678-686-0753</a></span>
+                            <span>📱 Ext. 2753</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#c0b4afaeb9a1eea7b2a1a8a1ad80a8a9acb4afaeeea3afad"><span class="__cf_email__" data-cfemail="f78398998e96d99085969f969ab79f9e9b839899d994989a">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Roberta Espree" data-ext="2759">
+                        <div class="contact-name">Roberta Espree</div>
+                        <div class="contact-position">Convention Services Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860759">678-686-0759</a></span>
+                            <span>📱 Ext. 2759</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#99ebf6fbfcebedf8b7fceae9ebfcfcd9f1f0f5edf6f7b7faf6f4"><span class="__cf_email__" data-cfemail="ff8d909d9a8d8b9ed19a8c8f8d9a9abf9796938b9091d19c9092">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Vince Jennings" data-ext="2760">
+                        <div class="contact-name">Vince Jennings</div>
+                        <div class="contact-position">Group Rooms Coordinator</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860760">678-686-0760</a></span>
+                            <span>📱 Ext. 2760</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#17417e797472395d7279797e797064577f7e7b6378793974787a"><span class="__cf_email__" data-cfemail="095f60676a6c27436c676760676e7a496160657d6667276a6664">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Tenille Perry" data-ext="2794">
+                        <div class="contact-name">Tenille Perry</div>
+                        <div class="contact-position">Area Dir. Convention Sales</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860715">678-686-0715</a></span>
+                            <span>📱 Ext. 2794</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#5e2a2e3b2c2c271e322833392a703d3133"><span class="__cf_email__" data-cfemail="9febeffaedede6dff3e9f2f8ebb1fcf0f2">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Cheryl Tibbs" data-ext="2735">
+                        <div class="contact-name">Cheryl Tibbs</div>
+                        <div class="contact-position">Convention Sales Coordinator</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860716">678-686-0716</a></span>
+                            <span>📱 Ext. 2735</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#c4a7b0ada6a6b784a8b2a9a3b0eaa7aba9"><span class="__cf_email__" data-cfemail="6605120f040415260a100b01124805090b">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Ana Jordan" data-ext="">
+                        <div class="contact-name">Ana Jordan</div>
+                        <div class="contact-position">Area Dir of Business Travel</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:4049132886">404-913-2886</a></span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#b9d8d3d6cbddd8d7f9d5cfd4decd97dad6d4"><span class="__cf_email__" data-cfemail="a7c6cdc8d5c3c6c9e7cbd1cac0d389c4c8ca">[email&#160;protected]</span></a></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="dept-section" data-dept="security">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🔒 Security</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Armande Benitez" data-ext="2112">
+                        <div class="contact-name">Armande Benitez</div>
+                        <div class="contact-position">Security Manager</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:6786860712">678-686-0712</a></span>
+                            <span>📱 Ext. 2112</span>
+                        </div>
+                        <div class="contact-email"><a href="/cdn-cgi/l/email-protection#adccdfc0ccc3c9c883cfc8c3c4d9c8d7edc5c4c1d9c2c383cec2c0"><span class="__cf_email__" data-cfemail="e5849788848b8180cb87808b8c91809fa58d8c89918a8bcb868a88">[email&#160;protected]</span></a></div>
+                    </div>
+                    <div class="contact-card" data-name="Security Cell" data-ext="">
+                        <div class="contact-name">Security Cell</div>
+                        <div class="contact-position">Security Team</div>
+                        <div class="contact-info">
+                            <span>📞 <a href="tel:4707250388">470-725-0388</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Public Spaces -->
+            <div class="dept-section" data-dept="public-spaces">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🏢 Public Spaces & Extensions</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Bell Stand" data-ext="2135">
+                        <div class="contact-name">Bell Stand</div>
+                        <div class="contact-info"><span>📱 Ext. 2135</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Business Center" data-ext="2744">
+                        <div class="contact-name">Business Center</div>
+                        <div class="contact-info"><span>📱 Ext. 2744</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Gift Shop" data-ext="2713">
+                        <div class="contact-name">Gift Shop</div>
+                        <div class="contact-info"><span>📱 Ext. 2713</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Fitness Center" data-ext="2121">
+                        <div class="contact-name">Fitness Center</div>
+                        <div class="contact-info"><span>📱 Ext. 2121</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Starbucks" data-ext="7878">
+                        <div class="contact-name">Starbucks</div>
+                        <div class="contact-info"><span>📱 Ext. 7878 / R/C PDR</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Pool" data-ext="2116">
+                        <div class="contact-name">Pool</div>
+                        <div class="contact-info"><span>📱 Ext. 2116</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Guest Laundry" data-ext="7400">
+                        <div class="contact-name">Guest Laundry</div>
+                        <div class="contact-info"><span>📱 Ext. 7400</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salons -->
+            <div class="dept-section" data-dept="salons">
+                <h2 class="section-title" style="color: var(--embassy-navy);">🎨 Meeting Salons</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Salon I" data-ext="2168">
+                        <div class="contact-name">Salon I</div>
+                        <div class="contact-info"><span>📱 Ext. 2168</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Salon II" data-ext="2169">
+                        <div class="contact-name">Salon II</div>
+                        <div class="contact-info"><span>📱 Ext. 2169</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Salon III" data-ext="2167">
+                        <div class="contact-name">Salon III</div>
+                        <div class="contact-info"><span>📱 Ext. 2167</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Salon V" data-ext="2165">
+                        <div class="contact-name">Salon V</div>
+                        <div class="contact-info"><span>📱 Ext. 2165</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Legacy A-F" data-ext="2159-2164">
+                        <div class="contact-name">Legacy A-F</div>
+                        <div class="contact-info"><span>📱 Ext. 2159-2164</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Miscellaneous -->
+            <div class="dept-section" data-dept="misc">
+                <h2 class="section-title" style="color: var(--embassy-navy);">📋 Miscellaneous</h2>
+                <div class="directory-grid">
+                    <div class="contact-card" data-name="Guest Internet-Pinnacle" data-ext="">
+                        <div class="contact-name">Guest Internet-Pinnacle</div>
+                        <div class="contact-info"><span>📞 1-855-253-5255</span></div>
+                    </div>
+                    <div class="contact-card" data-name="Dry Cleaners" data-ext="">
+                        <div class="contact-name">Dry Cleaners</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4047508425">404-750-8425</a></span></div>
+                    </div>
+                    <div class="contact-card" data-name="Kwans Deli" data-ext="">
+                        <div class="contact-name">Kwans Deli</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4045229796">404-522-9796</a></span></div>
+                    </div>
+                    <div class="contact-card" data-name="Hilton Garden Inn" data-ext="">
+                        <div class="contact-name">Hilton Garden Inn</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4045772001">404-577-2001</a></span></div>
+                    </div>
+                    <div class="contact-card" data-name="Glenn" data-ext="">
+                        <div class="contact-name">Glenn</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4045212250">404-521-2250</a></span></div>
+                    </div>
+                    <div class="contact-card" data-name="Stats" data-ext="">
+                        <div class="contact-name">Stats</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4048851472">404-885-1472</a></span></div>
+                    </div>
+                    <div class="contact-card" data-name="Dos Bocas" data-ext="">
+                        <div class="contact-name">Dos Bocas</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4047048078">404-704-8078</a></span></div>
+                    </div>
+                    <div class="contact-card" data-name="Summit Elevator Service" data-ext="">
+                        <div class="contact-name">Summit Elevator Service</div>
+                        <div class="contact-info"><span>📞 <a href="tel:4702880221">470-288-0221</a></span></div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+            <style>
+                .directory-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+
+                .contact-card {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
+                    border-left: 4px solid var(--embassy-gold);
+                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                }
+
+                .contact-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 4px 12px rgba(0, 48, 87, 0.15);
+                }
+
+                .contact-name {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: var(--embassy-navy);
+                    margin-bottom: 5px;
+                }
+
+                .contact-position {
+                    font-size: 14px;
+                    color: var(--embassy-blue);
+                    margin-bottom: 12px;
+                    font-weight: 500;
+                }
+
+                .contact-info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    margin-bottom: 10px;
+                    font-size: 14px;
+                    color: var(--text-primary);
+                }
+
+                .contact-email {
+                    font-size: 13px;
+                    word-break: break-all;
+                }
+
+                .contact-email a {
+                    color: var(--embassy-blue);
+                    text-decoration: none;
+                }
+
+                .contact-email a:hover {
+                    text-decoration: underline;
+                }
+
+                .contact-info a {
+                    color: var(--text-primary);
+                    text-decoration: none;
+                }
+
+                .contact-info a:hover {
+                    color: var(--embassy-blue);
+                }
+
+                .dept-section {
+                    margin-bottom: 50px;
+                }
+
+    

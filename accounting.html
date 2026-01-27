@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Off Policies - ATL ESnet</title>
+    <title>Accounting - ATL ESnet</title>
     <style>
         * {
             margin: 0;
@@ -215,134 +215,27 @@
         }
 
         /* Content-Specific Styles */
-        .breadcrumb {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .breadcrumb a {
-            color: var(--embassy-blue);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        .page-title {
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--embassy-navy);
-            margin-bottom: 10px;
-        }
-
-        .page-subtitle {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 35px;
-        }
-
-        .content-section {
-            background: white;
-            border-radius: 10px;
-            padding: 35px;
-            box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08);
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--embassy-navy);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid var(--embassy-light-blue);
-        }
-
-        .section-subtitle {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--embassy-blue);
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-
-        .content-text {
-            line-height: 1.8;
-            color: var(--text-primary);
-            margin-bottom: 15px;
-        }
-
-        .highlight-box {
-            background: var(--embassy-light-blue);
-            border-left: 4px solid var(--embassy-blue);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-
-        .gold-highlight {
-            background: #FFF9E6;
-            border-left: 4px solid var(--embassy-gold);
-        }
-
-        .bullet-list {
-            margin: 15px 0;
-            padding-left: 25px;
-        }
-
-        .bullet-list li {
-            margin-bottom: 12px;
-            line-height: 1.6;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background: var(--embassy-navy);
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background: var(--embassy-light-blue);
-        }
-
-        .back-button {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--embassy-blue);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-top: 30px;
-            transition: background 0.3s ease;
-        }
-
-        .back-button:hover {
-            background: var(--embassy-navy);
-        }
-
-        .footer {
-            background: var(--embassy-navy);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
+        .breadcrumb { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+        .breadcrumb a { color: var(--embassy-blue); text-decoration: none; }
+        .page-title { font-size: 32px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 10px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 16px; margin-bottom: 35px; line-height: 1.6; }
+        .intro-box { background: var(--embassy-light-blue); border-left: 4px solid var(--embassy-blue); padding: 20px; margin: 25px 0; border-radius: 5px; }
+        .distance-badge { display: inline-block; background: var(--embassy-gold); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-left: 10px; }
+        .attraction-card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0, 48, 87, 0.08); margin-bottom: 25px; border-left: 5px solid var(--embassy-gold); }
+        .attraction-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px solid var(--embassy-light-blue); }
+        .attraction-name { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 5px; }
+        .attraction-type { color: var(--embassy-blue); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .attraction-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .info-item { display: flex; align-items: start; }
+        .info-label { font-weight: 600; color: var(--embassy-navy); min-width: 80px; margin-right: 10px; }
+        .info-value { color: var(--text-primary); line-height: 1.6; }
+        .attraction-description { color: var(--text-primary); line-height: 1.7; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--embassy-light-blue); }
+        .highlight-badge { background: #FFF9E6; border-left: 4px solid var(--embassy-gold); padding: 10px 15px; margin-top: 12px; border-radius: 4px; font-size: 14px; }
+        .section-divider { margin: 40px 0; border-top: 3px solid var(--embassy-light-blue); padding-top: 30px; }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--embassy-navy); margin-bottom: 20px; }
+        .back-button { display: inline-block; padding: 12px 24px; background: var(--embassy-blue); color: white; text-decoration: none; border-radius: 6px; margin-top: 30px; transition: background 0.3s ease; }
+        .back-button:hover { background: var(--embassy-navy); }
+        .footer { background: var(--embassy-navy); color: white; text-align: center; padding: 20px; font-size: 13px; opacity: 0.9; }
                 .menu-toggle {
             display: none;
             background: var(--embassy-gold);
@@ -373,6 +266,14 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
             z-index: 998;
+        }
+
+
+
+        /* Fix section titles on navy background - make them WHITE */
+        .section-title {
+            color: white !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .menu-toggle {
@@ -521,180 +422,27 @@
             <header class="page-header">
                 <div class="page-title-section">
                     <h1>
-                        <span>🏖️</span>
-                        Time Off Policies
+                        <span>💰</span>
+                        Accounting
                     </h1>
-                    <p>PTO and leave guidelines</p>
+                    <p>Financial procedures and resources</p>
                 </div>
                 <a href="index.html" class="back-button">← Back to Dashboard</a>
             </header>
 
             <!-- Main Content -->
-
-            <div class="content-section">
-                <h2 class="section-title">Paid Time Off (PTO)</h2>
-                <p class="content-text">
-                    The Company's PTO program is offered to all eligible full-time team members. PTO may be used for a variety of 
-                    reasons including vacation, sick, personal, holidays, or birthdays. The amount of PTO time earned is based on 
-                    length of service.
+            <div class="intro-box" style="text-align: center; padding: 40px;">
+                <h2 style="color: var(--embassy-navy); margin-bottom: 20px; font-size: 28px;">
+                    💰 Coming Soon
+                </h2>
+                <p style="font-size: 18px; line-height: 1.8; color: var(--text-primary);">
+                    Accounting resources and financial procedures will be available here soon. Check back for updates on billing procedures, rate information, and financial documentation.
                 </p>
-                
-                <h3 class="section-subtitle">Full-Time Hourly Team Members</h3>
-                <p class="content-text">
-                    PTO days are based upon the number of hours worked excluding overtime. PTO begins to accrue on the date of hire 
-                    and may be taken after 90 days of continuous employment.
-                </p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Years of Service</th>
-                            <th>Days Accrued Per Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0 days to 1 year</td>
-                            <td>10 days (3.07 hours per pay period)</td>
-                        </tr>
-                        <tr>
-                            <td>2 to 5 years</td>
-                            <td>15 days (4.61 hours per pay period)</td>
-                        </tr>
-                        <tr>
-                            <td>6 to 10 years</td>
-                            <td>20 days (6.15 hours per pay period)</td>
-                        </tr>
-                        <tr>
-                            <td>10+ years</td>
-                            <td>25 days (7.69 hours per pay period)</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="section-subtitle">Full-Time Exempt (Salaried) Team Members</h3>
-                <p class="content-text">
-                    Salaried team members accrue PTO based upon length of service. PTO begins to accrue on the date of hire and may 
-                    be taken after 90 days of continuous employment.
-                </p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Years of Service</th>
-                            <th>Maximum Hours Per Year</th>
-                            <th>Maximum Days Per Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0 days to 1 year</td>
-                            <td>80 hours (0.03846 per hour worked)</td>
-                            <td>10 days</td>
-                        </tr>
-                        <tr>
-                            <td>2 to 5 years</td>
-                            <td>120 hours (0.05769 per hour worked)</td>
-                            <td>15 days</td>
-                        </tr>
-                        <tr>
-                            <td>6 to 10 years</td>
-                            <td>160 hours (0.07692 per hour worked)</td>
-                            <td>20 days</td>
-                        </tr>
-                        <tr>
-                            <td>10+ years</td>
-                            <td>200 hours (0.09615 per hour worked)</td>
-                            <td>25 days</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3 class="section-subtitle">PTO Request Requirements:</h3>
-                <ul class="bullet-list">
-                    <li>PTO must be requested a minimum of 14 days in advance and must be approved by your supervisor/manager</li>
-                    <li>An exception may be granted at the discretion of your supervisor for a shorter duration based on business demands</li>
-                    <li>PTO does not accrue during unpaid leave of absence or days off without pay</li>
-                </ul>
-
-                <div class="highlight-box gold-highlight">
-                    <strong>"Use It or Lose It" Policy:</strong> Any accrued and unused PTO may be carried over up to 90 days past 
-                    your anniversary date. After that time, any unused days are forfeited.
-                </div>
-
-                <h3 class="section-subtitle">PTO Payout Upon Separation:</h3>
-                <p class="content-text">
-                    When leaving the company, accrued and unused PTO will be paid out to those team members who provide and work at 
-                    least a two-weeks' notice. The requirement to "work" a two-weeks' notice means that you cannot take PTO during 
-                    this period, and you must work all scheduled shifts.
-                </p>
-                <p class="content-text">
-                    Team members who quit with no notice, do not work at least a two-weeks' notice, or who are terminated for any 
-                    other reason will forfeit any accrued and unused PTO benefits when leaving the Company.
+                <p style="margin-top: 30px; font-size: 16px; color: var(--text-secondary);">
+                    This page is currently under development.
                 </p>
             </div>
 
-            <div class="content-section">
-                <h2 class="section-title">Blackout Periods</h2>
-                <p class="content-text">
-                    The Company, or your specific hotel property, may designate certain periods as a "blackout period", meaning that 
-                    no team member can take PTO during this period.
-                </p>
-                <div class="highlight-box">
-                    Because blackout periods may be announced without lengthy notice, it is important that you not financially commit 
-                    to travel or other activities during your PTO until your PTO request has been approved in writing by your supervisor.
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2 class="section-title">Holiday Pay</h2>
-                <p class="content-text">
-                    The Company designated seven (7) days each year as holidays:
-                </p>
-                <ul class="bullet-list">
-                    <li>New Year's Day - January 1st</li>
-                    <li>Martin Luther King, Jr. Day - Third Monday in January</li>
-                    <li>Memorial Day - Last Monday in May</li>
-                    <li>Independence Day - July 4th</li>
-                    <li>Labor Day - First Monday in September</li>
-                    <li>Thanksgiving Day - Fourth Thursday in November</li>
-                    <li>Christmas Day - December 25th</li>
-                </ul>
-
-                <h3 class="section-subtitle">Eligibility:</h3>
-                <ul class="bullet-list">
-                    <li>Full-time team members are eligible for paid holiday time after 90 days of employment</li>
-                    <li>Part-time and on-call/temporary team members are not eligible for holiday pay</li>
-                    <li>Team members on a leave of absence during a company designated holiday are not eligible for holiday pay</li>
-                    <li>Team members must work their scheduled shifts prior to and after the holiday to be eligible for holiday pay</li>
-                </ul>
-
-                <h3 class="section-subtitle">Pay Procedures:</h3>
-                <ul class="bullet-list">
-                    <li>Full-time team members will have 8 hours of holiday pay automatically assigned to their timecard on the day of the holiday</li>
-                    <li>Salary team members who work on a Company holiday will be allowed to take another day off during the same pay period with written approval</li>
-                    <li>For Monday-Friday schedules: if the holiday falls on Saturday, the previous Friday is the holiday; if it falls on Sunday, the following Monday is the holiday</li>
-                    <li>Holiday pay will be paid at the team member's home department/current rate of pay</li>
-                </ul>
-            </div>
-
-            <div class="content-section">
-                <h2 class="section-title">Time Off to Vote</h2>
-                <p class="content-text">
-                    The Company believes that every team member should have the opportunity to vote in any federal, state, or local 
-                    election. Team members may be excused for up to three hours to vote in any election for which you are registered 
-                    to vote.
-                </p>
-                <p class="content-text">
-                    Team members who need to arrive for work late or leave work early to have a three-hour window in which to vote 
-                    must notify their supervisor no later than noon on the day before the election.
-                </p>
-                <div class="highlight-box">
-                    Time off to vote is unpaid for hourly team members. Salary team members will not have their wages reduced as a 
-                    result of leaving work to vote.
-                </div>
-            </div>
-
-            <a href="employee-handbook.html" class="back-button">← Back to Employee Handbook</a>
-        
         </main>
     </div>
 
